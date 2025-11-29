@@ -1,0 +1,83 @@
+checks:
+  timer:
+    a:
+      enabled: true
+      setbackVL: 1
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "500:100 kick %player% TimerA"
+        #- "10:0 ban %player% TimerA"
+  velocity:
+    a:
+      enabled: true
+      setbackVL: 6
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "10:10 kick %player% игрок не откидывается"
+  reach:
+    a:
+      enabled: true
+      setbackVL: 6
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "10:10 kick %player% игрок не откидывается"
+  clip:
+    a:
+      enabled: true
+      setbackVL: 1
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "10:10 kick %player% игрок не откидывается"
+  noslow:
+    a:
+      enabled: true
+      setbackVL: 20
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "500:10 kick %player% ало не летай бля"
+    b:
+      enabled: true
+      setbackVL: 20
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "30:10 kick %player% ало не летай бля"
+    d:
+      enabled: true
+      setbackVL: 10
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "30:10 kick %player% использование читов keep sprint"
+  aura:
+    a:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "10:10 kick %player% %prefix% <blue>Использование читов AuraA"
+  badpacket:
+    a:
+      enabled: true
+      setbackVL: 6
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "7:7 kick %player% TimerA"
+        # - "10: ban %player% TimerA"
+        # - "10: ban %player% TimerA"

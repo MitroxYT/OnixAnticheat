@@ -1,0 +1,69 @@
+package me.onixdev;
+
+import com.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import lombok.Getter;
+import me.onixdev.commands.api.CommandManager;
+import me.onixdev.events.bukkit.PlayerClickListener;
+import me.onixdev.events.packet.JoinListener;
+import me.onixdev.manager.CheckManager;
+import me.onixdev.manager.PlayerDatamanager;
+import me.onixdev.user.OnixUser;
+import me.onixdev.util.config.ConfigManager;
+import me.onixdev.util.thread.api.IThreadExecutor;
+import me.onixdev.util.thread.impl.AlertTaskExecutor;
+import me.onixdev.util.thread.impl.ReloadTaskExecutor;
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
+
+public class OnixAnticheat {
+    public static OnixAnticheat INSTANCE = new OnixAnticheat();
+    @Getter
+    private OnixPlugin plugin;
+    @Getter
+    private IThreadExecutor alertExecutor,reloadExecuter;
+    @Getter
+    private PlayerDatamanager playerDatamanager;
+    @Getter
+    private ConfigManager configManager;
+    public void onLoad(OnixPlugin plugin) {
+        this.plugin = plugin;
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this.plugin));
+        PacketEvents.getAPI().load();
+    }
+    public void onEnable() {
+        reloadExecuter = new ReloadTaskExecutor();
+        alertExecutor = new AlertTaskExecutor();
+        playerDatamanager = new PlayerDatamanager();
+        configManager = new ConfigManager(true);
+        CheckManager.setup();
+        registerPacketEvents();
+        registerBukkitEvents();
+        runShedulers();
+        PluginCommand pCommand = plugin.getCommand("onix");
+        if (pCommand != null) {
+            CommandManager handler = new CommandManager();
+            pCommand.setExecutor(handler);
+            pCommand.setTabCompleter(handler);
+        }
+        new CommandManager();
+    }
+    public void onDisable() {
+        alertExecutor.shutdown();
+        reloadExecuter.shutdown();
+        Bukkit.getScheduler().cancelTasks(plugin);
+    }
+    private void runShedulers() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin,this::tick,0,1L);
+    }
+    private void registerBukkitEvents() {
+        Bukkit.getPluginManager().registerEvents(new PlayerClickListener(),plugin);
+    }
+    private void registerPacketEvents() {
+        PacketEvents.getAPI().getEventManager().registerListeners(new JoinListener());
+        PacketEvents.getAPI().init();
+    }
+    private void tick() {
+        playerDatamanager.getAllData().forEach(OnixUser::tick);
+    }
+}
