@@ -18,12 +18,14 @@ public class PlayerClickEvent extends BaseEvent {
     private int rawSlot;
     private ItemStack current;
     private int hotbarKey;
-    public PlayerClickEvent(@NotNull InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action,ItemStack current) {
+    private boolean isPlayer;
+    public PlayerClickEvent(@NotNull InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action,ItemStack current,boolean player) {
         this.current = current;
         this.hotbarKey = -1;
         this.slot_type = type;
         this.rawSlot = slot;
         this.click = click;
         this.action = action;
+        this.isPlayer = player;
     }
 }

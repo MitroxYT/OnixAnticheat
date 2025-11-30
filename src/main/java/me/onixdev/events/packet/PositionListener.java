@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.world.Location;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 
 public class PositionListener extends PacketListenerAbstract {
@@ -23,6 +24,8 @@ public class PositionListener extends PacketListenerAbstract {
             boolean rotation = flying.hasRotationChanged();
             boolean position = flying.hasPositionChanged();
             if (rotation) user.getRotationContainer().handle(location.getYaw(),location.getPitch());
+            user.handleEvent(new TickEvent(TickEvent.Target.FLYING));
+            user.currentTick++;
             }
         }
     }

@@ -1,2 +1,7 @@
 /.gradle
 /build/tmp
+/build/classes
+/.gradle
+/api/build
+/build/resources
+/build/reports

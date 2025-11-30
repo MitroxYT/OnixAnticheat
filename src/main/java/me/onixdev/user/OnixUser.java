@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class OnixUser {
+    public int currentTick;
     private User user;
     @Getter
     private UUID uuid;
