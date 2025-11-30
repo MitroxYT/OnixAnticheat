@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
 import me.onixdev.events.bukkit.PlayerClickListener;
 import me.onixdev.events.packet.JoinListener;
+import me.onixdev.events.packet.PositionListener;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
 import me.onixdev.user.OnixUser;
@@ -61,6 +62,7 @@ public class OnixAnticheat {
     }
     private void registerPacketEvents() {
         PacketEvents.getAPI().getEventManager().registerListeners(new JoinListener());
+        PacketEvents.getAPI().getEventManager().registerListeners(new PositionListener());
         PacketEvents.getAPI().init();
     }
     private void tick() {

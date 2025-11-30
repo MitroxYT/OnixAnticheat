@@ -8,6 +8,7 @@ import me.onixdev.check.api.Check;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.manager.CheckManager;
+import me.onixdev.user.data.RotationContainer;
 import me.onixdev.util.alert.AlertManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -33,6 +34,8 @@ public class OnixUser {
     private Player player;
     @Getter
     private List<Check> checks = new ArrayList<>();
+    @Getter
+    private final RotationContainer rotationContainer;
     public OnixUser(User user) {
         this.user = user;
         this.uuid = this.user.getUUID();
@@ -41,6 +44,7 @@ public class OnixUser {
         alertManager = new AlertManager(this);
         this.player = Bukkit.getPlayer(this.uuid);
         checks = CheckManager.loadChecks(this);
+        rotationContainer = new RotationContainer(this);
     }
     public void sendMessage(Component message) {
         if (player == null) user.sendMessage(message);
@@ -65,5 +69,9 @@ public class OnixUser {
         for (Check check : checks) {
             check.onEvent(clickEvent);
         }
+    }
+
+    public boolean hasConfirmPlayState() {
+        return true;
     }
 }
