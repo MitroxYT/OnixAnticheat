@@ -14,7 +14,6 @@ public class AuraA extends Check {
 
     @Override
     public void onEvent(BaseEvent event) {
-        player.sendMessage("e: " + event.getClass().getSimpleName());
         if (event instanceof PlayerClickEvent) {
             PlayerClickEvent clickEvent = (PlayerClickEvent) event;
             if (fail("click: " + clickEvent.getRawSlot() + " type: " + clickEvent.getClick() + " sd" + clickEvent.getSlot_type())) {

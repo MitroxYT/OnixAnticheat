@@ -18,7 +18,6 @@ public class PlayerClickListener implements Listener {
             UUID uuid = player.getUniqueId();
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(uuid);
             if (user == null){
-                player.sendMessage("user null");
                 return;
             }
             PlayerClickEvent clickEvent = new PlayerClickEvent(event.getSlotType(),event.getSlot(),event.getClick(),event.getAction());

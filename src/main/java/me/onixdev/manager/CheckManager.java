@@ -31,7 +31,6 @@ public class CheckManager
                 Check checkInstance = (Check) constructor.newInstance(data);
                 checkList.add(checkInstance);
             } catch (final Exception exception) {
-                //    OnixAntibot.getLogger().severe("Ошибка при инициализации класса " + constructor.getClass().getName());
                 exception.printStackTrace();
             }
         }

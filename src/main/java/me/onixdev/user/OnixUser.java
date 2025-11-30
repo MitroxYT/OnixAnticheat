@@ -43,10 +43,12 @@ public class OnixUser {
         checks = CheckManager.loadChecks(this);
     }
     public void sendMessage(Component message) {
-        user.sendMessage(message);
+        if (player == null) user.sendMessage(message);
+        else player.sendMessage(message);
     }
     public void sendMessage(String message) {
-        user.sendMessage(message);
+        if (player == null) user.sendMessage(message);
+        else player.sendMessage(message);
     }
 
     public Player getBukkitPlayer() {
@@ -60,7 +62,6 @@ public class OnixUser {
     }
 
     public void handleEvent(BaseEvent clickEvent) {
-        sendMessage("handling: " + clickEvent.getClass().getName());
         for (Check check : checks) {
             check.onEvent(clickEvent);
         }
