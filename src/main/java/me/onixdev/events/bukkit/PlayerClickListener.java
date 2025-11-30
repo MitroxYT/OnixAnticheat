@@ -20,7 +20,7 @@ public class PlayerClickListener implements Listener {
             if (user == null){
                 return;
             }
-            PlayerClickEvent clickEvent = new PlayerClickEvent(event.getSlotType(),event.getSlot(),event.getClick(),event.getAction());
+            PlayerClickEvent clickEvent = new PlayerClickEvent(event.getSlotType(),event.getSlot(),event.getClick(),event.getAction(),event.getCurrentItem());
             user.handleEvent(clickEvent);
             if (clickEvent.isCancelled()) event.setCancelled(true);
         }

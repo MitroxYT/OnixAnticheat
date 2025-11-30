@@ -47,7 +47,6 @@ public class OnixAnticheat {
             pCommand.setExecutor(handler);
             pCommand.setTabCompleter(handler);
         }
-        new CommandManager();
     }
     public void onDisable() {
         alertExecutor.shutdown();
