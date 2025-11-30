@@ -1,5 +1,6 @@
 package me.onixdev.user;
 
+import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
 import dev.onixac.api.check.ICheck;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import me.onixdev.check.api.Check;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.manager.CheckManager;
+import me.onixdev.user.data.ConnectionContainer;
 import me.onixdev.user.data.RotationContainer;
 import me.onixdev.util.alert.AlertManager;
 import net.kyori.adventure.text.Component;
@@ -20,6 +22,9 @@ import java.util.UUID;
 
 public class OnixUser {
     public int currentTick;
+    private int serverTickSinceJoin;
+    public double food;
+    @Getter
     private User user;
     @Getter
     private UUID uuid;
@@ -37,6 +42,12 @@ public class OnixUser {
     private List<Check> checks = new ArrayList<>();
     @Getter
     private final RotationContainer rotationContainer;
+    @Getter
+    private final ConnectionContainer connectionContainer;
+    @Setter@Getter
+    private InteractionHand usingHand = InteractionHand.MAIN_HAND;
+    @Getter@Setter
+    private boolean isUsingItem = false;
     public OnixUser(User user) {
         this.user = user;
         this.uuid = this.user.getUUID();
@@ -46,6 +57,7 @@ public class OnixUser {
         this.player = Bukkit.getPlayer(this.uuid);
         checks = CheckManager.loadChecks(this);
         rotationContainer = new RotationContainer(this);
+        connectionContainer = new ConnectionContainer(this);
     }
     public void sendMessage(Component message) {
         if (player == null) user.sendMessage(message);
@@ -64,6 +76,10 @@ public class OnixUser {
         if (player == null && (Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
         }
+        serverTickSinceJoin++;
+        if (serverTickSinceJoin % 3 == 0) {
+            sendTransaction();
+        }
     }
 
     public void handleEvent(BaseEvent clickEvent) {
@@ -74,5 +90,9 @@ public class OnixUser {
 
     public boolean hasConfirmPlayState() {
         return true;
+    }
+
+    public void sendTransaction() {
+        connectionContainer.sendTransaction();
     }
 }

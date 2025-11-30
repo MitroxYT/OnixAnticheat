@@ -5,9 +5,7 @@ import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
 import me.onixdev.events.bukkit.PlayerClickListener;
-import me.onixdev.events.packet.ActionListener;
-import me.onixdev.events.packet.JoinListener;
-import me.onixdev.events.packet.PositionListener;
+import me.onixdev.events.packet.*;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
 import me.onixdev.user.OnixUser;
@@ -64,6 +62,8 @@ public class OnixAnticheat {
         PacketEvents.getAPI().getEventManager().registerListeners(new JoinListener());
         PacketEvents.getAPI().getEventManager().registerListeners(new PositionListener());
         PacketEvents.getAPI().getEventManager().registerListeners(new ActionListener());
+        PacketEvents.getAPI().getEventManager().registerListeners(new PlayerUsingItemStatehandler());
+        PacketEvents.getAPI().getEventManager().registerListeners(new PlayerConnectionHandler());
         PacketEvents.getAPI().init();
     }
     private void tick() {
