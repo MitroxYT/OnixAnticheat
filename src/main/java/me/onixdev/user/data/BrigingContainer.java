@@ -23,12 +23,12 @@ public class BrigingContainer {
 
             if (user.getBukkitPlayer() != null) {
                 OnixAnticheat.INSTANCE.getTaskExecutor().run(()-> {
-                    Location loc = user.getBukkitPlayer().getLocation().clone().subtract(0.0, 2.0, 0.0);
+                    Location loc = user.getBukkitPlayer().getLocation().subtract(0.0, 2.0, 0.0);
                     if (loc.getBlock().getType() == Material.AIR && user.getBukkitPlayer().getInventory().getItemInHand().getType().isBlock()) {
                         if (lastPlaceTick < 20) {
                             BrigeTicks = 0;
-                            brige = true;
                         }
+                        brige = true;
                     }
                     else {
                         brige = false;
