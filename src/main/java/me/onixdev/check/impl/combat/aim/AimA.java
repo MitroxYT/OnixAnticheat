@@ -18,8 +18,8 @@ public class AimA extends Check {
     public void onEvent(BaseEvent event) {
         if (event instanceof PlayerRotationEvent) {
             PlayerRotationEvent rotationEvent = (PlayerRotationEvent) event;
-            if (player.lastHitTime < 4) {
-                float yawRate = (float) rotationEvent.getDeltaYaw();//Math.abs(player.xRot - player.lastXRot);
+            if (player.lastHitTime < 4 && !rotationEvent.isPost()) {
+                float yawRate = (float) Math.abs( player.getRotationContainer().getYaw() - player.getRotationContainer().getLastYaw());//Math.abs(player.xRot - player.lastXRot);
                 if ( yawRate < 1) return;
                 if (yawRate == yawChange) {
                     if (++buffer > getMaxBuffer()) {

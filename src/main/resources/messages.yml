@@ -1,7 +1,7 @@
-prefix: "<dark_gray>«<white>[<dark_green><underlined>GUARDIAN</underlined></dark_green>]<dark_gray>»"
-alerts_format: "%prefix% <green>Игрок</green> <dark_purple>%player%</dark_purple> <green>провалил</green> <dark_red>%check_name%</dark_red>%experimental% <white>[x<aqua>%vl%</aqua>]<green>.</green>"
+prefix: "<dark_gray>«<white>[<red><underlined>Onix</underlined><white>]<dark_gray>»"
+alerts_format: "%prefix% <dark_gray>> <red>%player% <white>failed <red>%check_name%%type%%experimental% <gray>(<white>VL:%vl%<gray>)"
 hover:
-  - "<dark_gray>«<white>[<dark_green><underlined>GUARDIAN</underlined></dark_green>]<dark_gray>» <green>Античит<dark_green>.</dark_green>"
+  - "<dark_gray>«<white>[<red><underlined>Onix</underlined></red>]<dark_gray>» <green>Античит<dark_green>.</dark_green>"
   - "<white>Игрок<dark_green>:</dark_green> <red>%player%<white>.</white>"
   - "<white>Тип<dark_green>:</dark_green> <red>%type%<white>.</white>"
   - "<white>VL<dark_green>:</dark_green> <red>%vl%<white>.</white>"

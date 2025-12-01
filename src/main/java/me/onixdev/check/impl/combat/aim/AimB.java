@@ -18,12 +18,12 @@ public class AimB extends Check {
     public void onEvent(BaseEvent event) {
         if (event instanceof PlayerRotationEvent) {
             PlayerRotationEvent rotationEvent = (PlayerRotationEvent) event;
-            if (player.lastHitTime < 4) {
-                float yR = (float) rotationEvent.getDeltaPitch();//Math.abs(player.xRot - player.lastXRot);
+            if (player.lastHitTime < 4 && !rotationEvent.isPost()) {
+                float yR = (float) Math.abs(player.getRotationContainer().getPitch() - player.getRotationContainer().getLastPitch());
                 if ( yR < 1) return;
                 if (yR == yC) {
                     if (++buffer > getMaxBuffer()) {
-                        fail("x=" + yC + ", xc=" + yC);
+                        fail("y=" + yC + ", yc=" + yC);
                     }
                 }
                 else if (buffer > 0) {
