@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class TaskExecutor implements IThreadExecutor {
     private final ExecutorService executor;
     public TaskExecutor() {
-        executor = Executors.newFixedThreadPool(2,new ThreadFactoryBuilder().setNameFormat("Onix-ReloadExecuter %d").build());
+        executor = Executors.newFixedThreadPool(2,new ThreadFactoryBuilder().setNameFormat("Onix-TaskExecuter %d").build());
     }
     @Override
     public void run(Runnable runnable) {

@@ -16,7 +16,7 @@ public class ScaffoldA extends Check {
     public void onEvent(BaseEvent event) {
         if (event instanceof PlayerRotationEvent) {
             if (!((PlayerRotationEvent) event).isPost()) {
-                if (!player.getBrigingContainer().isBrige()) return;
+                if (!player.getBrigingContainer().isBrige() && player.getBrigingContainer().getBrigeTicks() < 2 && player.getBrigingContainer().getLastPlaceTick() < 3) return;
                 double dx = ((PlayerRotationEvent) event).getDeltaYaw();
                 player.sendMessage("dx: " + dx + " enb: " + isEnabled());
                 if (dx > 100) {
