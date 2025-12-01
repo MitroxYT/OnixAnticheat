@@ -23,6 +23,7 @@ public class Check implements ICheck {
     protected String description;
     protected String type;
     protected CheckStage stage;
+    protected double maxbuffer;
     protected double decay;
     protected final OnixUser player;
     private final List<ConfigVlCommandData> commands = new ArrayList<>();
@@ -36,6 +37,7 @@ public class Check implements ICheck {
             description = builder.getDescription();
             stage = builder.getCheckStage();
             type = builder.getType();
+            maxbuffer = builder.getMaxBuffer();
             reload();
         }
     }
@@ -71,9 +73,20 @@ public class Check implements ICheck {
     }
 
     @Override
+    public double getMaxBuffer() {
+        return maxbuffer;
+    }
+
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
+
+    @Override
+    public boolean isExperimental() {
+        return stage !=null && stage == CheckStage.EXPERIMENTAL;
+    }
+
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
         OnixAnticheat.INSTANCE.getAlertExecutor().run(()-> {
@@ -98,8 +111,10 @@ public class Check implements ICheck {
             setback = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setback");
             setbackVL = checkscfg.getInt("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setbackvl");
             decay = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".decay",0.25);
+            double tempbuff = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".maxbuffer",-1);
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
-            
+            if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;
+            else maxbuffer = tempbuff;
             commands.clear();
             List<String> commandList = checkscfg.getStringList("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".commands");
             for (String cmd : commandList) {
@@ -114,7 +129,6 @@ public class Check implements ICheck {
                     Bukkit.getLogger().warning("Invalid command format in checks.yml: " + cmd);
                 }
             }
-            System.out.println("e: " + enabled + " c: " + vl + " d: " + decay);
         });
     }
     private void executeCommands(String verbose) {

@@ -17,6 +17,7 @@ import me.onixdev.user.OnixUser;
 import me.onixdev.util.net.LagTask;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConnectionContainer {
@@ -25,7 +26,7 @@ public class ConnectionContainer {
     public ConnectionContainer(OnixUser user) {
         this.user = user;
     }
-    private int transaction = 1488;
+    private int transaction = ThreadLocalRandom.current().nextInt(150,900);
     private final AtomicInteger transSent = new AtomicInteger(0);
     private final AtomicInteger transReceived = new AtomicInteger(0);
     private final List<LagTask> transTasks = new ArrayList<>();
@@ -91,7 +92,7 @@ public class ConnectionContainer {
 
         Long sentTime = transSentTimes.poll();
         if (sentTime != null) {
-            long responseTime = System.currentTimeMillis() - sentTime;
+            //long responseTime = System.currentTimeMillis() - sentTime;
         }
 
 
@@ -131,6 +132,9 @@ public class ConnectionContainer {
 
     public void confirmPre(Runnable runnable) {
         this.scheduleTrans(0, runnable);
+    }
+    public void confirmPost(Runnable runnable) {
+        this.scheduleTrans(1, runnable);
     }
 
     public int getLastTransactionSent() {

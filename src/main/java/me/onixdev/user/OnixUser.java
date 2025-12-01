@@ -5,6 +5,7 @@ import com.github.retrooper.packetevents.protocol.player.User;
 import dev.onixac.api.check.ICheck;
 import lombok.Getter;
 import lombok.Setter;
+import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
@@ -48,6 +49,7 @@ public class OnixUser {
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
     private boolean isUsingItem = false;
+    public int lastHitTime = 100;
     public OnixUser(User user) {
         this.user = user;
         this.uuid = this.user.getUUID();
@@ -60,6 +62,10 @@ public class OnixUser {
         connectionContainer = new ConnectionContainer(this);
     }
     public void sendMessage(Component message) {
+        if (OnixAnticheat.noSupportComponentMessage) {
+            user.sendMessage(message);
+            return;
+        }
         if (player == null) user.sendMessage(message);
         else player.sendMessage(message);
     }

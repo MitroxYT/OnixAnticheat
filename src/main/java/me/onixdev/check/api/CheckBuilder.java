@@ -7,9 +7,15 @@ public class CheckBuilder {
     @Getter
     private String checkName,type,description;
     @Getter
+    private double maxBuffer = 10;
+    @Getter
     private CheckStage checkStage;
     public static CheckBuilder create() {
         return new CheckBuilder();
+    }
+    public CheckBuilder setBuffer(double buffer) {
+        this.maxBuffer = buffer;
+        return this;
     }
     public CheckBuilder setCheckName(String checkName) {
         this.checkName = checkName;

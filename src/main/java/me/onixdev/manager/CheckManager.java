@@ -2,6 +2,8 @@ package me.onixdev.manager;
 
 
 import me.onixdev.check.api.Check;
+import me.onixdev.check.impl.combat.aim.AimA;
+import me.onixdev.check.impl.combat.aim.AimB;
 import me.onixdev.check.impl.combat.aura.AuraA;
 import me.onixdev.check.impl.player.autototem.AutoTotemA;
 import me.onixdev.check.impl.player.inventory.InventoryA;
@@ -52,8 +54,8 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {
-                AuraA.class, InventoryA.class, AutoTotemA.class, InventoryB.class
+        CHECKS = new Class[] {AimA.class, AimB.class,
+                InventoryA.class, AutoTotemA.class, InventoryB.class
         };
 
     }

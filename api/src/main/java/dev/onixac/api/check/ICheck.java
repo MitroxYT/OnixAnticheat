@@ -7,5 +7,7 @@ public interface ICheck {
     double getVl();
     CheckStage getStage();
     double getDecay();
+    double getMaxBuffer();
     boolean isEnabled();
+    boolean isExperimental();
 }

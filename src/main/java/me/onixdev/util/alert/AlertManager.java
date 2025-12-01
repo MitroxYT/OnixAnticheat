@@ -39,7 +39,7 @@ public class AlertManager implements IAlertManager {
                 .replace("%check_name%", check.getName())
                 .replace("%vl%", String.valueOf((int) check.getVl()))
                 .replace("%verbose%", verbose)
-                .replace("%experimental%", false ? " &8(&cЭкспериментальный&8)" : "");
+                .replace("%experimental%", check.isExperimental() ? " *" : "");
         String finalVerboseMsg = hoverMessage.replaceAll("%player%", user.getName())
                 .replace("%check_name%", check.getName().toUpperCase(Locale.ROOT))
                 .replace("%type%", check.getType().toUpperCase(Locale.ROOT))

@@ -20,7 +20,7 @@ public class AutoTotemA extends Check {
     @Override
     public void onEvent(BaseEvent event) {
         if (event instanceof TickEvent) {
-            player.sendMessage("tick: " + clicked);
+           // player.sendMessage("tick: " + clicked);
             clicked = false;
         }
         if (event instanceof PlayerPacketClickEvent) {
@@ -28,12 +28,12 @@ public class AutoTotemA extends Check {
                 ItemStack item = ((PlayerPacketClickEvent) event).getItem();
                 if (item == ItemTypes.TOTEM_OF_UNDYING) {
                     clicked = true;
-                    player.sendMessage("totem");
+              //      player.sendMessage("totem");
                 }
             }
         }
         if (event instanceof PlayerCloseInventoryEvent) {
-            player.sendMessage("totemc: " + clicked);
+      //      player.sendMessage("totemc: " + clicked);
             if (clicked) {
                 fail("");
             }

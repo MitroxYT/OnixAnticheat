@@ -1,6 +1,7 @@
 package me.onixdev;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
@@ -26,6 +27,7 @@ public class OnixAnticheat {
     private PlayerDatamanager playerDatamanager;
     @Getter
     private ConfigManager configManager;
+    public static boolean noSupportComponentMessage =false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
     public void onLoad(OnixPlugin plugin) {
         this.plugin = plugin;
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this.plugin));
@@ -65,8 +67,10 @@ public class OnixAnticheat {
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerUsingItemStatehandler());
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerConnectionHandler());
         PacketEvents.getAPI().init();
+       noSupportComponentMessage= PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
     }
     private void tick() {
         playerDatamanager.getAllData().forEach(OnixUser::tick);
     }
+
 }
