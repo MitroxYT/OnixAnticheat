@@ -3,6 +3,7 @@ package me.onixdev.user;
 import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
 import dev.onixac.api.check.ICheck;
+import dev.onixac.api.user.IOnixUser;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class OnixUser {
+public class OnixUser implements IOnixUser {
     public int currentTick;
     private int serverTickSinceJoin;
     public double food;
@@ -50,6 +51,9 @@ public class OnixUser {
     @Getter@Setter
     private boolean isUsingItem = false;
     public int lastHitTime = 100;
+    @Getter
+    private String mitigateType;
+    private double timetoMitigate,lastMitigateTime;
     public OnixUser(User user) {
         this.user = user;
         this.uuid = this.user.getUUID();
@@ -97,8 +101,17 @@ public class OnixUser {
     public boolean hasConfirmPlayState() {
         return true;
     }
-
+    public boolean shouldMitigate() {
+        return System.currentTimeMillis() - lastMitigateTime < timetoMitigate && mitigateType != null && mitigateType.equals("canceldamage") || (mitigateType != null &&mitigateType.equals("reducedamage"));
+    }
     public void sendTransaction() {
         connectionContainer.sendTransaction();
+    }
+
+    @Override
+    public void mitigate(String type, double time) {
+        this.mitigateType = type;
+        this.timetoMitigate = time;
+        lastMitigateTime = System.currentTimeMillis();
     }
 }

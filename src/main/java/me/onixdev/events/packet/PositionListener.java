@@ -37,6 +37,7 @@ public class PositionListener extends PacketListenerAbstract {
                 OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
                 if (user != null && user.hasConfirmPlayState()) {
                     user.lastHitTime = 0;
+                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage")) event.setCancelled(true);
                 }
             }
         }
