@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPickItem;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.event.impl.PlayerCloseInventoryEvent;
 import me.onixdev.event.impl.PlayerPacketClickEvent;
@@ -20,6 +21,12 @@ public class ActionListener extends PacketListenerAbstract {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
+        if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType()) || event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
+            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser().getUUID());
+            if (user != null) {
+                user.getBrigingContainer().handlePacket(event);
+            }
+        }
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapperPlayClientClickWindow = new WrapperPlayClientClickWindow(event);
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser().getUUID());

@@ -14,6 +14,7 @@ import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.AlertTaskExecutor;
 import me.onixdev.util.thread.impl.ReloadTaskExecutor;
+import me.onixdev.util.thread.impl.TaskExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 
@@ -22,7 +23,7 @@ public class OnixAnticheat {
     @Getter
     private OnixPlugin plugin;
     @Getter
-    private IThreadExecutor alertExecutor,reloadExecuter;
+    private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor;
     @Getter
     private PlayerDatamanager playerDatamanager;
     @Getter
@@ -36,6 +37,7 @@ public class OnixAnticheat {
     public void onEnable() {
         reloadExecuter = new ReloadTaskExecutor();
         alertExecutor = new AlertTaskExecutor();
+        taskExecutor = new TaskExecutor();
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
         CheckManager.setup();
@@ -52,6 +54,7 @@ public class OnixAnticheat {
     public void onDisable() {
         alertExecutor.shutdown();
         reloadExecuter.shutdown();
+        taskExecutor.shutdown();
         Bukkit.getScheduler().cancelTasks(plugin);
     }
     private void runShedulers() {

@@ -8,6 +8,7 @@ import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.alert.id.PunishIdSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -138,7 +139,18 @@ public class Check implements ICheck {
                 String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%",OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
                 if (command.startsWith("[alert]")) {
                     player.getAlertManager().handleAlert(player,this,verbose);
-                } else {
+                } else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
+                    try {
+                        String punishid = PunishIdSystem.GenerateId(player.getName());
+                        PunishIdSystem.LogPunish(player,this,punishid,verbose);
+                        String finalcmd = command.replace("%id%",punishid);
+                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(),finalcmd));
+                    } catch (IllegalArgumentException e) {
+                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
                     Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
                 }
             }

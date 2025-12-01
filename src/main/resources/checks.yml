@@ -18,6 +18,14 @@ checks:
       commands:
         - "2:2 [alert]"
         - "500:100 kick %player% TimerA"
+    c:
+      enabled: true
+      setbackVL: 1
+      setback: true
+      maxbuffer: 5
+      commands:
+        - "2:2 [alert]"
+        - "500:100 kick %player% TimerA"
   aura:
     a:
       enabled: true
@@ -37,6 +45,14 @@ checks:
         - "2:2 [alert]"
         - "7:7 kick %player% TimerA"
   AutoTotem:
+    a:
+      enabled: true
+      setbackVL: 6
+      setback: true
+      commands:
+        - "2:2 [alert]"
+        - "7:7 kick %player% TimerA"
+  Scaffold:
     a:
       enabled: true
       setbackVL: 6

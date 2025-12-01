@@ -11,6 +11,7 @@ import me.onixdev.check.api.Check;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.manager.CheckManager;
+import me.onixdev.user.data.BrigingContainer;
 import me.onixdev.user.data.ConnectionContainer;
 import me.onixdev.user.data.RotationContainer;
 import me.onixdev.util.alert.AlertManager;
@@ -46,6 +47,8 @@ public class OnixUser implements IOnixUser {
     private final RotationContainer rotationContainer;
     @Getter
     private final ConnectionContainer connectionContainer;
+    @Getter
+    private final BrigingContainer brigingContainer;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
@@ -64,6 +67,7 @@ public class OnixUser implements IOnixUser {
         checks = CheckManager.loadChecks(this);
         rotationContainer = new RotationContainer(this);
         connectionContainer = new ConnectionContainer(this);
+        brigingContainer = new BrigingContainer(this);
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
