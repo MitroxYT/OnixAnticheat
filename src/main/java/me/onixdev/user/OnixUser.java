@@ -118,4 +118,8 @@ public class OnixUser implements IOnixUser {
         this.timetoMitigate = time;
         lastMitigateTime = System.currentTimeMillis();
     }
+
+    public void debug(Object object) {
+        player.sendMessage(object.toString());
+    }
 }
