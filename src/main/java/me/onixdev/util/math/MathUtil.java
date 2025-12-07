@@ -120,4 +120,8 @@ public class MathUtil {
                 .average().orElse(0);
         return Math.sqrt(variance);
     }
+
+    public static double hypot(final double a, final double b) {
+        return Math.sqrt(a * a + b * b);
+    }
 }
