@@ -2,12 +2,14 @@ package me.onixdev.manager;
 
 
 import me.onixdev.check.api.Check;
-import me.onixdev.check.impl.combat.aim.AImD;
 import me.onixdev.check.impl.combat.aim.AimA;
 import me.onixdev.check.impl.combat.aim.AimB;
 import me.onixdev.check.impl.combat.aim.AimC;
 import me.onixdev.check.impl.combat.aura.AuraA;
+import me.onixdev.check.impl.movement.noslow.NoslowA;
 import me.onixdev.check.impl.player.autototem.AutoTotemA;
+import me.onixdev.check.impl.player.badpackets.BadPacketA;
+import me.onixdev.check.impl.player.badpackets.BadPacketB;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.scaffold.ScaffoldA;
@@ -57,7 +59,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AImD.class, ScaffoldA.class,
+        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, BadPacketA.class, BadPacketB.class, NoslowA.class,ScaffoldA.class,
                 InventoryA.class, AutoTotemA.class, InventoryB.class
         };
 

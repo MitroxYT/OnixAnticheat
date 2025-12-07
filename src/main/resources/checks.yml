@@ -8,8 +8,6 @@ checks:
       commands:
         - "2:2 [alert]"
         - "500:100 kick %player% TimerA"
-        - 17:31:03 ERROR]: Error occurred while enabling OnixAnticheat v1.0 (Is it up to date?)
-          java.lang.NoClassDefFoundError: net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializer
     b:
       enabled: true
       setbackVL: 1
@@ -42,9 +40,17 @@ checks:
       setback: true
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
-        - "2:2 [alert]"
-        - "7:7 kick %player% TimerA"
-  AutoTotem:
+        - "1:1 [alert]"
+        - "1:1 kick %player% %prefix% invalid using item (A)"
+    b:
+      enabled: true
+      setbackVL: 6
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "1:1 [alert]"
+        - "1:1 kick %player% %prefix% invalid using item (A)"
+  autototem:
     a:
       enabled: true
       setbackVL: 6
@@ -52,9 +58,16 @@ checks:
       commands:
         - "2:2 [alert]"
         - "7:7 kick %player% TimerA"
-  Scaffold:
+  noslow:
     a:
       enabled: true
+      setbackVL: 6
+      setback: true
+      commands:
+        - "2:2 [alert]"
+  scaffold:
+    a:
+      enabled: false
       setbackVL: 6
       setback: true
       commands:
