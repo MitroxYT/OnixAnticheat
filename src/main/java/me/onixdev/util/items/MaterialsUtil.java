@@ -8,9 +8,10 @@ import org.bukkit.inventory.ItemStack;
 public class MaterialsUtil {
     private final Material chorus = Material.getMaterial("CHORUS_FRUIT");
     private final Material shield = Material.getMaterial("SHIELD");
+    private final Material potion = Material.getMaterial("POTION");
     public boolean isUsable(ItemStack stack,double foodLevel) {
         if (stack == null || stack.getType() == Material.AIR) return false;
-        if (stack.getType() == Material.GOLDEN_APPLE || stack.getType() == chorus) return true;
+        if (stack.getType() == Material.GOLDEN_APPLE || stack.getType() == chorus || stack.getType() == potion) return true;
         if (stack.getType() == shield) return true;
         return false;
     }
