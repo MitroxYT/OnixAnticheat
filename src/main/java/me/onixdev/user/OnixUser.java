@@ -1,25 +1,34 @@
 package me.onixdev.user;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import com.github.retrooper.packetevents.protocol.attribute.Attributes;
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
-import dev.onixac.api.check.ICheck;
+import com.github.retrooper.packetevents.protocol.potion.PotionType;
+import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityEffect;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerRemoveEntityEffect;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateAttributes;
+import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
-import me.onixdev.check.impl.player.badpackets.BadPacketA;
 import me.onixdev.event.api.BaseEvent;
-import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.BrigingContainer;
 import me.onixdev.user.data.ConnectionContainer;
+import me.onixdev.user.data.MovementContainer;
 import me.onixdev.user.data.RotationContainer;
 import me.onixdev.util.alert.AlertManager;
+import me.onixdev.util.net.ClientInput;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -37,13 +46,13 @@ public class OnixUser implements IOnixUser {
     private int serverTickSinceJoin;
     public double food;
     @Getter
-    private User user;
+    private final User user;
     @Getter
-    private UUID uuid;
+    private final UUID uuid;
     @Getter
-    private String name;
+    private final String name;
     @Getter
-    private int id;
+    private final int id;
     @Getter@Setter
     private boolean alertsEnabled,verboseEnabled;
     @Getter
@@ -58,16 +67,27 @@ public class OnixUser implements IOnixUser {
     private final ConnectionContainer connectionContainer;
     @Getter
     private final BrigingContainer brigingContainer;
+    @Getter
+    private final MovementContainer movementContainer;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
     private boolean isUsingItem = false;
+    @Getter@Setter
+    private int ItemUseTime;
     public int lastHitTime = 100;
     @Getter
     private String mitigateType;
     private double timetoMitigate,lastMitigateTime;
+    public IClientInput theoreticalInput = new ClientInput();
+    public IClientInput Input = new ClientInput();
     public static final @Nullable Consumer<Player> resetActiveBukkitItem;
     public static final @Nullable Predicate<Player> isUsingBukkitItem;
+    @Getter
+    private double walkSpeed = 0.10000000149011612D;
+    @Getter
+    private int jumpBoost, speedBoost, slowness;
+
     public OnixUser(User user) {
         this.user = user;
         this.uuid = this.user.getUUID();
@@ -79,6 +99,7 @@ public class OnixUser implements IOnixUser {
         rotationContainer = new RotationContainer(this);
         connectionContainer = new ConnectionContainer(this);
         brigingContainer = new BrigingContainer(this);
+        movementContainer = new MovementContainer(this);
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
@@ -114,13 +135,66 @@ public class OnixUser implements IOnixUser {
     }
 
     public boolean hasConfirmPlayState() {
-        return true;
+        return serverTickSinceJoin > 5;
     }
     public boolean shouldMitigate() {
         return System.currentTimeMillis() - lastMitigateTime < timetoMitigate && mitigateType != null && mitigateType.equals("canceldamage") || (mitigateType != null &&mitigateType.equals("reducedamage"));
     }
     public void sendTransaction() {
         connectionContainer.sendTransaction();
+    }
+    public void onSend(PacketSendEvent event) {
+        if (player == null) return;
+        if (event.getPacketType() == PacketType.Play.Server.UPDATE_ATTRIBUTES) {
+            WrapperPlayServerUpdateAttributes updateAttributes = new WrapperPlayServerUpdateAttributes(event);
+
+            for (WrapperPlayServerUpdateAttributes.Property snapshot : updateAttributes.getProperties()) {
+                if (snapshot.getAttribute() == Attributes.MOVEMENT_SPEED)  {
+                    connectionContainer.confirmPost(()-> walkSpeed = snapshot.getValue());
+                }
+            }
+        }
+
+        if (event.getPacketType() == PacketType.Play.Server.ENTITY_EFFECT) {
+            WrapperPlayServerEntityEffect entityEffect = new WrapperPlayServerEntityEffect(event);
+
+
+            if (entityEffect.getEntityId() != id) {
+                return;
+            }
+
+
+            int amplifier = entityEffect.getEffectAmplifier();
+
+            PotionType potionType = entityEffect.getPotionType();
+            if (potionType == PotionTypes.SPEED) {
+                this.speedBoost = amplifier + 1;
+            } else if (potionType == PotionTypes.SLOWNESS) {
+                this.slowness = amplifier + 1;
+            } else if (potionType == PotionTypes.JUMP_BOOST) {
+                this.jumpBoost = amplifier + 1;
+            }
+
+        }
+
+        if (event.getPacketType() == PacketType.Play.Server.REMOVE_ENTITY_EFFECT) {
+            WrapperPlayServerRemoveEntityEffect removeEntityEffect = new WrapperPlayServerRemoveEntityEffect(event);
+
+            if (removeEntityEffect.getEntityId() != id) {
+                return;
+            }
+            sendTransaction();
+            connectionContainer.confirmPost(()-> {
+                PotionType potionType = removeEntityEffect.getPotionType();
+                if (potionType == PotionTypes.SPEED) {
+                    this.speedBoost = 0;
+                } else if (potionType == PotionTypes.SLOWNESS) {
+                    this.slowness = 0;
+                } else if (potionType == PotionTypes.JUMP_BOOST) {
+                    this.jumpBoost = 0;
+                }
+            });
+        }
     }
 
     @Override
@@ -224,21 +298,26 @@ public class OnixUser implements IOnixUser {
                     }
                 };
             } else if (version.isNewerThanOrEquals(ServerVersion.V_1_17_1)) {
-                isUsingBukkitItem0 = player -> player.isHandRaised();
+                isUsingBukkitItem0 = HumanEntity::isHandRaised;
             }
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         } finally {
             resetActiveBukkitItem = resetActiveBukkitItem0;
             isUsingBukkitItem = isUsingBukkitItem0;
-
-            if (resetActiveBukkitItem == null) {
-                //   Alice.get().getGhostLogger().error("could not find method to reset item usage (are you using spigot?)");
-            }
-
-            if (isUsingBukkitItem == null) {
-                //  Alice.get().getGhostLogger().error("could not find method to get item usage status (are you using an unsupported version?)");
-            }
         }
+    }
+
+    public double getMoveSpeed(boolean sprint) {
+        double baseValue = walkSpeed;
+
+        if (sprint) {
+            baseValue += baseValue * 0.30000001192092896D;
+        }
+
+        baseValue += baseValue * speedBoost * 0.20000000298023224D;
+        baseValue += baseValue * slowness * -0.15000000596046448D;
+
+        return baseValue;
     }
 }

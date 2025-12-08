@@ -124,4 +124,8 @@ public class MathUtil {
     public static double hypot(final double a, final double b) {
         return Math.sqrt(a * a + b * b);
     }
+
+    public static float sqrt_float(float value) {
+        return (float) Math.sqrt(value);
+    }
 }

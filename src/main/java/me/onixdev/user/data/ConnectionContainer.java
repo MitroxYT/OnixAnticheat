@@ -13,6 +13,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientWi
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPing;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWindowConfirmation;
 import lombok.Getter;
+import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.net.LagTask;
 
@@ -103,6 +104,7 @@ public class ConnectionContainer {
                 transTasks.remove(task);
             }
         }
+        user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
     }
     public void handleClientTransaction(WrapperPlayClientWindowConfirmation wrapper) {
         if (wrapper.getActionId() != transaction) {
@@ -117,6 +119,7 @@ public class ConnectionContainer {
                 transTasks.remove(task);
             }
         }
+        user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
     }
 
     public void scheduleTrans(int offset, Runnable runnable) {

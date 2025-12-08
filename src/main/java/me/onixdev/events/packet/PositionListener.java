@@ -24,11 +24,13 @@ public class PositionListener extends PacketListenerAbstract {
             if (user != null && user.hasConfirmPlayState()) {
             Location location = flying.getLocation();
             boolean rotation = flying.hasRotationChanged();
-            boolean position = flying.hasPositionChanged();
             if (rotation) user.getRotationContainer().handle(location.getYaw(),location.getPitch());
+            user.getMovementContainer().handleFlying(event,flying);
             user.handleEvent(new TickEvent(TickEvent.Target.FLYING));
             user.currentTick++;
             user.lastHitTime++;
+            if (user.isUsingItem()) user.setItemUseTime(user.getItemUseTime() + 1);
+            else user.setItemUseTime(0);
             }
         }
         if (event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
