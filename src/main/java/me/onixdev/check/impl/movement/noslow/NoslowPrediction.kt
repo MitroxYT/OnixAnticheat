@@ -23,7 +23,7 @@ class NoslowPrediction(user: OnixUser) : Check(user, CheckBuilder.create().setCh
                         //setback();
                     }
                     if (player.ItemUseTime > 6 && !lastTickNoslow) {
-                        player.getCheck(NoslowTick::class.java).fail("time: $player.ItemUseTime")
+                        player.getCheck(NoslowTick::class.java).fail("time: ${player.ItemUseTime}")
                     }
                     lastTickNoslow = true
                 } else if (buffer > 0) {

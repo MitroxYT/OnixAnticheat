@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.util.color.MessageUtil;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -39,8 +42,9 @@ public class ConfigManager {
             if (!cfgfile3.exists()) {
                 OnixAnticheat.INSTANCE.getPlugin().saveResource("messages.yml", false);
             }
-            this.checksconfig = YamlConfiguration.loadConfiguration(cfgfile2);
             this.config = YamlConfiguration.loadConfiguration(cfgfile);
+            checkUpdateAndReWrateContent();
+            this.checksconfig = YamlConfiguration.loadConfiguration(cfgfile2);
             this.messagesconfig = YamlConfiguration.loadConfiguration(cfgfile3);
             //  checkversion();
 
@@ -48,6 +52,40 @@ public class ConfigManager {
 
 
         }
+    }
+
+    private void checkUpdateAndReWrateContent() {
+        File configFile = new File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder(), "config.yml");
+
+        YamlConfiguration diskConfig = YamlConfiguration.loadConfiguration(configFile);
+        double currentVersion = diskConfig.getDouble("config-version", 0.9);
+        double latestVersion = 1.0;
+
+        if (currentVersion >= latestVersion) {
+            reload();
+            return;
+        }
+
+        Map<String, Object> userValues = diskConfig.getValues(false);
+        OnixAnticheat.INSTANCE.getPlugin().saveResource("config.yml", true);
+        YamlConfiguration newConfig = YamlConfiguration.loadConfiguration(configFile);
+        for (Map.Entry<String, Object> entry : userValues.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if (!key.equals("config-version")) {
+                newConfig.set(key, value);
+            }
+        }
+
+        newConfig.set("config-version", latestVersion);
+        try {
+            newConfig.save(configFile);
+            OnixAnticheat.INSTANCE.getPlugin().getLogger().info("config.yml успешно обновлён до версии " + latestVersion + "!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        reload();
     }
 
     public void reload() {

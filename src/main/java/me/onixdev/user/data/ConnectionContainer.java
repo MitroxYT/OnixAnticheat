@@ -142,7 +142,7 @@ public class ConnectionContainer {
         }
 
         if (hasID) {
-            if (skipped >  0 && user.getServerTickSinceJoin() > 20) user.getCheck(BadPacketC.class).fail("skipped: " + skipped);
+            if (skipped >  0 && user.getServerTickSinceJoin() > 20) user.getCheck(BadPacketC.class).fail("invalid: " + skipped);
 
             do {
                 data = transactionsSent.poll();

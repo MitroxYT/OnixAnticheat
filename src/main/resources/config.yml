@@ -1,0 +1,4 @@
+config-version: 1
+enable-alert-on-join: true
+kick-on-invalid-item-packet: true
+kick-on-invalid-transaction: true
