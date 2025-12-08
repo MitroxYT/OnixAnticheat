@@ -1,3 +1,4 @@
+config-version: 1.0
 prefix: "<dark_gray>«<white>[<red><underlined>Onix</underlined><white>]<dark_gray>»"
 alerts_format: "%prefix% <dark_gray>> <red>%player% <white>failed <red>%check_name%%type%%experimental% <gray>(<white>VL:%vl%<gray>)"
 hover:

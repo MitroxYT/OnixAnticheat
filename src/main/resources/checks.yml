@@ -1,3 +1,4 @@
+config-version: 1.0
 checks:
   aim:
     a:
@@ -76,6 +77,14 @@ checks:
         - "1:1 [alert]"
         - "1:1 kick %player% %prefix% invalid using item (A)"
     c:
+      enabled: true
+      setbackVL: 3
+      setback: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "1:1 [alert]"
+        - "10:10 kick %player% %prefix% invalid using item (A)"
+    d:
       enabled: true
       setbackVL: 3
       setback: true

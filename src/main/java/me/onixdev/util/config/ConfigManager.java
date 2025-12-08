@@ -7,6 +7,7 @@ import me.onixdev.OnixAnticheat;
 import me.onixdev.util.color.MessageUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,11 +43,10 @@ public class ConfigManager {
             if (!cfgfile3.exists()) {
                 OnixAnticheat.INSTANCE.getPlugin().saveResource("messages.yml", false);
             }
+            updateAllConfigFiles();
             this.config = YamlConfiguration.loadConfiguration(cfgfile);
-            checkUpdateAndReWrateContent();
             this.checksconfig = YamlConfiguration.loadConfiguration(cfgfile2);
             this.messagesconfig = YamlConfiguration.loadConfiguration(cfgfile3);
-            //  checkversion();
 
             init();
 
@@ -54,38 +54,71 @@ public class ConfigManager {
         }
     }
 
-    private void checkUpdateAndReWrateContent() {
-        File configFile = new File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder(), "config.yml");
+    private void updateAllConfigFiles() {
 
-        YamlConfiguration diskConfig = YamlConfiguration.loadConfiguration(configFile);
-        double currentVersion = diskConfig.getDouble("config-version", 0.9);
-        double latestVersion = 1.0;
+        var configFiles = Map.of(
+                "config.yml",   1.1,
+                "checks.yml",   1.1,
+                "messages.yml", 1.1
+        );
 
-        if (currentVersion >= latestVersion) {
-            reload();
-            return;
-        }
+        JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
 
-        Map<String, Object> userValues = diskConfig.getValues(false);
-        OnixAnticheat.INSTANCE.getPlugin().saveResource("config.yml", true);
-        YamlConfiguration newConfig = YamlConfiguration.loadConfiguration(configFile);
-        for (Map.Entry<String, Object> entry : userValues.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            if (!key.equals("config-version")) {
-                newConfig.set(key, value);
+        boolean anyUpdated = false;
+
+        for (Map.Entry<String, Double> entry : configFiles.entrySet()) {
+            String fileName = entry.getKey();
+            double latestVersion = entry.getValue();
+
+            if (updateSingleConfig(fileName, latestVersion)) {
+                anyUpdated = true;
             }
         }
 
-        newConfig.set("config-version", latestVersion);
-        try {
-            newConfig.save(configFile);
-            OnixAnticheat.INSTANCE.getPlugin().getLogger().info("config.yml успешно обновлён до версии " + latestVersion + "!");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (anyUpdated) {
+            plugin.getLogger().info("Все конфиги успешно обновлены!");
+        } else {
+            plugin.getLogger().info("Все конфиги уже актуальны.");
         }
 
         reload();
+    }
+    private boolean updateSingleConfig(String fileName, double latestVersion) {
+        File file = new File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder(), fileName);
+        JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
+        if (!file.exists()) {
+            plugin.saveResource(fileName, false);
+            plugin.getLogger().info("Создан новый файл: " + fileName);
+            return true;
+        }
+
+        YamlConfiguration diskConfig = YamlConfiguration.loadConfiguration(file);
+        double currentVersion = diskConfig.getDouble("config-version", 0.0);
+
+        if (currentVersion >= latestVersion) {
+            return false;
+        }
+
+        plugin.getLogger().info("Обновление " + fileName + " → v" + latestVersion + "...");
+        Map<String, Object> userValues = diskConfig.getValues(false);
+
+        plugin.saveResource(fileName, true);
+        YamlConfiguration newConfig = YamlConfiguration.loadConfiguration(file);
+        for (Map.Entry<String, Object> userEntry : userValues.entrySet()) {
+            String key = userEntry.getKey();
+            if (!"config-version".equals(key)) {
+                newConfig.set(key, userEntry.getValue());
+            }
+        }
+        newConfig.set("config-version", latestVersion);
+        try {
+            newConfig.save(file);
+        } catch (IOException e) {
+            plugin.getLogger().severe("Ошибка при сохранении " + fileName + "!");
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
     public void reload() {
