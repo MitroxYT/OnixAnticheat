@@ -73,9 +73,8 @@ public class OnixUser implements IOnixUser {
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
-    private boolean isUsingItem = false;
-    @Getter@Setter
-    private int ItemUseTime;
+    public boolean isUsingItem = false;
+    public int ItemUseTime;
     public int lastHitTime = 100;
     @Getter
     private String mitigateType;
