@@ -87,13 +87,7 @@ public class MovementContainer {
                 this.lastDeltaXZ = this.deltaXZ;
                 this.deltaXZ = MathUtil.hypot(this.deltaX, this.deltaZ);
             }
-            try {
-                OnixAnticheat.INSTANCE.getTaskExecutor().run(()-> {
-                    registerIncomingPreHandler(event);
-                });
-            } catch (Exception e) {
-              //  throw new RuntimeException(e);
-            }
+
         }
     }
 
@@ -110,7 +104,7 @@ public class MovementContainer {
 
     public void registerIncomingPreHandler(PacketReceiveEvent event) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
-            Vector startMotion = new Vector(getDeltaX(), 0.0, getDeltaZ());
+            Vector startMotion = new Vector(user.getMovementContainer().getDeltaX(), 0.0, user.getMovementContainer().getDeltaZ());
             this.distance = Double.MAX_VALUE;
             iteration:
             {
@@ -137,6 +131,7 @@ public class MovementContainer {
                                             if (usingItem) {
                                                 moveForward *= 0.2F;
                                                 moveStrafe *= 0.2F;
+                                              //  user.debug("us pre");
                                             }
 
                                             if (sneaking) {
@@ -151,10 +146,10 @@ public class MovementContainer {
                                             moveForward *= 0.98F;
                                             moveStrafe *= 0.98F;
 
-                                            double motionX = getLastDeltaX();
-                                            double motionZ = getLastDeltaZ();
+                                            double motionX = user.getMovementContainer().getLastDeltaX();
+                                            double motionZ = user.getMovementContainer().getLastDeltaZ();
 
-                                            if (isLastLastClientGround()) {
+                                            if (user.getMovementContainer().isLastLastClientGround()) {
                                                 motionX *= 0.6F * 0.91F;
                                                 motionZ *= 0.6F * 0.91F;
                                             } else {
@@ -184,9 +179,9 @@ public class MovementContainer {
                                             }
 
                                             float friction = 0.91F;
-                                            if (GetLastClientOnGround()) friction *= 0.6F;
+                                            if (user.getMovementContainer().GetLastClientOnGround()) friction *= 0.6F;
 
-                                            final float moveSpeed = (float) user.getMoveSpeed(sprinting);
+                                            final float moveSpeed = (float) user.getMoveSpeed(sprinting,false);
                                             final float moveFlyingFriction;
 
                                             if (ground) {

@@ -154,7 +154,6 @@ public class OnixUser implements IOnixUser {
             WrapperPlayServerEntityStatus wrapperPlayServerEntityStatus = new WrapperPlayServerEntityStatus(event);
             if (wrapperPlayServerEntityStatus.getEntityId() == id) {
                 int status = wrapperPlayServerEntityStatus.getStatus();
-                debug("status: " + wrapperPlayServerEntityStatus.getStatus());
                 if (status == EntityStatuses.BREAK_SHIELD) {
                     setUsingItem(false);
                 }
@@ -167,8 +166,34 @@ public class OnixUser implements IOnixUser {
 
                     EntityDataType<?> type = data.getType();
                     if (type == EntityDataTypes.PARTICLE || type == EntityDataTypes.PARTICLES) return;
-                    BukkitNms.getIndex(wrapperPlayServerEntityMetadata.getEntityMetadata(),8);
-                    debug("ind: " + data.getIndex() + " val: " + data.getValue() + " type: " + type);
+                    EntityData using =  BukkitNms.getIndex(wrapperPlayServerEntityMetadata.getEntityMetadata(),8);
+                    if (using != null) {
+                        if (using.getValue() != null) {
+                            Object value = using.getValue();
+                            if (value != null) {
+                                if (value instanceof Byte) {
+                                    byte b = (Byte) value;
+                                    sendTransaction();
+                                    connectionContainer.confirmPost(() -> {
+                                        if (b == 1) {
+                                            setUsingHand(InteractionHand.MAIN_HAND);
+                                            setUsingItem(true);
+                                        } else if (b == 0) {
+                                            setUsingItem(false);
+                                        } else if (b == 3) {
+                                            setUsingHand(InteractionHand.OFF_HAND);
+                                            setUsingItem(true);
+                                        } else if (b == 2) {
+                                            setUsingHand(InteractionHand.OFF_HAND);
+                                            setUsingItem(false);
+                                        }else {
+                                        }
+                                    });
+                                } else {
+                                }
+                            }
+                        }
+                    }
                 }
 
             }
@@ -178,7 +203,6 @@ public class OnixUser implements IOnixUser {
 
             for (WrapperPlayServerUpdateAttributes.Property snapshot : updateAttributes.getProperties()) {
                 if (snapshot.getAttribute() == Attributes.MOVEMENT_SPEED)  {
-                    connectionContainer.confirmPost(()-> walkSpeed = snapshot.getValue());
                 }
             }
         }
@@ -336,14 +360,18 @@ public class OnixUser implements IOnixUser {
         }
     }
 
-    public double getMoveSpeed(boolean sprint) {
+    public double getMoveSpeed(boolean sprint,boolean isPredicting) {
         double baseValue = walkSpeed;
 
         if (sprint) {
             baseValue += baseValue * 0.30000001192092896D;
         }
-
-        baseValue += baseValue * speedBoost * 0.20000000298023224D;
+        if (isPredicting) {
+            baseValue += baseValue * 0 * 0.20000000298023224D;
+        }
+        else {
+            baseValue += baseValue * speedBoost * 0.20000000298023224D;
+        }
         baseValue += baseValue * slowness * -0.15000000596046448D;
 
         return baseValue;

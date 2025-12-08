@@ -17,7 +17,7 @@ public class NoslowA extends Check {
     public void onEvent(BaseEvent event) {
         if (event instanceof TickEvent) {
             if (((TickEvent) event).getTickType() == TickEvent.Target.FLYING) {
-                player.sendMessage("using: " + player.isUsingItem() + " hand: " + player.getUsingHand() + " nms: " + player.isUsingBukkitItem());
+                player.sendMessage("w: " + player.theoreticalInput.isForward() + " s: " + player.theoreticalInput.isBackward() + " a: " + player.theoreticalInput.isLeft() + " d: " + player.theoreticalInput.isRight());
                 if (player.isUsingItem() && player.getItemUseTime() > 3) {
                     double offsetHorr = player.theoreticalInput.getForwardMotion();
                     double offsetSt = player.theoreticalInput.getStrafe();

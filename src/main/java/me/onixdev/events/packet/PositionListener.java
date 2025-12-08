@@ -13,7 +13,7 @@ import me.onixdev.user.OnixUser;
 
 public class PositionListener extends PacketListenerAbstract {
     public PositionListener() {
-        super(PacketListenerPriority.LOWEST);
+        super(PacketListenerPriority.NORMAL);
     }
 
     @Override
@@ -31,6 +31,7 @@ public class PositionListener extends PacketListenerAbstract {
             user.lastHitTime++;
             if (user.isUsingItem()) user.setItemUseTime(user.getItemUseTime() + 1);
             else user.setItemUseTime(0);
+            user.getMovementContainer().registerIncomingPreHandler(event);
             }
         }
         if (event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
