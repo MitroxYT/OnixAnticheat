@@ -18,20 +18,11 @@ public class PositionListener extends PacketListenerAbstract {
     }
     @Override
     public void onPacketSend(PacketSendEvent event) {
-        if (event.getPacketType() == PacketType.Play.Server.PLAYER_POSITION_AND_LOOK) {
-            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
-            if (user != null) {
-                user.getTeleportContainer().handleOut(event);
-            }
-        }
     }
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
         if (event.getPacketType() == PacketType.Play.Client.TELEPORT_CONFIRM) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
-            if (user != null) {
-                user.getTeleportContainer().handleIn(event);
-            }
         }
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
             WrapperPlayClientPlayerFlying flying = new WrapperPlayClientPlayerFlying(event);
@@ -39,7 +30,6 @@ public class PositionListener extends PacketListenerAbstract {
             if (user != null && user.hasConfirmPlayState()) {
             Location location = flying.getLocation();
             boolean rotation = flying.hasRotationChanged();
-            user.getTeleportContainer().handleIn(event);
             if (rotation) user.getRotationContainer().handle(location.getYaw(),location.getPitch());
             user.getMovementContainer().handleFlying(event,flying);
             user.handleEvent(new TickEvent(TickEvent.Target.FLYING));

@@ -14,7 +14,7 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
         if (event.getPacketType() == PacketType.Play.Client.PONG || event.getPacketType() == PacketType.Play.Client.WINDOW_CONFIRMATION) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
-                user.getConnectionContainer().handleIn(event);
+                user.getConnectionContainer().handlein(event);
             }
         }
     }
@@ -23,7 +23,7 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
         if (event.getPacketType() == PacketType.Play.Server.PING || event.getPacketType() == PacketType.Play.Server.WINDOW_CONFIRMATION) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
-                user.getConnectionContainer().handleOut(event);
+                user.getConnectionContainer().handleout(event);
             }
         }
     }

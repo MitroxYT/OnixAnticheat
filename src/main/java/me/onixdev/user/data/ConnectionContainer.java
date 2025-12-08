@@ -7,158 +7,157 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.netty.channel.ChannelHelper;
 import com.github.retrooper.packetevents.protocol.ConnectionState;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPong;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientWindowConfirmation;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerPing;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerWindowConfirmation;
 import lombok.Getter;
+import me.onixdev.check.impl.player.badpackets.BadPacketC;
 import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.math.Pair;
 import me.onixdev.util.net.LagTask;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConnectionContainer {
     private final OnixUser user;
     private final boolean ping = PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_17_1);
+    private long transactionPing;
+    public long lastTransSent = 0;
+    public long lastTransReceived = 0;
+
     public ConnectionContainer(OnixUser user) {
         this.user = user;
     }
-    private int transaction = ThreadLocalRandom.current().nextInt(150,900);
     @Getter
-    private final AtomicInteger transSent = new AtomicInteger(0);
-    @Getter
-    private final AtomicInteger transReceived = new AtomicInteger(0);
-    private final List<LagTask> transTasks = new ArrayList<>();
-    private long lastSent, lastReceived;
-
-    @Getter
-    private final Deque<Long> transSentTimes = new ArrayDeque<>();
-
-    public void sendTransaction(boolean runInEventLoop) {
-        if (user.getUser().getDecoderState() != ConnectionState.PLAY) return;
-        if (runInEventLoop) {
-            runInEventLoop(() -> user.getUser().writePacket(ping ? new WrapperPlayServerPing(transaction) :new WrapperPlayServerWindowConfirmation(0, (short) transaction, false)));
-        } else {
-            user.getUser().writePacket(ping ? new WrapperPlayServerPing(transaction) :new WrapperPlayServerWindowConfirmation(0, (short) transaction, false));
-        }
-    }
-
-
-    public void runInEventLoop(Runnable runnable) {
-        ChannelHelper.runInEventLoop(user.getUser().getChannel(),runnable);
-    }
+    private long playerClockAtLeast = System.nanoTime();
+    public final Queue<Pair<Short, Long>> transactionsSent = new ConcurrentLinkedQueue<>();
+    public final Set<Short> didWeSendThatTrans = ConcurrentHashMap.newKeySet();
+    private final AtomicInteger transactionIDCounter = new AtomicInteger(0);
+    public final AtomicInteger lastTransactionSent = new AtomicInteger(0);
+    public final AtomicInteger lastTransactionReceived = new AtomicInteger(0);
 
 
 
-    public void handleOut(PacketSendEvent event) {
-        if (event.getPacketType() == PacketType.Play.Server.WINDOW_CONFIRMATION) {
-            handleServerTransaction(new WrapperPlayServerWindowConfirmation(event));
-            lastSent = System.currentTimeMillis();
-        }
-        if (event.getPacketType() == PacketType.Play.Server.PING) {
-            handleServerTransaction(new WrapperPlayServerPing(event));
-            lastSent = System.currentTimeMillis();
-        }
-    }
-
-    public void handleIn(PacketReceiveEvent event) {
-        if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
-            Long lastSentTime = transSentTimes.peek();
-        }
-
+    public void handlein(PacketReceiveEvent event) {
         if (event.getPacketType() == PacketType.Play.Client.WINDOW_CONFIRMATION) {
-            handleClientTransaction(new WrapperPlayClientWindowConfirmation(event));
-            lastReceived = System.currentTimeMillis();
+            WrapperPlayClientWindowConfirmation transaction = new WrapperPlayClientWindowConfirmation(event);
+            short id = transaction.getActionId();
+
+            if (id >= 0 && TransactionResponse(id)) ;
         }
+
         if (event.getPacketType() == PacketType.Play.Client.PONG) {
-            handleClientTransaction(new WrapperPlayClientPong(event));
-            lastReceived = System.currentTimeMillis();
+            WrapperPlayClientPong pong = new WrapperPlayClientPong(event);
+
+
+            int id = pong.getId();
+            if (id == (short) id) {
+                short shortID = ((short) id);
+                if (TransactionResponse(shortID));
+            }
         }
+
     }
 
+    public void handleout(PacketSendEvent event) {
+        if (event.getPacketType() == PacketType.Play.Server.WINDOW_CONFIRMATION) {
+            WrapperPlayServerWindowConfirmation confirmation = new WrapperPlayServerWindowConfirmation(event);
+            short id = confirmation.getActionId();
+            if (id >= 0) {
+                if (didWeSendThatTrans.remove(id)) {
+                    transactionsSent.add(new Pair<>(id, System.nanoTime()));
+                    lastTransactionSent.getAndIncrement();
+                }
+            }
+        }
+
+        if (event.getPacketType() == PacketType.Play.Server.PING) {
+            WrapperPlayServerPing pong = new WrapperPlayServerPing(event);
+            int id = pong.getId();
+            if (id == (short) id) {
+                Short shortID = ((short) id);
+                if (didWeSendThatTrans.remove(shortID)) {
+                    transactionsSent.add(new Pair<>(shortID, System.nanoTime()));
+                    lastTransactionSent.getAndIncrement();
+                }
+            }
+        }
+    }
     public void sendTransaction() {
-        this.sendTransaction(false);
-    }
-    public void handleServerTransaction(WrapperPlayServerPing wrapper) {
-        if (wrapper.getId() != transaction) {
-            return;
-        }
-        transSent.incrementAndGet();
-        transSentTimes.add(System.currentTimeMillis());
-        user.debug("srvping");
+        sendTransaction(false);
     }
 
-    public void handleServerTransaction(WrapperPlayServerWindowConfirmation wrapper) {
-        if (wrapper.getActionId() != transaction) {
-            return;
-        }
-        transSent.incrementAndGet();
-        transSentTimes.add(System.currentTimeMillis());
-    }
-    public void handleClientTransaction(WrapperPlayClientPong wrapper) {
-        if (wrapper.getId() != transaction) {
+    public void sendTransaction(boolean async) {
+
+        if ((System.nanoTime() - getPlayerClockAtLeast()) > 15e9) {
             return;
         }
 
-        Long sentTime = transSentTimes.poll();
-        if (sentTime != null) {
-            //long responseTime = System.currentTimeMillis() - sentTime;
-        }
+        lastTransSent = System.currentTimeMillis();
+        short transactionID = (short) ((transactionIDCounter.getAndIncrement() & 0x7FFF));
+        try {
 
-
-        int currentTrans = transReceived.incrementAndGet();
-        if (!transTasks.isEmpty()) {
-            for (LagTask task : transTasks) {
-                if (task.getTransaction() == currentTrans) {
-                    task.getTask().run();
-                    transTasks.remove(task);
-                }
+            PacketWrapper<?> packet;
+            if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_17)) {
+                packet = new WrapperPlayServerPing(transactionID);
+            } else {
+                packet = new WrapperPlayServerWindowConfirmation((byte) 0, transactionID, false);
             }
-        }
-        user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
-    }
-    public void handleClientTransaction(WrapperPlayClientWindowConfirmation wrapper) {
-        if (wrapper.getActionId() != transaction) {
-            return;
-        }
 
-        Long sentTime = transSentTimes.poll();
-        int currentTrans = transReceived.incrementAndGet();
-        if (!transTasks.isEmpty()) {
-            for (LagTask task : transTasks) {
-                if (task.getTransaction() == currentTrans) {
-                    task.getTask().run();
-                    transTasks.remove(task);
-                }
+            if (async) {
+                ChannelHelper.runInEventLoop(user.getUser().getChannel(), () -> {
+                    addTransactionSend(transactionID);
+                    user.getUser().writePacket(packet);
+                });
+            } else {
+                addTransactionSend(transactionID);
+                user.getUser().writePacket(packet);
             }
+        } catch (Exception ignored) {
         }
-        user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
     }
 
-    public void scheduleTrans(int offset, Runnable runnable) {
-        int scheduledTrans = transSent.get() + offset;
+    public void addTransactionSend(short id) {
+        didWeSendThatTrans.add(id);
+    }
 
-        if (transReceived.get() >= scheduledTrans) {
-            runnable.run();
-            return;
+    public boolean TransactionResponse(short id) {
+        Pair<Short, Long> data = null;
+        boolean hasID = false;
+        int skipped = 0;
+        for (Pair<Short, Long> iterator : transactionsSent) {
+            if (iterator.getX() == id) {
+                hasID = true;
+                break;
+            }
+            skipped++;
         }
 
-        transTasks.add(new LagTask(scheduledTrans, runnable));
-    }
+        if (hasID) {
+            if (skipped >  0 && user.getServerTickSinceJoin() > 20) user.getCheck(BadPacketC.class).fail("skipped: " + skipped);
 
-    public void confirmPre(Runnable runnable) {
-        this.scheduleTrans(0, runnable);
-    }
-    public void confirmPost(Runnable runnable) {
-        this.scheduleTrans(1, runnable);
-    }
+            do {
+                data = transactionsSent.poll();
+                if (data == null)
+                    break;
 
-    public int getLastTransactionSent() {
-        return transSent.get();
+                lastTransactionReceived.incrementAndGet();
+                lastTransReceived = System.currentTimeMillis();
+                transactionPing = (System.nanoTime() - data.getY());
+                playerClockAtLeast = data.getY();
+            } while (data.getX() != id);
+
+        }
+
+        return data != null;
     }
 
 }

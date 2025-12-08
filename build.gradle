@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id("com.gradleup.shadow") version "9.1.0"
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'me.onixdevb'
@@ -34,13 +35,14 @@ dependencies {
 // https://mvnrepository.com/artifact/net.kyori/adventure-text-serializer-legacy
    // compileOnly('net.kyori:adventure-text-serializer-legacy:4.17.0')
     implementation(project(":api"))
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
-
+kotlin {
+    jvmToolchain(15)
+}
 def targetJavaVersion = 15
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }

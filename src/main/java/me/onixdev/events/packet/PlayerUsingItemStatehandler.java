@@ -44,10 +44,8 @@ public class PlayerUsingItemStatehandler extends PacketListenerAbstract {
                             return;
                         }
                     }
-                    user.getConnectionContainer().confirmPre(()-> {
                         user.setUsingHand(useItem.getHand());
                         user.setUsingItem(usable);
-                    });
                 }
             }
         }

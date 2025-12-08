@@ -43,6 +43,7 @@ import java.util.function.Predicate;
 
 public class OnixUser implements IOnixUser {
     public int currentTick;
+    @Getter
     private int serverTickSinceJoin;
     public double food;
     @Getter
@@ -69,8 +70,6 @@ public class OnixUser implements IOnixUser {
     private final BrigingContainer brigingContainer;
     @Getter
     private final MovementContainer movementContainer;
-    @Getter
-    private final TeleportContainer teleportContainer;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
@@ -101,7 +100,6 @@ public class OnixUser implements IOnixUser {
         connectionContainer = new ConnectionContainer(this);
         brigingContainer = new BrigingContainer(this);
         movementContainer = new MovementContainer(this);
-        teleportContainer = new TeleportContainer(this);
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
@@ -174,7 +172,6 @@ public class OnixUser implements IOnixUser {
                                 if (value instanceof Byte) {
                                     byte b = (Byte) value;
                                     sendTransaction();
-                                    connectionContainer.confirmPost(() -> {
                                         if (b == 1) {
                                             setUsingHand(InteractionHand.MAIN_HAND);
                                             setUsingItem(true);
@@ -188,7 +185,6 @@ public class OnixUser implements IOnixUser {
                                             setUsingItem(false);
                                         }else {
                                         }
-                                    });
                                 } else {
                                 }
                             }
@@ -236,7 +232,6 @@ public class OnixUser implements IOnixUser {
                 return;
             }
             sendTransaction();
-            connectionContainer.confirmPost(()-> {
                 PotionType potionType = removeEntityEffect.getPotionType();
                 if (potionType == PotionTypes.SPEED) {
                     this.speedBoost = 0;
@@ -245,7 +240,6 @@ public class OnixUser implements IOnixUser {
                 } else if (potionType == PotionTypes.JUMP_BOOST) {
                     this.jumpBoost = 0;
                 }
-            });
         }
     }
 
