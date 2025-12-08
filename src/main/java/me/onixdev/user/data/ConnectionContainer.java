@@ -28,7 +28,9 @@ public class ConnectionContainer {
         this.user = user;
     }
     private int transaction = ThreadLocalRandom.current().nextInt(150,900);
+    @Getter
     private final AtomicInteger transSent = new AtomicInteger(0);
+    @Getter
     private final AtomicInteger transReceived = new AtomicInteger(0);
     private final List<LagTask> transTasks = new ArrayList<>();
     private long lastSent, lastReceived;
@@ -57,6 +59,10 @@ public class ConnectionContainer {
             handleServerTransaction(new WrapperPlayServerWindowConfirmation(event));
             lastSent = System.currentTimeMillis();
         }
+        if (event.getPacketType() == PacketType.Play.Server.PING) {
+            handleServerTransaction(new WrapperPlayServerPing(event));
+            lastSent = System.currentTimeMillis();
+        }
     }
 
     public void handleIn(PacketReceiveEvent event) {
@@ -77,12 +83,19 @@ public class ConnectionContainer {
     public void sendTransaction() {
         this.sendTransaction(false);
     }
+    public void handleServerTransaction(WrapperPlayServerPing wrapper) {
+        if (wrapper.getId() != transaction) {
+            return;
+        }
+        transSent.incrementAndGet();
+        transSentTimes.add(System.currentTimeMillis());
+        user.debug("srvping");
+    }
 
     public void handleServerTransaction(WrapperPlayServerWindowConfirmation wrapper) {
         if (wrapper.getActionId() != transaction) {
             return;
         }
-
         transSent.incrementAndGet();
         transSentTimes.add(System.currentTimeMillis());
     }
@@ -98,10 +111,12 @@ public class ConnectionContainer {
 
 
         int currentTrans = transReceived.incrementAndGet();
-        for (LagTask task : transTasks) {
-            if (task.getTransaction() == currentTrans) {
-                task.getTask().run();
-                transTasks.remove(task);
+        if (!transTasks.isEmpty()) {
+            for (LagTask task : transTasks) {
+                if (task.getTransaction() == currentTrans) {
+                    task.getTask().run();
+                    transTasks.remove(task);
+                }
             }
         }
         user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
@@ -113,10 +128,12 @@ public class ConnectionContainer {
 
         Long sentTime = transSentTimes.poll();
         int currentTrans = transReceived.incrementAndGet();
-        for (LagTask task : transTasks) {
-            if (task.getTransaction() == currentTrans) {
-                task.getTask().run();
-                transTasks.remove(task);
+        if (!transTasks.isEmpty()) {
+            for (LagTask task : transTasks) {
+                if (task.getTransaction() == currentTrans) {
+                    task.getTask().run();
+                    transTasks.remove(task);
+                }
             }
         }
         user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));

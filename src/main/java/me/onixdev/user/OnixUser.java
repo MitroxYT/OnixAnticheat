@@ -21,10 +21,7 @@ import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.manager.CheckManager;
-import me.onixdev.user.data.BrigingContainer;
-import me.onixdev.user.data.ConnectionContainer;
-import me.onixdev.user.data.MovementContainer;
-import me.onixdev.user.data.RotationContainer;
+import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
 import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
@@ -72,6 +69,8 @@ public class OnixUser implements IOnixUser {
     private final BrigingContainer brigingContainer;
     @Getter
     private final MovementContainer movementContainer;
+    @Getter
+    private final TeleportContainer teleportContainer;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
@@ -102,6 +101,7 @@ public class OnixUser implements IOnixUser {
         connectionContainer = new ConnectionContainer(this);
         brigingContainer = new BrigingContainer(this);
         movementContainer = new MovementContainer(this);
+        teleportContainer = new TeleportContainer(this);
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
