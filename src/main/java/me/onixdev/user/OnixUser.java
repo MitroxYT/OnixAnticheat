@@ -4,14 +4,15 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.attribute.Attributes;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityDataType;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityEffect;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerRemoveEntityEffect;
-import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateAttributes;
+import com.github.retrooper.packetevents.wrapper.play.server.*;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import lombok.Getter;
@@ -25,7 +26,9 @@ import me.onixdev.user.data.ConnectionContainer;
 import me.onixdev.user.data.MovementContainer;
 import me.onixdev.user.data.RotationContainer;
 import me.onixdev.util.alert.AlertManager;
+import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
+import me.onixdev.util.net.EntityStatuses;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
@@ -52,7 +55,7 @@ public class OnixUser implements IOnixUser {
     @Getter
     private final String name;
     @Getter
-    private final int id;
+    private int id;
     @Getter@Setter
     private boolean alertsEnabled,verboseEnabled;
     @Getter
@@ -92,7 +95,6 @@ public class OnixUser implements IOnixUser {
         this.user = user;
         this.uuid = this.user.getUUID();
         this.name = this.user.getName();
-        this.id = this.user.getEntityId();
         alertManager = new AlertManager(this);
         this.player = Bukkit.getPlayer(this.uuid);
         checks = CheckManager.loadChecks(this);
@@ -124,6 +126,9 @@ public class OnixUser implements IOnixUser {
         }
         serverTickSinceJoin++;
         if (serverTickSinceJoin % 3 == 0) {
+            if (player != null) {
+                id = player.getEntityId();
+            }
             sendTransaction();
         }
     }
@@ -145,6 +150,29 @@ public class OnixUser implements IOnixUser {
     }
     public void onSend(PacketSendEvent event) {
         if (player == null) return;
+        if (event.getPacketType() == PacketType.Play.Server.ENTITY_STATUS)  {
+            WrapperPlayServerEntityStatus wrapperPlayServerEntityStatus = new WrapperPlayServerEntityStatus(event);
+            if (wrapperPlayServerEntityStatus.getEntityId() == id) {
+                int status = wrapperPlayServerEntityStatus.getStatus();
+                debug("status: " + wrapperPlayServerEntityStatus.getStatus());
+                if (status == EntityStatuses.BREAK_SHIELD) {
+                    setUsingItem(false);
+                }
+            }
+        }
+        if (event.getPacketType() == PacketType.Play.Server.ENTITY_METADATA) {
+            WrapperPlayServerEntityMetadata wrapperPlayServerEntityMetadata = new WrapperPlayServerEntityMetadata(event);
+            if (wrapperPlayServerEntityMetadata.getEntityId() == id) {
+                for (EntityData<?> data : wrapperPlayServerEntityMetadata.getEntityMetadata()) {
+
+                    EntityDataType<?> type = data.getType();
+                    if (type == EntityDataTypes.PARTICLE || type == EntityDataTypes.PARTICLES) return;
+                    BukkitNms.getIndex(wrapperPlayServerEntityMetadata.getEntityMetadata(),8);
+                    debug("ind: " + data.getIndex() + " val: " + data.getValue() + " type: " + type);
+                }
+
+            }
+        }
         if (event.getPacketType() == PacketType.Play.Server.UPDATE_ATTRIBUTES) {
             WrapperPlayServerUpdateAttributes updateAttributes = new WrapperPlayServerUpdateAttributes(event);
 

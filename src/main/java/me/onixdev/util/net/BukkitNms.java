@@ -1,6 +1,7 @@
 package me.onixdev.util.net;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.item.type.ItemType;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import lombok.experimental.UtilityClass;
@@ -20,6 +21,13 @@ public class BukkitNms {
 
 
 
+    public static EntityData<?> getIndex(List<EntityData<?>> objects, int index) {
+        for (EntityData<?> object : objects) {
+            if (object.getIndex() == index) return object;
+        }
+
+        return null;
+    }
 
     public void resetBukkitItemUsage(@Nullable Player player) {
         if (player != null && resetActiveBukkitItem.test(player)) {

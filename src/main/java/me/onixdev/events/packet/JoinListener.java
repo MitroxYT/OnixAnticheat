@@ -16,7 +16,7 @@ public class JoinListener extends PacketListenerAbstract {
         if (event.getPacketType() == PacketType.Login.Server.LOGIN_SUCCESS) {
             event.getTasksAfterSend().add(() -> OnixAnticheat.INSTANCE.getPlayerDatamanager().add(event.getUser()));
         }
-        if (event.getPacketType() == PacketType.Play.Server.UPDATE_ATTRIBUTES ||  event.getPacketType() == PacketType.Play.Server.ENTITY_EFFECT ||  event.getPacketType() == PacketType.Play.Server.REMOVE_ENTITY_EFFECT) {
+        if (event.getPacketType() == PacketType.Play.Server.UPDATE_ATTRIBUTES ||  event.getPacketType() == PacketType.Play.Server.ENTITY_EFFECT ||  event.getPacketType() == PacketType.Play.Server.REMOVE_ENTITY_EFFECT || event.getPacketType() == PacketType.Play.Server.ENTITY_STATUS || event.getPacketType() == PacketType.Play.Server.ENTITY_METADATA) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
                 user.onSend(event);
