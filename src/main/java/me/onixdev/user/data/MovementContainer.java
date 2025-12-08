@@ -11,6 +11,7 @@ import me.onixdev.util.math.VanillaMath;
 import me.onixdev.util.net.ClientInput;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 public class MovementContainer {
@@ -54,8 +55,8 @@ public class MovementContainer {
 
     private double motionX, motionZ;
     private double distance = Double.MAX_VALUE;
-
-
+    @Getter
+    private Location setbackLocation;
     private boolean usingItem, sprinting, jump, slowdown, fastMath;
     public MovementContainer(OnixUser user) {
         this.user = user;
@@ -90,9 +91,25 @@ public class MovementContainer {
 
         }
     }
+    public void OnBukkit(PlayerMoveEvent event) {
+        if (this.user.getBukkitPlayer() != null) {
+            boolean onGround = clientOnGround;
+            Location setBackLocation = event.getFrom();
+            if (onGround&&setbackticks > 5) {
+                setbackLocation = setBackLocation;
+            }
+            ++setbackticks;
+        }
+    }
 
     public boolean isLastLastClientGround() {
         return lastLastClientGround;
+    }
+    public void setback() {
+        if (setbackLocation != null) {
+            Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), ()-> user.getBukkitPlayer().teleport(setbackLocation));
+            setbackticks = 0;
+        }
     }
 
     public void setLastLastClientGround(boolean lastLastClientGround) {

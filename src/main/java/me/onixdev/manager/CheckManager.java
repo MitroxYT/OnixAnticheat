@@ -12,6 +12,7 @@ import me.onixdev.check.impl.player.badpackets.BadPacketA;
 import me.onixdev.check.impl.player.badpackets.BadPacketB;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
+import me.onixdev.check.impl.player.inventory.InventoryC;
 import me.onixdev.check.impl.player.scaffold.ScaffoldA;
 import me.onixdev.user.OnixUser;
 
@@ -60,7 +61,7 @@ public class CheckManager
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
         CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, BadPacketA.class, BadPacketB.class, NoslowA.class,ScaffoldA.class,
-                InventoryA.class, AutoTotemA.class, InventoryB.class
+                InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
         };
 
     }

@@ -16,6 +16,10 @@ public class RotationContainer {
     public void handle(double yaw, double pitch) {
         lastYaw = this.yaw;
         lastPitch = this.pitch;
+        if (user.getMovementContainer().getSetbackLocation() != null) {
+            user.getMovementContainer().getSetbackLocation().setYaw((float) yaw);
+            user.getMovementContainer().getSetbackLocation().setPitch((float) pitch);
+        }
         this.yaw = yaw;
         this.pitch = pitch;
         lastDeltaYaw = deltaYaw;

@@ -52,7 +52,7 @@ public class ClientInput implements IClientInput {
         return sprint;
     }
     public boolean hasInput() {
-        return forward || backward || left || right || jump || shift || sprint;
+        return forward || backward || left || right;
     }
 
 

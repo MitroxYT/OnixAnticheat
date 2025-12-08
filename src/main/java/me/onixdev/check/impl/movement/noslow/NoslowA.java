@@ -24,7 +24,7 @@ public class NoslowA extends Check {
                     if (Math.abs(offsetHorr) > 0.1970 || Math.abs(offsetSt) > 0.1970) {
                         //     if (lastTickNoslow) {
                         if (++buffer > 3) {
-                            fail("of: " + offsetHorr + ", strafe: " + offsetHorr);
+                            failAndSetback("of: " + offsetHorr + ", strafe: " + offsetHorr);
 //                            BukkitNMS.resetBukkitItemUsage(player);
                             //setback();
                         }

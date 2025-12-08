@@ -87,7 +87,15 @@ public class Check implements ICheck {
     public boolean isExperimental() {
         return stage !=null && stage == CheckStage.EXPERIMENTAL;
     }
-
+    public boolean failAndSetback(Object debug) {
+        if (!shouldFlag()) return false;
+        OnixAnticheat.INSTANCE.getAlertExecutor().run(()-> {
+            ++vl;
+            executeCommands(debug.toString());
+            if (vl > setbackVL && setback) player.getMovementContainer().setback();
+        });
+        return true;
+    }
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
         OnixAnticheat.INSTANCE.getAlertExecutor().run(()-> {
