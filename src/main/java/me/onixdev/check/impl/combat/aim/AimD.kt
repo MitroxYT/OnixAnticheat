@@ -15,7 +15,7 @@ class AimD(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim
                 //Спасибо Mojang за такую ахуенную калькуляцию сенсы
                 // У меня при ровно 100.0 сенсе кратные дельты ровно и меня фолсят кое какие ач
                 // У друга при 200 сенсы сенса улетает до 269
-                if (sens < 0 || sens > 269) {
+                if (sens < 0 || sens > 267) {
                     if (++buffer > maxBuffer) {
                         val form = String.format("%.5f", sens)
                         fail(form)
