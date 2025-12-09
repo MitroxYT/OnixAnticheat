@@ -9,6 +9,7 @@ public class CheckBuilder {
     private String checkName,type,description;
     @Getter
     private double maxBuffer = 10;
+    @Getter double decay = 0.05;
     @Getter
     private CheckStage checkStage;
     public static CheckBuilder create() {
@@ -23,6 +24,11 @@ public class CheckBuilder {
         this.maxBuffer = buffer;
         return this;
     }
+    public CheckBuilder setDecay(double decay) {
+        this.decay = decay;
+        return this;
+    }
+
     public CheckBuilder setCheckName(String checkName) {
         this.checkName = checkName;
         return this;

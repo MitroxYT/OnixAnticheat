@@ -42,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -75,7 +76,7 @@ public class OnixUser implements IOnixUser {
     @Getter
     private final MovementContainer movementContainer;
     @Getter
-    private PlayerInventory inventory;
+    private final PlayerInventory inventory;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
@@ -90,7 +91,7 @@ public class OnixUser implements IOnixUser {
     public static final @Nullable Consumer<Player> resetActiveBukkitItem;
     public static final @Nullable Predicate<Player> isUsingBukkitItem;
     @Getter
-    private double walkSpeed = 0.10000000149011612D;
+    private final double walkSpeed = 0.10000000149011612D;
     @Getter
     private int jumpBoost, speedBoost, slowness;
 
@@ -118,6 +119,22 @@ public class OnixUser implements IOnixUser {
     public void sendMessage(String message) {
         if (player == null) user.sendMessage(message);
         else player.sendMessage(message);
+    }
+
+    @Override
+    public double getSensitivity() {
+        return rotationContainer.getFinalSensitivity();
+    }
+
+    @Override
+    public Optional<Object> getValue(String name) {
+        switch (name.toLowerCase()) {
+            case "food" -> {return Optional.of(food);}
+            case "usingitem" -> {return Optional.of(isUsingItem);}
+            case "hitticks" -> {return Optional.of(lastHitTime);}
+
+        }
+        return Optional.empty();
     }
 
     public Player getBukkitPlayer() {
@@ -170,7 +187,7 @@ public class OnixUser implements IOnixUser {
 
                     EntityDataType<?> type = data.getType();
                     if (type == EntityDataTypes.PARTICLE || type == EntityDataTypes.PARTICLES) return;
-                    EntityData using =  BukkitNms.getIndex(wrapperPlayServerEntityMetadata.getEntityMetadata(),8);
+                    EntityData<?> using =  BukkitNms.getIndex(wrapperPlayServerEntityMetadata.getEntityMetadata(),8);
                     if (using != null) {
                         if (using.getValue() != null) {
                             Object value = using.getValue();

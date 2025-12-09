@@ -6,6 +6,7 @@ import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.check.impl.combat.aim.AimA;
 import me.onixdev.check.impl.combat.aim.AimB;
 import me.onixdev.check.impl.combat.aim.AimC;
+import me.onixdev.check.impl.combat.aim.AimD;
 import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
 import me.onixdev.check.impl.movement.noslow.NoslowTick;
 import me.onixdev.check.impl.player.autototem.AutoTotemA;
@@ -62,7 +63,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, BadPacketA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, BadPacketA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
                 InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
         };
 

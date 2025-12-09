@@ -10,6 +10,10 @@
         <module name="OnixAnticheat.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="15" />
+    <bytecodeTargetLevel target="15">
+      <module name="ExampleApiUsage" target="1.8" />
+      <module name="ExampleApiUsage.main" target="1.8" />
+      <module name="ExampleApiUsage.test" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

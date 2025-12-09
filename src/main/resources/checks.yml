@@ -4,7 +4,7 @@ checks:
     a:
       enabled: true
       setbackVL: 1
-      setback: true
+      setback: false
       maxbuffer: 5
       commands:
         - "2:2 [alert]"
@@ -25,6 +25,15 @@ checks:
       commands:
         - "2:2 [alert]"
         - "500:100 kick %player% TimerA"
+    d:
+      enabled: true
+      setbackVL: 1
+      setback: true
+      maxbuffer: 5
+      decay: 0.25
+      commands:
+        - "2:2 [alert]"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#1) %id% -s"
   aura:
     a:
       enabled: true

@@ -2,10 +2,7 @@ package me.onixdev.util.math;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @UtilityClass
 public class MathUtil {
@@ -127,5 +124,42 @@ public class MathUtil {
 
     public static float sqrt_float(float value) {
         return (float) Math.sqrt(value);
+    }
+
+    public static long getGcd(long current, long previous) {
+        return previous <= 16384L ? current : getGcd(previous, current % previous);
+    }
+
+    public static double getGcd(double a, double b) {
+        if (a < b) {
+            return getGcd(b, a);
+        } else {
+            return Math.abs(b) < 0.001D ? a : getGcd(b, a - Math.floor(a / b) * b);
+        }
+    }
+    public static int getMode(Collection<? extends Number> array) {
+        int mode = (Integer) array.toArray()[0];
+        int maxCount = 0;
+        Iterator var3 = array.iterator();
+
+        while (var3.hasNext()) {
+            Number value = (Number) var3.next();
+            int count = 1;
+            Iterator var6 = array.iterator();
+
+            while (var6.hasNext()) {
+                Number i = (Number) var6.next();
+                if (i.equals(value)) {
+                    ++count;
+                }
+
+                if (count > maxCount) {
+                    mode = (Integer) value;
+                    maxCount = count;
+                }
+            }
+        }
+
+        return mode;
     }
 }
