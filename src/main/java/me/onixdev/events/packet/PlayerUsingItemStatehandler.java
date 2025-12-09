@@ -67,7 +67,6 @@ public class PlayerUsingItemStatehandler extends PacketListenerAbstract {
                             user.getInventory().setServerRequiestSetHeldItem(false);
                         }
                     }
-                    user.getInventory().swapSlot();
                 }
                 user.getInventory().setLastHeldItemSlot(user.getInventory().getHeldItemSlot());
                 user.getInventory().setHeldItemSlot(useItem.getSlot());
@@ -75,12 +74,15 @@ public class PlayerUsingItemStatehandler extends PacketListenerAbstract {
                 user.handleEvent(playerHeldItemChangeEvent);
                 if (playerHeldItemChangeEvent.isCancelled()) {
                     event.setCancelled(true);
+                    return;
                 }
+            }
+            if (user != null) {
+                // Нужно чтобы митиграция слотов не убирало состояние использования
+                if (!user.getInventory().getServerRequiestSetHeldItem()) user.setUsingItem(false);
                 user.getInventory().setServerRequiestSetHeldItem(false);
             }
-            if (user != null && !user.isUsingBukkitItem()) {
-               user.setUsingItem(false);
-            }
+
         }
         if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {
             WrapperPlayClientPlayerDigging digging = new WrapperPlayClientPlayerDigging(event);

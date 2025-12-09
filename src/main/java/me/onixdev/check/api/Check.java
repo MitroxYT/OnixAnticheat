@@ -1,5 +1,6 @@
 package me.onixdev.check.api;
 
+import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import me.onixdev.OnixAnticheat;
 import me.onixdev.event.api.BaseEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.alert.id.PunishIdSystem;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -31,7 +33,7 @@ public class Check implements ICheck {
     public double setbackVL;
     private boolean setback;
 
-    public Check(OnixUser player,CheckBuilder builder) {
+    public Check(OnixUser player, CheckBuilder builder) {
         this.player = player;
         if (builder != null) {
             checkName = builder.getCheckName();
@@ -85,42 +87,49 @@ public class Check implements ICheck {
 
     @Override
     public boolean isExperimental() {
-        return stage !=null && stage == CheckStage.EXPERIMENTAL;
+        return stage != null && stage == CheckStage.EXPERIMENTAL;
     }
+
     public boolean failAndSetback(Object debug) {
         if (!shouldFlag()) return false;
-        OnixAnticheat.INSTANCE.getAlertExecutor().run(()-> {
+        OnixAnticheat.INSTANCE.getAlertExecutor().run(() -> {
             ++vl;
             executeCommands(debug.toString());
             if (vl > setbackVL && setback) player.getMovementContainer().setback();
         });
         return true;
     }
+
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
-        OnixAnticheat.INSTANCE.getAlertExecutor().run(()-> {
+        OnixAnticheat.INSTANCE.getAlertExecutor().run(() -> {
             ++vl;
             executeCommands(debug.toString());
         });
         return true;
     }
-    public void onEvent(BaseEvent event) {}
+
+    public void onEvent(BaseEvent event) {
+    }
 
     private boolean shouldFlag() {
         return enabled;
     }
-    public boolean shouldCancel() {return cancel;}
+
+    public boolean shouldCancel() {
+        return cancel;
+    }
 
     public void reload() {
-        OnixAnticheat.INSTANCE.getReloadExecuter().run(()->{
+        OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
             YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
-          //  if (noCheck) return;
+            //  if (noCheck) return;
             enabled = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".enabled");
-            cancel  = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".cancel");
+            cancel = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".cancel");
             setback = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setback");
             setbackVL = checkscfg.getInt("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setbackvl");
-            decay = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".decay",0.25);
-            double tempbuff = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".maxbuffer",-1);
+            decay = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".decay", 0.25);
+            double tempbuff = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".maxbuffer", -1);
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
             if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;
             else maxbuffer = tempbuff;
@@ -140,27 +149,28 @@ public class Check implements ICheck {
             }
         });
     }
+
     private void executeCommands(String verbose) {
-        player.getAlertManager().handleVerbose(player,this,verbose);
+        player.getAlertManager().handleVerbose(player, this, verbose);
         for (ConfigVlCommandData cmdData : commands) {
             if (vl >= cmdData.getVl() && (vl - cmdData.getVl()) % cmdData.getAlertInterval() == 0) {
-                String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%",OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
+                String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
                 if (command.startsWith("[alert]")) {
-                    player.getAlertManager().handleAlert(player,this,verbose);
+                    player.getAlertManager().handleAlert(player, this, verbose);
                 } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
-                 else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
+                else if (command.startsWith("[invalidItem]")) player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
+                else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
                     try {
                         String punishid = PunishIdSystem.GenerateId(player.getName());
-                        PunishIdSystem.LogPunish(player,this,punishid,verbose);
-                        String finalcmd = command.replace("%id%",punishid);
-                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(),finalcmd));
+                        PunishIdSystem.LogPunish(player, this, punishid, verbose);
+                        String finalcmd = command.replace("%id%", punishid);
+                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalcmd));
                     } catch (IllegalArgumentException e) {
-                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
                         throw new RuntimeException(e);
                     }
-                }
-                else {
-                    Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () ->  Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+                } else {
+                    Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
                 }
             }
         }

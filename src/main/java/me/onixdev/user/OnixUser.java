@@ -28,6 +28,8 @@ import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
 import me.onixdev.util.net.EntityStatuses;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
@@ -376,5 +378,10 @@ public class OnixUser implements IOnixUser {
         baseValue += baseValue * slowness * -0.15000000596046448D;
 
         return baseValue;
+    }
+
+    public void disconnect(String string) {
+        Component component = MiniMessage.miniMessage().deserialize(string).compact();
+        user.sendPacket(new WrapperPlayServerDisconnect(component));
     }
 }

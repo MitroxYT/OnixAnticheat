@@ -146,9 +146,9 @@ public class ConnectionContainer {
 
             do {
                 data = transactionsSent.poll();
+                if (skipped == 0) user.handleEvent(new TickEvent(TickEvent.Target.TRANSACTION));
                 if (data == null)
                     break;
-
                 lastTransactionReceived.incrementAndGet();
                 lastTransReceived = System.currentTimeMillis();
                 transactionPing = (System.nanoTime() - data.getY());

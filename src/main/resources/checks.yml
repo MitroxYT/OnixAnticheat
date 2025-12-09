@@ -59,6 +59,23 @@ checks:
       commands:
         - "1:1 [alert]"
         - "10:1 kick %player% %prefix% invalid using item (A)"
+    d:
+      enabled: true
+      setbackVL: 10
+      setback: false
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "1:1 [alert]"
+        - "1:1 [invalidItem]"
+    e:
+      enabled: true
+      setbackVL: 10
+      setback: false
+      maxbuffer: 5
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "1:1 [alert]"
+       # - "1:1 [invalidItem]"
   inventory:
     a:
       enabled: true
