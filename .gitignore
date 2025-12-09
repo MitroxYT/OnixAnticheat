@@ -11,3 +11,5 @@ build/libs/OnixAnticheat-1.0.jar
 /build
 /abobatests/build
 /build/kotlin
+.idea
+.gradle
