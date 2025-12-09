@@ -10,4 +10,5 @@ public interface ICheck {
     double getMaxBuffer();
     boolean isEnabled();
     boolean isExperimental();
+    boolean fail(Object debug);
 }

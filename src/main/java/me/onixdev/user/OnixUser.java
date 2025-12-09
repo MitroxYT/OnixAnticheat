@@ -13,6 +13,7 @@ import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
+import dev.onixac.api.check.ICheck;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import lombok.Getter;
@@ -252,6 +253,16 @@ public class OnixUser implements IOnixUser {
         this.mitigateType = type;
         this.timetoMitigate = time;
         lastMitigateTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public ICheck getCheck(String name, String type) {
+        for (Check check: checks) {
+            if (name.equals(check.getName()) && type.equals(check.getType())) {
+                return check;
+            }
+        }
+        return null;
     }
 
     public void debug(Object object) {

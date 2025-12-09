@@ -99,7 +99,7 @@ public class Check implements ICheck {
         });
         return true;
     }
-
+    @Override
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
         OnixAnticheat.INSTANCE.getAlertExecutor().run(() -> {
