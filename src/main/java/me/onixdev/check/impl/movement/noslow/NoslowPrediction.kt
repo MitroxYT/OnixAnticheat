@@ -16,14 +16,11 @@ class NoslowPrediction(user: OnixUser) : Check(user, CheckBuilder.create().setCh
                 val offsetHorr = player.theoreticalInput.forwardMotion
                 val offsetSt = player.theoreticalInput.strafe
                 if (abs(offsetHorr) > 0.1970 || abs(offsetSt) > 0.1970) {
-                    //     if (lastTickNoslow) {
                     if (++buffer > 3) {
                         failAndSetback("of: $offsetHorr, strafe: $offsetHorr buf: $buffer")
-                        //                            BukkitNMS.resetBukkitItemUsage(player);
-                        //setback();
                     }
                     if (player.ItemUseTime > 6 && !lastTickNoslow) {
-                        player.getCheck(NoslowTick::class.java).fail("time: ${player.ItemUseTime}")
+                        player.getCheck(NoslowTick::class.java).failAndSetback("time: ${player.ItemUseTime}")
                     }
                     lastTickNoslow = true
                 } else if (buffer > 0) {

@@ -23,6 +23,7 @@ import me.onixdev.event.api.BaseEvent;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
+import me.onixdev.util.items.PlayerInventory;
 import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
 import me.onixdev.util.net.EntityStatuses;
@@ -46,7 +47,6 @@ public class OnixUser implements IOnixUser {
     @Getter
     private int serverTickSinceJoin;
     public double food;
-    @Getter
     private final User user;
     @Getter
     private final UUID uuid;
@@ -70,6 +70,8 @@ public class OnixUser implements IOnixUser {
     private final BrigingContainer brigingContainer;
     @Getter
     private final MovementContainer movementContainer;
+    @Getter
+    private PlayerInventory inventory;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     @Getter@Setter
@@ -99,6 +101,7 @@ public class OnixUser implements IOnixUser {
         connectionContainer = new ConnectionContainer(this);
         brigingContainer = new BrigingContainer(this);
         movementContainer = new MovementContainer(this);
+        inventory = new PlayerInventory(this);
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
@@ -255,6 +258,11 @@ public class OnixUser implements IOnixUser {
     public boolean isUsingBukkitItem() {
         return isUsingBukkitItem != null && this.getBukkitPlayer() != null && isUsingBukkitItem.test(this.getBukkitPlayer());
     }
+
+    public User getUser() {
+        return user;
+    }
+
     public <T extends Check> T getCheck(Class<T> check) {
         for (Check check1 : getChecks()) {
             if (check1.getClass() == check) {

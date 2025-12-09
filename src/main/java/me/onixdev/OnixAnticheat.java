@@ -19,6 +19,7 @@ import me.onixdev.util.thread.impl.ReloadTaskExecutor;
 import me.onixdev.util.thread.impl.TaskExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
@@ -54,6 +55,7 @@ public class OnixAnticheat {
         }
     }
     public void onDisable() {
+        playerDatamanager.getAllData().clear();
         alertExecutor.shutdown();
         reloadExecuter.shutdown();
         taskExecutor.shutdown();

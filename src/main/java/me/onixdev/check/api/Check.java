@@ -147,7 +147,8 @@ public class Check implements ICheck {
                 String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%",OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
                 if (command.startsWith("[alert]")) {
                     player.getAlertManager().handleAlert(player,this,verbose);
-                } else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
+                } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
+                 else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
                     try {
                         String punishid = PunishIdSystem.GenerateId(player.getName());
                         PunishIdSystem.LogPunish(player,this,punishid,verbose);
