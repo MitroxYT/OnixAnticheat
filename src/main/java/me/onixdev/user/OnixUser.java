@@ -14,6 +14,7 @@ import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
 import dev.onixac.api.check.ICheck;
+import dev.onixac.api.check.custom.CheckMaker;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import lombok.Getter;
@@ -21,6 +22,7 @@ import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import dev.onixac.api.events.api.BaseEvent;
+import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
@@ -262,6 +264,12 @@ public class OnixUser implements IOnixUser {
             }
         }
         return null;
+    }
+
+    @Override
+    public void registerCheck(CheckMaker checkMaker,Class<?> check) {
+        Check customCheck = new Check(this,CheckBuilder.fromCheckMaker(checkMaker));
+        getChecks().add(customCheck);
     }
 
     public void debug(Object object) {

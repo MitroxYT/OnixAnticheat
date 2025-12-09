@@ -2,6 +2,7 @@ package me.onixdev.manager;
 
 
 import me.onixdev.check.api.Check;
+import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.check.impl.combat.aim.AimA;
 import me.onixdev.check.impl.combat.aim.AimB;
 import me.onixdev.check.impl.combat.aim.AimC;
@@ -43,6 +44,9 @@ public class CheckManager
             }
         }
         return checkList;
+    }
+    public void CreateCheck(OnixUser data) {
+        data.getChecks().add(new Check(data, CheckBuilder.create().setCheckName("aaaa").setType("A")));
     }
     public static void setup() {
         for (final Class<? extends Check> clazz : CheckManager.CHECKS) {

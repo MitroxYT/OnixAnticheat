@@ -1,6 +1,7 @@
 package me.onixdev.check.api;
 
 import dev.onixac.api.check.CheckStage;
+import dev.onixac.api.check.custom.CheckMaker;
 import lombok.Getter;
 
 public class CheckBuilder {
@@ -13,6 +14,11 @@ public class CheckBuilder {
     public static CheckBuilder create() {
         return new CheckBuilder();
     }
+
+    public static CheckBuilder fromCheckMaker(CheckMaker checkMaker) {
+        return create().setCheckName(checkMaker.getCheckName()).setType(checkMaker.getType()).build();
+    }
+
     public CheckBuilder setBuffer(double buffer) {
         this.maxBuffer = buffer;
         return this;
