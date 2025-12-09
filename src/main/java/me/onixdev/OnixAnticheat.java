@@ -2,6 +2,7 @@ package me.onixdev;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import dev.onixac.api.OnixAPI;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
@@ -44,6 +45,7 @@ public class OnixAnticheat {
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
         CheckManager.setup();
+        OnixAPI.INSTANCE.setPlayerDataManager(playerDatamanager);
         registerPacketEvents();
         registerBukkitEvents();
         runShedulers();

@@ -8,4 +8,5 @@ public interface IOnixUser {
     void mitigate(String type,double time);
     ICheck getCheck(String name,String type);
     void registerCheck(CheckMaker checkMaker);
+    void sendMessage(String message);
 }
