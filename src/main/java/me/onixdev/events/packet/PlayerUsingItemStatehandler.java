@@ -13,6 +13,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientUs
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.impl.player.badpackets.BadPacketA;
 import me.onixdev.check.impl.player.badpackets.BadPacketB;
+import me.onixdev.event.impl.PlayerHeldItemChangeEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.items.ItemUtil;
 import me.onixdev.util.items.MaterialsUtil;
@@ -70,6 +71,11 @@ public class PlayerUsingItemStatehandler extends PacketListenerAbstract {
                 }
                 user.getInventory().setLastHeldItemSlot(user.getInventory().getHeldItemSlot());
                 user.getInventory().setHeldItemSlot(useItem.getSlot());
+                PlayerHeldItemChangeEvent playerHeldItemChangeEvent = new PlayerHeldItemChangeEvent(user.getInventory().getHeldItemSlot(),user.getInventory().getLastHeldItemSlot());
+                user.handleEvent(playerHeldItemChangeEvent);
+                if (playerHeldItemChangeEvent.isCancelled()) {
+                    event.setCancelled(true);
+                }
                 user.getInventory().setServerRequiestSetHeldItem(false);
             }
             if (user != null && !user.isUsingBukkitItem()) {
