@@ -3,10 +3,9 @@ package me.onixdev.check.impl.player.inventory;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.user.OnixUser;
-import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 

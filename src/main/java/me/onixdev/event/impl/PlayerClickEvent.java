@@ -1,11 +1,10 @@
 package me.onixdev.event.impl;
 
 import lombok.Getter;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,7 @@
 package me.onixdev.event.impl;
 
 import lombok.Getter;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 
 public class TickEvent extends BaseEvent {
     @Getter

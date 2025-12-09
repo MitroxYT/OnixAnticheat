@@ -7,10 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.alert.id.PunishIdSystem;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 

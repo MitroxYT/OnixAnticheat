@@ -1,6 +1,6 @@
 package me.onixdev.event.impl;
 
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 
 public class PlayerPickEvent extends BaseEvent {
 }

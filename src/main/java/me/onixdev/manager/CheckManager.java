@@ -30,7 +30,6 @@ public class CheckManager
     }
     public static final List<Constructor<?>> CONSTRUCTORS;
     public static final Class<? extends Check>[] CHECKS;
-    private static Map<Class<? extends Check>, Check> checkMap = new HashMap<>();
 
     public static List<Check> loadChecks(final OnixUser data) {
         final List<Check> checkList = new ArrayList<Check>();

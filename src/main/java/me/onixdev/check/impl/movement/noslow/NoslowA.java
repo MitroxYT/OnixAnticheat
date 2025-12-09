@@ -2,7 +2,7 @@ package me.onixdev.check.impl.movement.noslow;
 
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 

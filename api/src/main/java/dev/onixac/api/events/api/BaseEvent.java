@@ -1,4 +1,4 @@
-package me.onixdev.event.api;
+package dev.onixac.api.events.api;
 
 public class BaseEvent {
     private boolean cancelled = false;

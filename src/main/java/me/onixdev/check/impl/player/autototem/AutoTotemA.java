@@ -5,7 +5,7 @@ import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
-import me.onixdev.event.api.BaseEvent;
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.PlayerCloseInventoryEvent;
 import me.onixdev.event.impl.PlayerPacketClickEvent;
 import me.onixdev.event.impl.TickEvent;
