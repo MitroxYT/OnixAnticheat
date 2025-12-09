@@ -7,5 +7,5 @@ public interface IOnixUser {
     String getName();
     void mitigate(String type,double time);
     ICheck getCheck(String name,String type);
-    void registerCheck(CheckMaker checkMaker,Class<?> check);
+    void registerCheck(CheckMaker checkMaker);
 }

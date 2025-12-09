@@ -267,7 +267,7 @@ public class OnixUser implements IOnixUser {
     }
 
     @Override
-    public void registerCheck(CheckMaker checkMaker,Class<?> check) {
+    public void registerCheck(CheckMaker checkMaker) {
         Check customCheck = new Check(this,CheckBuilder.fromCheckMaker(checkMaker));
         getChecks().add(customCheck);
     }
