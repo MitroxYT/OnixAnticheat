@@ -19,7 +19,7 @@ class NoslowPrediction(user: OnixUser) : Check(user, CheckBuilder.create().setCh
                     if (++buffer > 3) {
                         failAndSetback("of: $offsetHorr, strafe: $offsetHorr buf: $buffer")
                     }
-                    if (player.ItemUseTime > 6 && !lastTickNoslow) {
+                    if (player.ItemUseTime > 6 && !lastTickNoslow && player.movementContainer.deltaXZ > 0.09) {
                         player.getCheck(NoslowTick::class.java).failAndSetback("time: ${player.ItemUseTime}")
                     }
                     lastTickNoslow = true

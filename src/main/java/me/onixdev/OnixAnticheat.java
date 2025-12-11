@@ -24,7 +24,6 @@ import org.bukkit.entity.Player;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
-    @Getter
     private OnixPlugin plugin;
     @Getter
     private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor;
@@ -84,4 +83,7 @@ public class OnixAnticheat {
         playerDatamanager.getAllData().forEach(OnixUser::tick);
     }
 
+    public OnixPlugin getPlugin() {
+        return plugin;
+    }
 }

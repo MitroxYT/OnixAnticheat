@@ -17,6 +17,7 @@ import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -67,15 +68,10 @@ public class OnixUser implements IOnixUser {
     private Player player;
     @Getter
     private List<Check> checks = new ArrayList<>();
-    @Getter
     private final RotationContainer rotationContainer;
-    @Getter
     private final ConnectionContainer connectionContainer;
-    @Getter
     private final BrigingContainer brigingContainer;
-    @Getter
     private final MovementContainer movementContainer;
-    @Getter
     private final PlayerInventory inventory;
     @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
@@ -290,6 +286,7 @@ public class OnixUser implements IOnixUser {
     }
 
     public void debug(Object object) {
+        if (player == null) return;
         player.sendMessage(object.toString());
     }
     public boolean isUsingBukkitItem() {
@@ -418,5 +415,30 @@ public class OnixUser implements IOnixUser {
     public void disconnect(String string) {
         Component component = MiniMessage.miniMessage().deserialize(string).compact();
         user.sendPacket(new WrapperPlayServerDisconnect(component));
+    }
+
+    
+    public RotationContainer getRotationContainer() {
+        return this.rotationContainer;
+    }
+
+    
+    public ConnectionContainer getConnectionContainer() {
+        return this.connectionContainer;
+    }
+
+    
+    public BrigingContainer getBrigingContainer() {
+        return this.brigingContainer;
+    }
+
+    
+    public MovementContainer getMovementContainer() {
+        return this.movementContainer;
+    }
+
+    
+    public PlayerInventory getInventory() {
+        return this.inventory;
     }
 }

@@ -6,8 +6,8 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPickItem;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientSettings;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.event.impl.PlayerCloseInventoryEvent;
 import me.onixdev.event.impl.PlayerPacketClickEvent;
@@ -27,11 +27,14 @@ public class ActionListener extends PacketListenerAbstract {
                 user.getBrigingContainer().handlePacket(event);
             }
         }
+        if (event.getPacketType() == PacketType.Play.Client.CLIENT_SETTINGS) {
+            WrapperPlayClientSettings settings = new WrapperPlayClientSettings(event);
+        }
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
             WrapperPlayClientClickWindow wrapperPlayClientClickWindow = new WrapperPlayClientClickWindow(event);
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser().getUUID());
             if (user != null) {
-                PlayerPacketClickEvent event1 = new PlayerPacketClickEvent(wrapperPlayClientClickWindow.getWindowId(),wrapperPlayClientClickWindow.getWindowClickType(),wrapperPlayClientClickWindow.getCarriedItemStack());
+                PlayerPacketClickEvent event1 = new PlayerPacketClickEvent(wrapperPlayClientClickWindow.getWindowId(), wrapperPlayClientClickWindow.getWindowClickType(), wrapperPlayClientClickWindow.getCarriedItemStack());
                 user.handleEvent(event1);
                 if (event1.isCancelled()) {
                     event.setCancelled(true);

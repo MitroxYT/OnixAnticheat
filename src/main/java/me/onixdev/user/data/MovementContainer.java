@@ -31,7 +31,7 @@ public class MovementContainer {
     private double deltaY;
     @Getter
     private double deltaZ;
-    private double deltaXZ;
+    public double deltaXZ;
     @Getter
     @Setter
     private double calcylatedDeltaXZ;

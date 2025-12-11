@@ -8,7 +8,7 @@ import java.util.*;
 public class MathUtil {
 
 
-    public double calculateVariationScore(List<Double> deltas) {
+    public static double calculateVariationScore(List<Double> deltas) {
         double mean = calculateMean(deltas);
         double stdDev = calculateStdDev(deltas, mean);
 
@@ -19,7 +19,7 @@ public class MathUtil {
         return (cv - 0.1) / 1.9;
     }
 
-    public double calculateDistributionScore(List<Double> deltas) {
+    public static double calculateDistributionScore(List<Double> deltas) {
 
         int[] bins = new int[5];
         double min = Collections.min(deltas);
@@ -44,7 +44,7 @@ public class MathUtil {
         return entropy / maxEntropy;
     }
 
-    private double calculateLinearityScore(List<Double> deltas) {
+    public static double calculateLinearityScore(List<Double> deltas) {
 
         double sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
         int n = deltas.size();
@@ -110,8 +110,13 @@ public class MathUtil {
     private double calculateMean(List<Double> values) {
         return values.stream().mapToDouble(Double::doubleValue).average().orElse(0);
     }
-
-    private double calculateStdDev(List<Double> values, double mean) {
+    public static double calculateStdDev(List<Double> values) {
+        double variance = values.stream()
+                .mapToDouble(v -> Math.pow(v - 2, 2))
+                .average().orElse(0);
+        return Math.sqrt(variance);
+    }
+    public double calculateStdDev(List<Double> values, double mean) {
         double variance = values.stream()
                 .mapToDouble(v -> Math.pow(v - mean, 2))
                 .average().orElse(0);
@@ -136,6 +141,64 @@ public class MathUtil {
         } else {
             return Math.abs(b) < 0.001D ? a : getGcd(b, a - Math.floor(a / b) * b);
         }
+    }
+    public static float calculateGCDError(float delta) {
+        if (Math.abs(delta) < 0.0001f) {
+            return 0.0f;
+        }
+
+        float gcd = calculateGCD(Math.abs(delta));
+        float remainder = Math.abs(delta) % gcd;
+        return remainder / gcd;
+    }
+
+    private static float calculateGCD(float a) {
+        a = Math.abs(a);
+        float b = 0.1f;
+
+        while (b > 0.0001f) {
+            float temp = a % b;
+            a = b;
+            b = temp;
+        }
+
+        return a;
+    }
+    public static double getSE(final Collection<? extends Number> numberSet) {
+        if (numberSet == null || numberSet.isEmpty()) return 0.0;
+
+        Map<Double, Integer> counts = new HashMap<>();
+        for (Number n : numberSet) {
+            double v = n.doubleValue();
+            counts.put(v, counts.getOrDefault(v, 0) + 1);
+        }
+        double n = numberSet.size();
+        double result = 0.0;
+
+        for (int c : counts.values()) {
+            double frequency = c / n;
+            result -= frequency * (Math.log(frequency) / Math.log(2));
+        }
+
+        return result;
+    }
+
+
+    public static double jerk(List<Double> data) {
+        if (data.size() < 4) {
+            return 0.0D;
+        }
+        double total = 0.0D;
+
+        for (int i = 3; i < data.size(); i++) {
+            total += Math.abs(
+                    data.get(i)
+                            - 3.0F * data.get(i - 1)
+                            + 3.0F * data.get(i - 2)
+                            - data.get(i - 3)
+            );
+        }
+        return total / (data.size() - 3);
     }
     public static int getMode(Collection<? extends Number> array) {
         int mode = (Integer) array.toArray()[0];

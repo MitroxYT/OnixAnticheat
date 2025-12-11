@@ -3,10 +3,11 @@ package me.onixdev.user.data;
 import lombok.Getter;
 import me.onixdev.event.impl.PlayerRotationEvent;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.math.GraphUtil;
 import me.onixdev.util.math.MathUtil;
 import me.onixdev.util.net.MinecraftValues;
 
-import java.util.ArrayDeque;
+import java.util.*;
 
 @Getter
 public class RotationContainer {
@@ -17,7 +18,12 @@ public class RotationContainer {
     private double mcpSensitivity;
     private final ArrayDeque<Integer> sensitivitySamples;
     private int sensitivity;
-
+    private long lastSmooth = 0L;
+    private long lastHighRate = 0L;
+    private final List<Double> yawSamples = new ArrayList<>();
+    private final List<Double> pitchSamples = new ArrayList<>();
+    private boolean cinematicRotation = false;
+    private int isTotallyNotCinematic = 0;
     public RotationContainer(final OnixUser user) {
         this.user = user;
         this.sensitivitySamples = new ArrayDeque<Integer>();
@@ -40,6 +46,7 @@ public class RotationContainer {
         if (this.deltaPitch > 0.1 && this.deltaPitch < 25.0f) {
             this.processSensitivity();
         }
+        processCinematic();
         //Тут будет просчет сенсы и тд
         PlayerRotationEvent postRotation = new PlayerRotationEvent(true, yaw, pitch, deltaYaw, deltaPitch);
         user.handleEvent(postRotation);
@@ -59,9 +66,81 @@ public class RotationContainer {
             this.sensitivitySamples.clear();
         }
     }
+    private void processCinematic() {
+        long now = System.currentTimeMillis();
+
+        double differenceYaw = Math.abs(deltaYaw - lastDeltaYaw);
+        double differencePitch = Math.abs(deltaPitch - lastDeltaPitch);
+
+        double joltYaw = Math.abs(differenceYaw - deltaYaw);
+        double joltPitch = Math.abs(differencePitch - deltaPitch);
+
+        boolean cinematic = (now - lastHighRate > 250L) || (now - lastSmooth < 9000L);
+
+        if (joltYaw > 1.0 && joltPitch > 1.0) {
+            lastHighRate = now;
+        }
+
+        yawSamples.add((double) deltaYaw);
+        pitchSamples.add((double) deltaPitch);
+
+        if (yawSamples.size() >= 20 && pitchSamples.size() >= 20) {
+            Set<Double> shannonYaw = new HashSet<>();
+            Set<Double> shannonPitch = new HashSet<>();
+            List<Double> stackYaw = new ArrayList<>();
+            List<Double> stackPitch = new ArrayList<>();
+
+            for (Double yawSample : yawSamples) {
+                stackYaw.add(yawSample);
+                if (stackYaw.size() >= 10) {
+                    shannonYaw.add(MathUtil.getSE(stackYaw));
+                    stackYaw.clear();
+                }
+            }
+
+            for (Double pitchSample : pitchSamples) {
+                stackPitch.add(pitchSample);
+                if (stackPitch.size() >= 10) {
+                    shannonPitch.add(MathUtil.getSE(stackPitch));
+                    stackPitch.clear();
+                }
+            }
+
+            if (shannonYaw.size() != 1 || shannonPitch.size() != 1 ||
+                    !shannonYaw.toArray()[0].equals(shannonPitch.toArray()[0])) {
+                isTotallyNotCinematic = 20;
+            }
+
+            GraphUtil.GraphResult resultsYaw = GraphUtil.INSTANCE.getGraph(yawSamples);
+            GraphUtil.GraphResult resultsPitch = GraphUtil.INSTANCE.getGraph(pitchSamples);
+
+            int negativesYaw = resultsYaw.getNegatives();
+            int negativesPitch = resultsPitch.getNegatives();
+            int positivesYaw = resultsYaw.getPositives();
+            int positivesPitch = resultsPitch.getPositives();
+
+            if (positivesYaw > negativesYaw || positivesPitch > negativesPitch) {
+                lastSmooth = now;
+            }
+
+            yawSamples.clear();
+            pitchSamples.clear();
+        }
+
+        if (isTotallyNotCinematic > 0) {
+            isTotallyNotCinematic--;
+            cinematicRotation = false;
+        } else {
+            cinematicRotation = cinematic;
+        }
+
+    }
 
     public boolean hasValidSensitivity() {
         return this.sensitivity > 0 && this.sensitivity < 200;
+    }
+    public boolean isCinematicRotation() {
+        return cinematicRotation;
     }
 
     public boolean hasValidSensitivityNormalaized() {
