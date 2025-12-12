@@ -16,10 +16,20 @@ public class PlayerDatamanager implements IPlayerDataManager {
         data.put(user.getUUID(),new OnixUser(user));
     }
     public OnixUser get(UUID uuid) {
-        return data.get(uuid);
+        try {
+            return data.get(uuid);
+        } catch (Exception e) {
+         //   throw new RuntimeException(e);
+        }
+        return null;
     }
     public OnixUser get(User user) {
-        return data.get(user.getUUID());
+        try {
+            return data.get(user.getUUID());
+        } catch (Exception e) {
+           // throw new RuntimeException(e);
+        }
+        return null;
     }
     public void remove(UUID uuid) {
         data.remove(uuid);
