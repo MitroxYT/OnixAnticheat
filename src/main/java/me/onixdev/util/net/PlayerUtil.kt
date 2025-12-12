@@ -27,7 +27,7 @@ object PlayerUtil {
             currentPos.add(direction.clone().multiply(stepSize))
             val block = currentPos.block
 
-            if (block != null && !block.type.isAir) {
+            if (!block.type.isAir) {
               return me.onixdev.util.math.Pair(currentStep,block)
             }
             distance += stepSize

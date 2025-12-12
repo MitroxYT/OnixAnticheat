@@ -25,7 +25,7 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                     }
                     if (result1.second != null) {
                         player.debug(result1.second.type.name + " 2: " + result1.first)
-                        fail(result.second.type.name)
+                        fail(result1.second.type.name)
                     }
                 }
             }

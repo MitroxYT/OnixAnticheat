@@ -15,14 +15,14 @@ class DataList<T> : LinkedList<T> {
         this.update = update
     }
 
-    override fun add(t: T): Boolean {
+    override fun add(element: T): Boolean {
         if (isCollected) {
             if (this.update) {
                 super.removeFirst()
             } else super.clear()
         }
 
-        return super.add(t)
+        return super.add(element)
     }
 
     val isCollected: Boolean

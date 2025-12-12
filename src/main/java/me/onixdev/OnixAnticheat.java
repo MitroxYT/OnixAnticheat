@@ -27,7 +27,6 @@ public class OnixAnticheat {
     private OnixPlugin plugin;
     @Getter
     private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor;
-    @Getter
     private PlayerDatamanager playerDatamanager;
     @Getter
     private ConfigManager configManager;
@@ -85,5 +84,8 @@ public class OnixAnticheat {
 
     public OnixPlugin getPlugin() {
         return plugin;
+    }
+    public PlayerDatamanager getPlayerDatamanager() {
+        return this.playerDatamanager;
     }
 }

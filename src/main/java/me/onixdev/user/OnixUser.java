@@ -73,9 +73,7 @@ public class OnixUser implements IOnixUser {
     private final BrigingContainer brigingContainer;
     private final MovementContainer movementContainer;
     private final PlayerInventory inventory;
-    @Setter@Getter
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
-    @Getter@Setter
     public boolean isUsingItem = false;
     public int ItemUseTime;
     public int lastHitTime = 100;
@@ -297,6 +295,7 @@ public class OnixUser implements IOnixUser {
         return user;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Check> T getCheck(Class<T> check) {
         for (Check check1 : getChecks()) {
             if (check1.getClass() == check) {
@@ -436,8 +435,24 @@ public class OnixUser implements IOnixUser {
     public MovementContainer getMovementContainer() {
         return this.movementContainer;
     }
+    public void setUsingHand(InteractionHand usingHand) {
+        this.usingHand = usingHand;
+    }
 
-    
+    public InteractionHand getUsingHand() {
+        return this.usingHand;
+    }
+
+    public boolean isUsingItem() {
+        return this.isUsingItem;
+    }
+
+    public void setUsingItem(boolean isUsingItem) {
+        this.isUsingItem = isUsingItem;
+    }
+
+
+
     public PlayerInventory getInventory() {
         return this.inventory;
     }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-@UtilityClass
 public class BukkitNms {
     private static final @NotNull Predicate<@NotNull Player> resetActiveBukkitItem;
 
@@ -29,7 +28,7 @@ public class BukkitNms {
         return null;
     }
 
-    public void resetBukkitItemUsage(@Nullable Player player) {
+    public static void resetBukkitItemUsage(@Nullable Player player) {
         if (player != null && resetActiveBukkitItem.test(player)) {
             // only update if they were using an item to prevent certain issues
             player.updateInventory();
@@ -98,7 +97,6 @@ public class BukkitNms {
                     };
                     break;
                 default:
-                    // cause an exception if these methods don't exist
                     clearActiveItem = Player.class.getMethod("clearActiveItem");
                     getItemInUse = Player.class.getMethod("getItemInUse");
                     resetActiveBukkitItem = player -> {

@@ -16,6 +16,7 @@ public class BrigingContainer {
     public BrigingContainer(OnixUser user) {
         this.user = user;
     }
+    @SuppressWarnings("deprecation")
     public void handlePacket(PacketReceiveEvent event) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
             ++lastPlaceTick;
