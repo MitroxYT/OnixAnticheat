@@ -61,7 +61,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraB.class, AimT.class,BadPacketA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
                 InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
         };
 

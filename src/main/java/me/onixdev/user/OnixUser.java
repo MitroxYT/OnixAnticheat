@@ -8,6 +8,7 @@ import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataType;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
@@ -31,6 +32,7 @@ import me.onixdev.util.items.PlayerInventory;
 import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
 import me.onixdev.util.net.EntityStatuses;
+import me.onixdev.util.net.KickTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -412,6 +414,14 @@ public class OnixUser implements IOnixUser {
     }
 
     public void disconnect(String string) {
+        Component component = MiniMessage.miniMessage().deserialize(string).compact();
+        user.sendPacket(new WrapperPlayServerDisconnect(component));
+    }
+    public void disconnect(KickTypes type, String string) {
+        switch (type) {
+            case InvalidItemUse -> string = user.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>";
+        }
+        OnixAnticheat.INSTANCE.getPlugin().getLogger().info("Disconnecting: " + name + " type: " + type + " debug: " + string);
         Component component = MiniMessage.miniMessage().deserialize(string).compact();
         user.sendPacket(new WrapperPlayServerDisconnect(component));
     }

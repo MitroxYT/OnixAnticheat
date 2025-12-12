@@ -51,7 +51,16 @@ checks:
       decay: 0.25
       commands:
         - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#2) %id% -s"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#3) %id% -s"
+    f:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      maxbuffer: 5
+      decay: 0.25
+      commands:
+        - "2:2 [alert]"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#4) %id% -s"
   aura:
     a:
       enabled: true

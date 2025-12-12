@@ -16,6 +16,7 @@ import me.onixdev.user.OnixUser;
 import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.AlertTaskExecutor;
+import me.onixdev.util.thread.impl.PacketProccesingExecuter;
 import me.onixdev.util.thread.impl.ReloadTaskExecutor;
 import me.onixdev.util.thread.impl.TaskExecutor;
 import org.bukkit.Bukkit;
@@ -26,20 +27,25 @@ public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
     private OnixPlugin plugin;
     @Getter
-    private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor;
+    private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor,PacketProccesor;
+
     private PlayerDatamanager playerDatamanager;
     @Getter
     private ConfigManager configManager;
     public static boolean noSupportComponentMessage =false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
+    @SuppressWarnings("UnstableApiUsage")
     public void onLoad(OnixPlugin plugin) {
         this.plugin = plugin;
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this.plugin));
+        PacketEvents.getAPI().getSettings().kickOnPacketException(true);
+        PacketEvents.getAPI().getSettings().checkForUpdates(false);
         PacketEvents.getAPI().load();
     }
     public void onEnable() {
         reloadExecuter = new ReloadTaskExecutor();
         alertExecutor = new AlertTaskExecutor();
         taskExecutor = new TaskExecutor();
+        PacketProccesor = new PacketProccesingExecuter();
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
         CheckManager.setup();
@@ -59,7 +65,9 @@ public class OnixAnticheat {
         alertExecutor.shutdown();
         reloadExecuter.shutdown();
         taskExecutor.shutdown();
+        PacketProccesor.shutdown();
         Bukkit.getScheduler().cancelTasks(plugin);
+        PacketEvents.getAPI().terminate();
     }
     private void runShedulers() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin,this::tick,0,1L);
@@ -85,6 +93,11 @@ public class OnixAnticheat {
     public OnixPlugin getPlugin() {
         return plugin;
     }
+
+    public IThreadExecutor getPacketProccesor() {
+        return PacketProccesor;
+    }
+
     public PlayerDatamanager getPlayerDatamanager() {
         return this.playerDatamanager;
     }

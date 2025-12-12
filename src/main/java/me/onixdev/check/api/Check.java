@@ -1,5 +1,6 @@
 package me.onixdev.check.api;
 
+import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
@@ -10,6 +11,7 @@ import me.onixdev.OnixAnticheat;
 import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.alert.id.PunishIdSystem;
+import me.onixdev.util.net.KickTypes;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -110,6 +112,8 @@ public class Check implements ICheck {
 
     public void onEvent(BaseEvent event) {
     }
+    public void onPacketIn(PacketReceiveEvent event) {
+    }
 
     private boolean shouldFlag() {
         return enabled;
@@ -157,7 +161,7 @@ public class Check implements ICheck {
                 if (command.startsWith("[alert]")) {
                     player.getAlertManager().handleAlert(player, this, verbose);
                 } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
-                else if (command.startsWith("[invalidItem]")) player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
+                else if (command.startsWith("[invalidItem]")) player.disconnect(KickTypes.InvalidItemUse,"sss");//player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
                 else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
                     try {
                         String punishid = PunishIdSystem.GenerateId(player.getName());

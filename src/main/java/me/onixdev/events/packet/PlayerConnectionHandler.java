@@ -3,7 +3,9 @@ package me.onixdev.events.packet;
 import com.github.retrooper.packetevents.event.*;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.check.api.Check;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.net.KickTypes;
 
 public class PlayerConnectionHandler extends PacketListenerAbstract {
     public PlayerConnectionHandler() {
@@ -11,6 +13,21 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
     }
     @Override
     public void onPacketReceive(final PacketReceiveEvent event) {
+        try {
+            OnixAnticheat.INSTANCE.getPacketProccesor().run(() -> {
+                OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
+                if (user != null) {
+                    for (Check check : user.getChecks()) check.onPacketIn(event);
+                }
+            });
+        } catch (Exception e) {
+            OnixAnticheat.INSTANCE.getPlugin().getLogger().warning("При обработке пакета: " + event.getPacketType().getName() + " для игрока: " + event.getUser().getName() + " error: " + e.getMessage());
+            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
+            if (user != null) {
+                user.disconnect(KickTypes.InvalidPacket,"<lang:disconnect.timeout>");
+            }
+      //      e.printStackTrace();
+        }
         if (event.getPacketType() == PacketType.Play.Client.PONG || event.getPacketType() == PacketType.Play.Client.WINDOW_CONFIRMATION) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
