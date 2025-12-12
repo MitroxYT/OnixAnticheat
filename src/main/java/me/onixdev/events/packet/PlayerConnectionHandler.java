@@ -2,10 +2,12 @@ package me.onixdev.events.packet;
 
 import com.github.retrooper.packetevents.event.*;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerDisconnect;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.net.KickTypes;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class PlayerConnectionHandler extends PacketListenerAbstract {
     public PlayerConnectionHandler() {
@@ -25,6 +27,10 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
                 user.disconnect(KickTypes.InvalidPacket,"<lang:disconnect.timeout>");
+            }
+            else {
+                event.setCancelled(true);
+                event.getUser().sendPacket(new WrapperPlayServerDisconnect(MiniMessage.miniMessage().deserialize("<red>Invalid Packet Received").compact()));
             }
       //      e.printStackTrace();
         }
