@@ -14,3 +14,4 @@ build/libs/OnixAnticheat-1.0.jar
 \.gradle
 build
 *.html
+/build/kotlin/compileKotlin

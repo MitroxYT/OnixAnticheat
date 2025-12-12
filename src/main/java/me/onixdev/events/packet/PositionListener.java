@@ -9,6 +9,7 @@ import com.github.retrooper.packetevents.protocol.world.Location;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.event.impl.PlayerUseEntityEvent;
 import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 
@@ -46,7 +47,9 @@ public class PositionListener extends PacketListenerAbstract {
                 OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
                 if (user != null && user.hasConfirmPlayState()) {
                     user.lastHitTime = 0;
-                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage")) event.setCancelled(true);
+                    PlayerUseEntityEvent event1 = new PlayerUseEntityEvent(use.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK ? PlayerUseEntityEvent.UseType.ATTACK : PlayerUseEntityEvent.UseType.INTERACT,use.getEntityId());
+                    user.handleEvent(event1);
+                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage") || event1.isCancelled()) event.setCancelled(true);
                 }
             }
         }

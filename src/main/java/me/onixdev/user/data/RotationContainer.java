@@ -12,7 +12,7 @@ import java.util.*;
 @Getter
 public class RotationContainer {
     private final OnixUser user;
-    private double yaw,pitch,lastYaw,lastPitch;
+    public double yaw,pitch,lastYaw,lastPitch;
     private double deltaYaw,deltaPitch,lastDeltaYaw,lastDeltaPitch;
     private double finalSensitivity;
     private double mcpSensitivity;
