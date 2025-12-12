@@ -40,18 +40,18 @@ class AimT(player: OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                 yawSamples.clear()
             }
 
-            if (shortYawSamples.isCollected && shortPitchSamples.isCollected) {
-                val yawLin = MathUtil.calculateLinearityScore(shortYawSamples)
-                val pitchLin = MathUtil.calculateLinearityScore(shortPitchSamples)
-
-                if (yawLin < 0.01 && pitchLin < 0.02 && yawLin > 0.001 && player.lastHitTime < 10) {
-                    fail("High linearity: yaw=$yawLin pitch=$pitchLin")
-                }
-
-                shortYawSamples.clear()
-                shortPitchSamples.clear()
-
-            }
+//            if (shortYawSamples.isCollected && shortPitchSamples.isCollected) {
+//                val yawLin = MathUtil.calculateLinearityScore(shortYawSamples)
+//                val pitchLin = MathUtil.calculateLinearityScore(shortPitchSamples)
+//
+//                if (yawLin < 0.01 && pitchLin < 0.02 && yawLin > 0.0001 && player.lastHitTime < 10) {
+//                    fail("High linearity: yaw=$yawLin pitch=$pitchLin")
+//                }
+//
+//                shortYawSamples.clear()
+//                shortPitchSamples.clear()
+//
+//            }
         }
     }
 }

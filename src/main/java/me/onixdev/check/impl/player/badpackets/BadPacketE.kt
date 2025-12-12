@@ -18,7 +18,7 @@ class BadPacketE(user: OnixUser) :
         }
         if (event is PlayerHeldItemChangeEvent) {
             if (!event.isCancelled) {
-                player.debug("newslot: ${event.newSlot} old: ${event.oldSlot} time $timeFromLastChange")
+//                player.debug("newslot: ${event.newSlot} old: ${event.oldSlot} time $timeFromLastChange")
                 if (timeFromLastChange == 0) {
                     if (++aboba > maxBuffer) {
                         fail("t: e=$timeFromLastChange p=$aboba")
@@ -30,7 +30,7 @@ class BadPacketE(user: OnixUser) :
                 }
             }
             //Спасибо моджанг что сделали когда афк пакет сендиться по идиотски
-            if (player.theoreticalInput.hasInput()) timeFromLastChange = 0
+            if (player.theoreticalInput.hasInput() || player.movementContainer.deltaXZ > 0.09) timeFromLastChange = 0
 
         }
     }

@@ -33,7 +33,8 @@ public class VerboseCommands extends OnixCommandBase {
     public boolean noConsole() {
         return true;
     }
-
+    @Override
+    public String getPermission() {return "onix.verbose";}
     @Override
     public boolean onCommand(@NotNull CommandSender sender, String[] args) {
         Player p = (Player) sender;
