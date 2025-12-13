@@ -36,6 +36,7 @@ import me.onixdev.util.net.KickTypes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -112,6 +113,9 @@ public class OnixUser implements IOnixUser {
         if ((Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
             if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) alertsEnabled = true;
+        }
+        for (Check check : checks) {
+            check.reload();
         }
     }
     public void sendMessage(Component message) {
@@ -288,7 +292,9 @@ public class OnixUser implements IOnixUser {
         this.timetoMitigate = time;
         lastMitigateTime = System.currentTimeMillis();
     }
-
+    public boolean inVehicle() {return player!=null && player.getVehicle() != null;}
+    public boolean isDead() {return player!=null && player.isDead();}
+    public boolean isSpectator() {return player!=null && player.getGameMode() == GameMode.SPECTATOR;}
     @Override
     public ICheck getCheck(String name, String type) {
         for (Check check: checks) {

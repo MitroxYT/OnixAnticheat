@@ -42,7 +42,6 @@ public class Check implements ICheck {
             stage = builder.getCheckStage();
             type = builder.getType();
             maxbuffer = builder.getMaxBuffer();
-            reload();
         }
     }
 
@@ -151,6 +150,12 @@ public class Check implements ICheck {
                 }
             }
         });
+    }
+    public String getCheckPatch() {
+        return "checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT)  + ".";
+    }
+    public YamlConfiguration getCheckConfig() {
+        return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
     }
 
     private void executeCommands(String verbose) {

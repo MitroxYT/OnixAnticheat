@@ -48,7 +48,7 @@ public class MovementContainer {
     private double lastlastz;
     private double lastlasty;
     private double lastlastx;
-    private boolean clientOnGround;
+    public boolean clientOnGround;
     private boolean lastClientOnGround;
     private boolean lastLastClientGround;
     private float moveForward, moveStrafe;

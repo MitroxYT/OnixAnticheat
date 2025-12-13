@@ -8,6 +8,7 @@ import me.onixdev.check.impl.combat.aura.AuraA;
 import me.onixdev.check.impl.combat.aura.AuraB;
 import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
 import me.onixdev.check.impl.movement.noslow.NoslowTick;
+import me.onixdev.check.impl.player.airstuck.AirStuckA;
 import me.onixdev.check.impl.player.autototem.AutoTotemA;
 import me.onixdev.check.impl.player.badpackets.*;
 import me.onixdev.check.impl.player.inventory.InventoryA;
@@ -62,7 +63,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
                 InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
         };
 

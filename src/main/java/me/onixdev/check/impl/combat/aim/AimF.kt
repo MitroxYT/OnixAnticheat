@@ -9,13 +9,15 @@ import kotlin.math.abs
 
 class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("Aim").setType("F").build()) {
     private var lastTickFlagget: Boolean = false
+    private var minFovFactor:Double = Double.MAX_VALUE
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && !event.isPost && player.lastHitTime < 4) {
             var yawDiff: Float = abs(player.rotationContainer.lastYaw - player.rotationContainer.yaw).toFloat()
             if (yawDiff > 180.0f) {
                 yawDiff = 360.0f - yawDiff
             }
-            if (yawDiff > 85 && player.movementContainer.deltaXZ > 0.12) {
+            player.debug("yd: $yawDiff fov: $minFovFactor")
+            if (yawDiff > minFovFactor && player.movementContainer.deltaXZ > 0.12) {
                 if (lastTickFlagget) {
                     fail(String.format("%.5f", yawDiff))
                 }
@@ -23,5 +25,11 @@ class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("A
             }
             else lastTickFlagget = false
         }
+    }
+
+    override fun reload() {
+        minFovFactor = checkConfig.getDouble(checkPatch+"minFov",85.0)
+        println(checkPatch+"minFov" + " fov: " + minFovFactor)
+        super.reload()
     }
 }

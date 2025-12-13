@@ -55,6 +55,7 @@ checks:
     f:
       enabled: true
       setbackVL: 1
+      minFov: 85
       setback: false
       maxbuffer: 5
       decay: 0.25
@@ -153,6 +154,13 @@ checks:
       commands:
         - "2:2 [alert]"
         - "7:7 kick %player% TimerA"
+  AirStuck:
+    a:
+      enabled: true
+      setbackVL: 2
+      setback: true
+      commands:
+        - "1:1 [alert]"
   noslow:
     a:
       enabled: true

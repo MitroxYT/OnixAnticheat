@@ -33,7 +33,7 @@ public class ConnectionContainer {
         this.user = user;
     }
     @Getter
-    private long playerClockAtLeast = System.nanoTime();
+    public long playerClockAtLeast = System.nanoTime();
     public final Queue<Pair<Short, Long>> transactionsSent = new ConcurrentLinkedQueue<>();
     public final Set<Short> didWeSendThatTrans = ConcurrentHashMap.newKeySet();
     private final AtomicInteger transactionIDCounter = new AtomicInteger(0);
