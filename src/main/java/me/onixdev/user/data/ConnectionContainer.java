@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConnectionContainer {
     private final OnixUser user;
     private final boolean ping = PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_17_1);
-    private long transactionPing;
+    private long transactionPing,transactionPingMs;
     public long lastTransSent = 0;
     public long lastTransReceived = 0;
 
@@ -34,6 +34,7 @@ public class ConnectionContainer {
     }
     @Getter
     public long playerClockAtLeast = System.nanoTime();
+    public long lastPlayerClockAtLeast = System.nanoTime();
     public final Queue<Pair<Short, Long>> transactionsSent = new ConcurrentLinkedQueue<>();
     public final Set<Short> didWeSendThatTrans = ConcurrentHashMap.newKeySet();
     private final AtomicInteger transactionIDCounter = new AtomicInteger(0);
@@ -148,7 +149,9 @@ public class ConnectionContainer {
                 lastTransactionReceived.incrementAndGet();
                 lastTransReceived = System.currentTimeMillis();
                 transactionPing = (System.nanoTime() - data.getY());
+                lastPlayerClockAtLeast = playerClockAtLeast;
                 playerClockAtLeast = data.getY();
+                transactionPingMs = (playerClockAtLeast - lastPlayerClockAtLeast) / 1000000L;
             } while (data.getX() != id);
 
         }
