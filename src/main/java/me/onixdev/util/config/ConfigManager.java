@@ -59,7 +59,7 @@ public class ConfigManager {
         var configFiles = Map.of(
                 "config.yml",   1.1,
                 "checks.yml",   1.1,
-                "messages.yml", 1.1
+                "messages.yml", 1.2
         );
 
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
@@ -133,7 +133,10 @@ public class ConfigManager {
     private String prefix = "§7[§bOnixAnticheatAC§7] §8» §7";
     private String alertsformat = "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l.";
     private List<String> hover = List.of("&8«&f[&2&nOnixAnticheatIAN&f]&8»", "&7 &c%player%", "&7 &c%verbose%");
+    public String onAlertsMsg = "%prefix% <gray> alerts <green> on";
+    public String offAlertsMsg = "%prefix% <gray> alerts <green> off";
     private String hoverMsg = "";
+    public boolean enableAlertsOnJoin;
 
 
     private void init() {
@@ -141,6 +144,9 @@ public class ConfigManager {
         alertsformat = MessageUtil.translate(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         hover= messagesconfig.getStringList("hover");
         hoverMsg = MessageUtil.translate(MessageUtil.listToString(hover));
+        onAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
+        offAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
+        enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
     }
 }
 

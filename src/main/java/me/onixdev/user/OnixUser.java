@@ -64,8 +64,13 @@ public class OnixUser implements IOnixUser {
     private int id;
     @Getter@Setter
     private boolean alertsEnabled,verboseEnabled;
-    @Getter
     private final AlertManager alertManager;
+    private boolean checkAlertsTogglingWhileBukkitPlayerNotNull;
+
+    public AlertManager getAlertManager() {
+        return alertManager;
+    }
+
     @Getter
     private Player player;
     @Getter
@@ -103,6 +108,11 @@ public class OnixUser implements IOnixUser {
         brigingContainer = new BrigingContainer(this);
         movementContainer = new MovementContainer(this);
         inventory = new PlayerInventory(this);
+        checkAlertsTogglingWhileBukkitPlayerNotNull = true;
+        if ((Bukkit.getPlayer(this.uuid) != null)) {
+            player = Bukkit.getPlayer(this.uuid);
+            if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) alertsEnabled = true;
+        }
     }
     public void sendMessage(Component message) {
         if (OnixAnticheat.noSupportComponentMessage) {
@@ -147,6 +157,16 @@ public class OnixUser implements IOnixUser {
                 id = player.getEntityId();
             }
             sendTransaction();
+        }
+        if (player != null && checkAlertsTogglingWhileBukkitPlayerNotNull) {
+            if (!player.hasPermission("onix.alerts.join")) {
+                checkAlertsTogglingWhileBukkitPlayerNotNull = false;
+                return;
+            }
+            if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin &&  player.hasPermission("onix.alerts.join")) {
+                alertsEnabled = true;
+                checkAlertsTogglingWhileBukkitPlayerNotNull = false;
+            }
         }
     }
 

@@ -1,5 +1,12 @@
 package me.onixdev.check.impl.combat.aura
 
+import com.github.retrooper.packetevents.event.PacketReceiveEvent
+import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes
+import com.github.retrooper.packetevents.protocol.packettype.PacketType.Play
+import com.github.retrooper.packetevents.protocol.player.GameMode
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity.InteractAction
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -15,19 +22,31 @@ class AuraA(player: OnixUser?) :
     ) {
     private var send = false
     private var last: Long = 0
-    override fun onEvent(event: BaseEvent) {
-        if (event is PlayerUseEntityEvent) {
-            send = true
-        }
-        if (event is TickEvent && event.tickType == TickEvent.Target.FLYING) {
-            val delta = (System.currentTimeMillis() - last).toDouble()
-            if (send) {
-                if (delta > 40 && delta < 120) {
-                    fail("d: $delta")
+    override fun onPacketIn(event: PacketReceiveEvent?) {
+        if (WrapperPlayClientPlayerFlying.isFlying(event!!.packetType)) {
+            val delay: Long = (System.currentTimeMillis() - last)
+            if (this.send) {
+                if (delay in 41..99) {
+                    fail("delay=$delay")
                 }
-                send = false
+
+                this.send = false
             }
-            last = System.currentTimeMillis()
+
+            this.last = System.currentTimeMillis()
+        }
+
+        if (event!!.packetType === Play.Client.INTERACT_ENTITY) {
+            val action = WrapperPlayClientInteractEntity(event)
+            if (action.action != InteractAction.ATTACK) {
+                return
+            }
+
+
+            val delay2: Long = System.currentTimeMillis() - this.last
+            if (delay2 < 10L) {
+                this.send = true
+            }
         }
     }
 }

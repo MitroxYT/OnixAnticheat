@@ -19,8 +19,14 @@ public class AlertManager implements IAlertManager {
 
     @Override
     public void toggleAlerts() {
-        if (user.isAlertsEnabled()) user.setAlertsEnabled(false);
-        else user.setAlertsEnabled(true);
+        if (user.isAlertsEnabled()) {
+            user.setAlertsEnabled(false);
+            user.sendMessage(OnixAnticheat.INSTANCE.getConfigManager().offAlertsMsg.replaceAll("%prefix%",OnixAnticheat.INSTANCE.getConfigManager().getPrefix()));
+        }
+        else {
+            user.setAlertsEnabled(true);
+            user.sendMessage(OnixAnticheat.INSTANCE.getConfigManager().onAlertsMsg.replaceAll("%prefix%",OnixAnticheat.INSTANCE.getConfigManager().getPrefix()));
+        }
     }
 
 
@@ -60,9 +66,10 @@ public class AlertManager implements IAlertManager {
         String finalAlertMsg = alertString.replaceAll("%prefix%", prefix)
                 .replace("%player%", user.getName())
                 .replace("%check_name%", check.getName())
+                .replace("%type%", check.getType().toUpperCase(Locale.ROOT))
                 .replace("%vl%", String.valueOf((int) check.getVl()))
                 .replace("%verbose%", verbose)
-                .replace("%experimental%", false ? " &8(&cЭкспериментальный&8)" : "");
+                .replace("%experimental%", check.isExperimental() ? " *" : "");
         String finalVerboseMsg = hoverMessage.replaceAll("%player%", user.getName())
                 .replace("%check_name%", check.getName().toUpperCase(Locale.ROOT))
                 .replace("%type%", check.getType().toUpperCase(Locale.ROOT))
