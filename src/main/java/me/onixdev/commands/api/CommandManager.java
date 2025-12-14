@@ -1,10 +1,7 @@
 package me.onixdev.commands.api;
 
 import com.google.common.collect.ImmutableList;
-import me.onixdev.commands.impl.AlertsCommand;
-import me.onixdev.commands.impl.MitigateCommand;
-import me.onixdev.commands.impl.ReloadCommand;
-import me.onixdev.commands.impl.VerboseCommands;
+import me.onixdev.commands.impl.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class CommandManager implements TabExecutor {
-    private final List<OnixCommandBase> commands = List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand());
+    private final List<OnixCommandBase> commands = List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand());
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!commandSender.hasPermission("onix.usecommand")) {

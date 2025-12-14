@@ -28,6 +28,7 @@ import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
+import me.onixdev.util.color.MessageUtil;
 import me.onixdev.util.items.PlayerInventory;
 import me.onixdev.util.net.BukkitNms;
 import me.onixdev.util.net.ClientInput;
@@ -67,6 +68,7 @@ public class OnixUser implements IOnixUser {
     private boolean alertsEnabled,verboseEnabled;
     private final AlertManager alertManager;
     private boolean checkAlertsTogglingWhileBukkitPlayerNotNull;
+    private boolean debug;
 
     public AlertManager getAlertManager() {
         return alertManager;
@@ -168,7 +170,6 @@ public class OnixUser implements IOnixUser {
                 return;
             }
             if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin &&  player.hasPermission("onix.alerts.join")) {
-                alertsEnabled = true;
                 checkAlertsTogglingWhileBukkitPlayerNotNull = false;
             }
         }
@@ -313,6 +314,7 @@ public class OnixUser implements IOnixUser {
 
     public void debug(Object object) {
         if (player == null) return;
+        if (!debug) return;
         player.sendMessage(object.toString());
     }
     public boolean isUsingBukkitItem() {
@@ -491,5 +493,13 @@ public class OnixUser implements IOnixUser {
 
     public PlayerInventory getInventory() {
         return this.inventory;
+    }
+
+    public void toggleDebug() {
+        this.debug = !this.debug;
+        sendMessage(MessageUtil.translate("<red> debug = " + debug));
+    }
+    public boolean isDebug() {
+        return this.debug;
     }
 }

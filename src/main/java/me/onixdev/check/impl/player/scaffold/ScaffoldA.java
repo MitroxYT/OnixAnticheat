@@ -18,7 +18,6 @@ public class ScaffoldA extends Check {
             if (!((PlayerRotationEvent) event).isPost()) {
                 if (!player.getBrigingContainer().isBrige() && player.getBrigingContainer().getBrigeTicks() >3 && player.getBrigingContainer().getLastPlaceTick() > 3) return;
                 double dx = ((PlayerRotationEvent) event).getDeltaYaw();
-                player.sendMessage("dx: " + dx + " enb: " + isEnabled());
                 if (dx > 150) {
                     fail("delta: " + dx);
                 }

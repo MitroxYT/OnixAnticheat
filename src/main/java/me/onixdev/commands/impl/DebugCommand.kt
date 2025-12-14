@@ -5,36 +5,36 @@ import me.onixdev.commands.api.OnixCommandBase
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-
-class AlertsCommand : OnixCommandBase("alerts") {
+class DebugCommand : OnixCommandBase("debug") {
     override fun getDescription(): String {
-        return ""
+        return "toggle debug"
     }
 
     override fun getMinArgs(): Int {
         return 0
     }
 
+    override fun getPermission(): String {
+        return "onix.debug"
+    }
+
     override fun getMaxArgs(): Int {
-        return 0
+        return 99
     }
 
     override fun noConsole(): Boolean {
         return true
     }
 
-    override fun getPermission(): String {
-        return "onix.alerts"
-    }
-
-    override fun onCommand(sender: CommandSender, args: Array<String>): Boolean {
+    override fun onCommand(sender: CommandSender, args: Array<out String>?): Boolean {
         val p = sender as Player
         val user = OnixAnticheat.INSTANCE.playerDatamanager[p.uniqueId]
-        user?.alertManager?.toggleAlerts()
+        user?.toggleDebug();
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, args: Array<String>): List<String> {
-        return listOf()
+    override fun onTabComplete(sender: CommandSender?, args: Array<out String>?): MutableList<String> {
+        TODO("Not yet implemented")
     }
+
 }
