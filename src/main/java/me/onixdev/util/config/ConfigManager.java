@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -147,6 +148,10 @@ public class ConfigManager {
         onAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
         offAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
+    }
+
+    public String getUrl() {
+        return "localhost:8080";
     }
 }
 

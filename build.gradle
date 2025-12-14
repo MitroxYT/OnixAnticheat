@@ -30,8 +30,9 @@ dependencies {
     implementation( 'com.github.retrooper:packetevents-spigot:2.9.5')
     implementation( 'com.github.retrooper:packetevents-api:2.9.5')
     implementation("net.kyori:adventure-api:4.17.0")
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
     implementation('net.kyori:adventure-text-minimessage:4.17.0')
-   // implementation(files("/libs/gson-2.8.0.jar"))
+    implementation(files("/libs/protocol-1.0-SNAPSHOT.jar"))
     implementation("com.google.code.gson:gson:2.11.0")
 // https://mvnrepository.com/artifact/net.kyori/adventure-text-serializer-legacy
    // compileOnly('net.kyori:adventure-text-serializer-legacy:4.17.0')

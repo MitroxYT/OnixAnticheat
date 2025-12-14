@@ -12,26 +12,32 @@ import me.onixdev.events.bukkit.PlayerReleaseUseItemState;
 import me.onixdev.events.packet.*;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
+import me.onixdev.manager.cloudsystem.CloudManager;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
-import me.onixdev.util.thread.impl.AlertTaskExecutor;
-import me.onixdev.util.thread.impl.PacketProccesingExecuter;
-import me.onixdev.util.thread.impl.ReloadTaskExecutor;
-import me.onixdev.util.thread.impl.TaskExecutor;
+import me.onixdev.util.thread.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
     private OnixPlugin plugin;
     @Getter
     private IThreadExecutor alertExecutor,reloadExecuter,taskExecutor;
-    private IThreadExecutor PacketProccesor;
+    private IThreadExecutor PacketProccesor,cloudCheckExecuter;
 
     private PlayerDatamanager playerDatamanager;
+    private int ticksFromStart;
     @Getter
     private ConfigManager configManager;
+    private CloudManager cloudManager;
+    public CloudManager getCloudManager() {
+        return cloudManager;
+    }
     public static boolean noSupportComponentMessage =false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
     @SuppressWarnings("UnstableApiUsage")
     public void onLoad(OnixPlugin plugin) {
@@ -46,6 +52,7 @@ public class OnixAnticheat {
         alertExecutor = new AlertTaskExecutor();
         taskExecutor = new TaskExecutor();
         PacketProccesor = new PacketProccesingExecuter();
+        cloudCheckExecuter = new CloudCheckExecuter();
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
         CheckManager.setup();
@@ -59,6 +66,12 @@ public class OnixAnticheat {
             pCommand.setExecutor(handler);
             pCommand.setTabCompleter(handler);
         }
+        try {
+            cloudManager = new CloudManager(new URI("ws://"+configManager.getUrl()));
+            cloudManager.handleTick(true);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void onDisable() {
         playerDatamanager.getAllData().clear();
@@ -66,6 +79,7 @@ public class OnixAnticheat {
         reloadExecuter.shutdown();
         taskExecutor.shutdown();
         PacketProccesor.shutdown();
+        cloudCheckExecuter.shutdown();
         Bukkit.getScheduler().cancelTasks(plugin);
         PacketEvents.getAPI().terminate();
     }
@@ -87,6 +101,8 @@ public class OnixAnticheat {
        noSupportComponentMessage= PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
     }
     private void tick() {
+        cloudManager.handleTick(false);
+        ticksFromStart++;
         playerDatamanager.getAllData().forEach(OnixUser::tick);
     }
 
@@ -97,8 +113,15 @@ public class OnixAnticheat {
     public IThreadExecutor getPacketProccesor() {
         return PacketProccesor;
     }
+    public int getTicksFromStart() {
+        return ticksFromStart;
+    }
 
     public PlayerDatamanager getPlayerDatamanager() {
         return this.playerDatamanager;
+    }
+
+    public IThreadExecutor getCloudCheckExecuter() {
+        return cloudCheckExecuter;
     }
 }

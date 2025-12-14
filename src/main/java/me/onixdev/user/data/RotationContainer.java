@@ -1,7 +1,9 @@
 package me.onixdev.user.data;
 
 import lombok.Getter;
+import me.onixdev.OnixAnticheat;
 import me.onixdev.event.impl.PlayerRotationEvent;
+import me.onixdev.onixcloud.impl.c2.PlayerRotationC2Packet;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.math.GraphUtil;
 import me.onixdev.util.math.MathUtil;
