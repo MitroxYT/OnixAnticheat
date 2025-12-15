@@ -60,7 +60,7 @@ public class ConfigManager {
         var configFiles = Map.of(
                 "config.yml",   1.1,
                 "checks.yml",   1.1,
-                "messages.yml", 1.2
+                "messages.yml", 1.3
         );
 
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
@@ -137,6 +137,7 @@ public class ConfigManager {
     public String onAlertsMsg = "%prefix% <gray> alerts <green> on";
     public String offAlertsMsg = "%prefix% <gray> alerts <green> off";
     private String hoverMsg = "";
+    private String profileMessage;
     public boolean enableAlertsOnJoin;
 
 
@@ -145,11 +146,15 @@ public class ConfigManager {
         alertsformat = MessageUtil.translate(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         hover= messagesconfig.getStringList("hover");
         hoverMsg = MessageUtil.translate(MessageUtil.listToString(hover));
+        profileMessage = MessageUtil.translate(MessageUtil.listToString(messagesconfig.getStringList("profile")));
         onAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
         offAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
     }
 
+    public String getProFileMsg() {
+        return profileMessage;
+    }
     public String getUrl() {
         return "localhost:8080";
     }

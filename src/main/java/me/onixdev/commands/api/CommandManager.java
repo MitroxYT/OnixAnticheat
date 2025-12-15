@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class CommandManager implements TabExecutor {
-    private final List<OnixCommandBase> commands = List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand());
+    private final List<OnixCommandBase> commands = List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand(),new ProfileCommand());
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!commandSender.hasPermission("onix.usecommand")) {

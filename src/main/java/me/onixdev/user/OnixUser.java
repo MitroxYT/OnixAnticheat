@@ -30,10 +30,7 @@ import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
 import me.onixdev.util.color.MessageUtil;
 import me.onixdev.util.items.PlayerInventory;
-import me.onixdev.util.net.BukkitNms;
-import me.onixdev.util.net.ClientInput;
-import me.onixdev.util.net.EntityStatuses;
-import me.onixdev.util.net.KickTypes;
+import me.onixdev.util.net.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -54,6 +51,8 @@ import java.util.function.Predicate;
 
 public class OnixUser implements IOnixUser {
     public int currentTick;
+    public PlayerConnectionStep connectionStage;
+    public PlayerConnectionStep ServerconnectionStage;
     @Getter
     private int serverTickSinceJoin;
     public double food;

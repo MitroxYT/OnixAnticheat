@@ -9,3 +9,9 @@ hover:
   - "<white>Тип<dark_green>:</dark_green> <red>%type%<white>.</white>"
   - "<white>VL<dark_green>:</dark_green> <red>%vl%<white>.</white>"
   - "<white>Инфо<dark_green>:</dark_green> <red>%verbose%<white>.</white>"
+profile:
+  - "<dark_gray>«<white>[<red><underlined>Onix</underlined></red>]<dark_gray>» <green>Античит<dark_green>.</dark_green>"
+  - "<white>Игрок<dark_green>:</dark_green> <red>%player%<white>.</white>"
+  - "<white>Бренд<dark_green>:</dark_green> <red>%brand%<white>.</white>"
+  - "<white>Клиент<dark_green>:</dark_green> <red>%version%<white>.</white>"
+  - "<white>Инфо<dark_green>:</dark_green> <red>%verbose%<white>.</white>"

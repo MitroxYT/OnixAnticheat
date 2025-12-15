@@ -31,7 +31,7 @@ public class CloudManager extends WebSocketClient implements IClientBoundPacketH
         OnixAnticheat.INSTANCE.getCloudCheckExecuter().run(() -> {
             if (enabled) {
                 if (onLoad) connect();
-                if (OnixAnticheat.INSTANCE.getTicksFromStart() % 30 ==0) {
+                if (OnixAnticheat.INSTANCE.getTicksFromStart() % 70 ==0) {
                     if (isOpen()) {
                         connected = true;
                     } else {

@@ -34,6 +34,11 @@ public class OnixAnticheat {
     private int ticksFromStart;
     @Getter
     private ConfigManager configManager;
+
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
     private CloudManager cloudManager;
     public CloudManager getCloudManager() {
         return cloudManager;

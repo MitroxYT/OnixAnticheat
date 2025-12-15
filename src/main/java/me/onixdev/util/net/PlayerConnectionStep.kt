@@ -1,0 +1,12 @@
+package me.onixdev.util.net
+
+enum class PlayerConnectionStep {
+    LOGIN_SUCCESS_ACK,
+    CLIENT_SETTINGS,
+    SELECT_KNOWN_PACKS,
+    CONFIGURATION_END_ACK,
+    PLAYER_LOADED,
+    PLUGIN_MESSAGE,
+    TELEPORT_CONFIRM,
+    HELD_ITEM_CHANGE
+}
