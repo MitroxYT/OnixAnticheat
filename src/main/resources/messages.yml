@@ -13,4 +13,5 @@ profile:
   - "<dark_gray>«<white>[<red><underlined>Onix</underlined></red>]<dark_gray>» <green>Античит<dark_green>.</dark_green>"
   - "<white>Игрок<dark_green>:</dark_green> <red>%player%<white>.</white>"
   - "<white>Бренд<dark_green>:</dark_green> <red>%brand%<white>.</white>"
+  - "<white>Чуствительность<dark_green>:</dark_green> <red>%sens%<white>.</white>"
   - "<white>Клиент<dark_green>:</dark_green> <red>%version%<white>.</white>"

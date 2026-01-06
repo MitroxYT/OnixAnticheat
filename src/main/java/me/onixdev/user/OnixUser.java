@@ -91,6 +91,7 @@ public class OnixUser implements IOnixUser {
     private double timetoMitigate,lastMitigateTime;
     public IClientInput theoreticalInput = new ClientInput();
     public IClientInput Input = new ClientInput();
+    private String brand = "unparsed";
     public static final @Nullable Consumer<Player> resetActiveBukkitItem;
     public static final @Nullable Predicate<Player> isUsingBukkitItem;
     @Getter
@@ -148,6 +149,17 @@ public class OnixUser implements IOnixUser {
 
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String getBrand() {
+        return brand;
+    }
+
+    @Override
+    public void setBrand(String brand) {
+        if (brand == null || brand.isBlank()) return;
+       this.brand = brand;
     }
 
     public Player getBukkitPlayer() {

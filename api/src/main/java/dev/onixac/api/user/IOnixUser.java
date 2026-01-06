@@ -13,4 +13,6 @@ public interface IOnixUser {
     void sendMessage(String message);
     double getSensitivity();
     Optional<Object> getValue(String name);
+    String getBrand();
+    void setBrand(String brand);
 }

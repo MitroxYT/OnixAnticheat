@@ -14,6 +14,7 @@ import me.onixdev.check.impl.player.badpackets.*;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.inventory.InventoryC;
+import me.onixdev.check.impl.player.misc.ClientBrandParser;
 import me.onixdev.check.impl.player.scaffold.ScaffoldA;
 import me.onixdev.user.OnixUser;
 
@@ -63,7 +64,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CHECKS = new Class[] {AimA.class, ClientBrandParser.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
                 InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
         };
 
