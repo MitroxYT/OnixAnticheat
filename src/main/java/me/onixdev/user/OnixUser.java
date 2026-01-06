@@ -134,6 +134,8 @@ public class OnixUser implements IOnixUser {
 
     @Override
     public double getSensitivity() {
+        // я хз почему оно становится большее 200
+        if (rotationContainer.getFinalSensitivity() > 200) return 200;
         return rotationContainer.getFinalSensitivity();
     }
 
