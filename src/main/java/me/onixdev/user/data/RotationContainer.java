@@ -36,13 +36,13 @@ public class RotationContainer {
     private int sensitivity;
     private int mouseDeltaX;
     private int mouseDeltaY;
-    
+
     private float lastJoltYaw;
-    
+
     private float lastJoltPitch;
-    
+
     private float joltYaw;
-    
+
     private float joltPitch;
     private float smoothnessYaw = 0.0f;
     private float smoothnessPitch = 0.0f;
@@ -53,10 +53,12 @@ public class RotationContainer {
     private final List<Double> pitchSamples = new ArrayList<>();
     private boolean cinematicRotation = false;
     private int isTotallyNotCinematic = 0;
+
     public RotationContainer(final OnixUser user) {
         this.user = user;
         this.sensitivitySamples = new ArrayDeque<Integer>();
     }
+
     public void handle(double yaw, double pitch) {
         this.lastYaw = this.yaw;
         this.lastPitch = this.pitch;
@@ -76,15 +78,15 @@ public class RotationContainer {
         this.lastYawAccel = this.yawAccel;
         this.yawAccel = Math.abs(this.deltaYaw - this.lastDeltaYaw);
         this.pitchAccel = Math.abs(this.deltaPitch - this.lastDeltaPitch);
-        final float f = (float)this.mcpSensitivity * 0.6f + 0.2f;
+        final float f = (float) this.mcpSensitivity * 0.6f + 0.2f;
         final float gcd = f * f * f * 1.2f;
         this.rawMouseDeltaX = this.deltaYaw / gcd;
         this.rawMouseDeltaY = this.deltaPitch / gcd;
-        this.mouseDeltaX = (int)(this.deltaYaw / gcd);
-        this.mouseDeltaY = (int)(this.deltaPitch / gcd);
+        this.mouseDeltaX = (int) (this.deltaYaw / gcd);
+        this.mouseDeltaY = (int) (this.deltaPitch / gcd);
         this.processCinematic();
-        final float expectedYaw = this.deltaYaw * 1.073742f + (float)(this.deltaYaw + 0.15);
-        final float expectedPitch = this.deltaPitch * 1.073742f - (float)(this.deltaPitch - 0.15);
+        final float expectedYaw = this.deltaYaw * 1.073742f + (float) (this.deltaYaw + 0.15);
+        final float expectedPitch = this.deltaPitch * 1.073742f - (float) (this.deltaPitch - 0.15);
         final float pitchDiff = Math.abs(this.deltaPitch - expectedPitch);
         final float yawDiff = Math.abs(this.deltaYaw - expectedYaw);
         this.lastFuckedPredictedPitch = this.fuckedPredictedPitch;
@@ -122,13 +124,14 @@ public class RotationContainer {
 //        PlayerRotationEvent postRotation = new PlayerRotationEvent(true, yaw, pitch, deltaYaw, deltaPitch);
 //        user.handleEvent(postRotation);
     }
+
     private void processSensitivity() {
         final float gcd = (float) MathUtil.getGcd(this.deltaPitch, this.lastDeltaPitch);
         final double sensitivityModifier = Math.cbrt(0.8333 * gcd);
         final double sensitivityStepTwo = 1.666 * sensitivityModifier - 0.3333;
         final double finalSensitivity = sensitivityStepTwo * 200.0;
         this.finalSensitivity = finalSensitivity;
-        this.sensitivitySamples.add((int)finalSensitivity);
+        this.sensitivitySamples.add((int) finalSensitivity);
         if (this.sensitivitySamples.size() == 40) {
             this.sensitivity = MathUtil.getMode(this.sensitivitySamples);
             if (this.hasValidSensitivity()) {
@@ -137,6 +140,7 @@ public class RotationContainer {
             this.sensitivitySamples.clear();
         }
     }
+
     private void processCinematic() {
         long now = System.currentTimeMillis();
 
@@ -210,6 +214,7 @@ public class RotationContainer {
     public boolean hasValidSensitivity() {
         return this.sensitivity > 0 && this.sensitivity < 200;
     }
+
     public boolean isCinematicRotation() {
         return cinematicRotation;
     }
@@ -218,61 +223,117 @@ public class RotationContainer {
         return this.sensitivity > 0 && this.sensitivity < 269;
     }
 
-    public float getYaw() {return this.yaw;}
+    public float getYaw() {
+        return this.yaw;
+    }
 
-    public float getPitch() {return this.pitch;}
+    public float getPitch() {
+        return this.pitch;
+    }
 
-    public float getLastYaw() {return this.lastYaw;}
+    public float getLastYaw() {
+        return this.lastYaw;
+    }
 
-    public float getLastPitch() {return this.lastPitch;}
+    public float getLastPitch() {
+        return this.lastPitch;
+    }
 
-    public float getDeltaYaw() {return this.deltaYaw;}
+    public float getDeltaYaw() {
+        return this.deltaYaw;
+    }
 
-    public float getDeltaPitch() {return this.deltaPitch;}
+    public float getDeltaPitch() {
+        return this.deltaPitch;
+    }
 
-    public float getLastDeltaYaw() {return this.lastDeltaYaw;}
+    public float getLastDeltaYaw() {
+        return this.lastDeltaYaw;
+    }
 
-    public float getLastDeltaPitch() {return this.lastDeltaPitch;}
+    public float getLastDeltaPitch() {
+        return this.lastDeltaPitch;
+    }
 
-    public float getYawAccel() {return this.yawAccel;}
+    public float getYawAccel() {
+        return this.yawAccel;
+    }
 
-    public float getPitchAccel() {return this.pitchAccel;}
+    public float getPitchAccel() {
+        return this.pitchAccel;
+    }
 
-    public float getLastYawAccel() {return this.lastYawAccel;}
+    public float getLastYawAccel() {
+        return this.lastYawAccel;
+    }
 
-    public float getLastPitchAccel() {return this.lastPitchAccel;}
+    public float getLastPitchAccel() {
+        return this.lastPitchAccel;
+    }
 
-    public float getRawMouseDeltaX() {return this.rawMouseDeltaX;}
+    public float getRawMouseDeltaX() {
+        return this.rawMouseDeltaX;
+    }
 
-    public float getRawMouseDeltaY() {return this.rawMouseDeltaY;}
+    public float getRawMouseDeltaY() {
+        return this.rawMouseDeltaY;
+    }
 
-    public float getFuckedPredictedPitch() {return this.fuckedPredictedPitch;}
+    public float getFuckedPredictedPitch() {
+        return this.fuckedPredictedPitch;
+    }
 
-    public float getFuckedPredictedYaw() {return this.fuckedPredictedYaw;}
+    public float getFuckedPredictedYaw() {
+        return this.fuckedPredictedYaw;
+    }
 
-    public float getLastFuckedPredictedPitch() {return this.lastFuckedPredictedPitch;}
+    public float getLastFuckedPredictedPitch() {
+        return this.lastFuckedPredictedPitch;
+    }
 
-    public float getLastFuckedPredictedYaw() {return this.lastFuckedPredictedYaw;}
+    public float getLastFuckedPredictedYaw() {
+        return this.lastFuckedPredictedYaw;
+    }
 
-    public boolean isCinematic() {return this.cinematic;}
+    public boolean isCinematic() {
+        return this.cinematic;
+    }
 
-    public double getFinalSensitivity() {return this.finalSensitivity;}
+    public double getFinalSensitivity() {
+        return this.finalSensitivity;
+    }
 
-    public double getMcpSensitivity() {return this.mcpSensitivity;}
+    public double getMcpSensitivity() {
+        return this.mcpSensitivity;
+    }
 
-    public ArrayDeque<Integer> getSensitivitySamples() {return this.sensitivitySamples;}
+    public ArrayDeque<Integer> getSensitivitySamples() {
+        return this.sensitivitySamples;
+    }
 
-    public int getSensitivity() {return this.sensitivity;}
+    public int getSensitivity() {
+        return this.sensitivity;
+    }
 
-    public int getMouseDeltaX() {return this.mouseDeltaX;}
+    public int getMouseDeltaX() {
+        return this.mouseDeltaX;
+    }
 
-    public int getMouseDeltaY() {return this.mouseDeltaY;}
+    public int getMouseDeltaY() {
+        return this.mouseDeltaY;
+    }
 
-    public float getSmoothnessYaw() {return smoothnessYaw;}
+    public float getSmoothnessYaw() {
+        return smoothnessYaw;
+    }
 
-    public float getSmoothnessPitch() {return smoothnessPitch;}
+    public float getSmoothnessPitch() {
+        return smoothnessPitch;
+    }
 
-    public float getConsistency() {return consistency;}
+    public float getConsistency() {
+        return consistency;
+    }
 
     public void setCinematic(boolean cinematic) {
         this.cinematic = cinematic;

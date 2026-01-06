@@ -18,7 +18,7 @@ class PingUtil(private var player: OnixUser) {
     fun addTask(transaction: Int, async: Boolean, runnable: Runnable) {
         if (player.connectionContainer.lastTransactionReceived.get() >= transaction) {
             if (async) {
-                ChannelHelper.runInEventLoop(player.user.getChannel(), runnable)
+                ChannelHelper.runInEventLoop(player.user.channel, runnable)
             } else {
                 runnable.run()
             }
@@ -29,7 +29,7 @@ class PingUtil(private var player: OnixUser) {
         }
     }
 
-    fun handleNettySyncTransaction(transaction: Int) {
+    fun syncTransaction(transaction: Int) {
         synchronized(this) {
             tasksToRun.clear()
             val iterator =

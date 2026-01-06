@@ -3,7 +3,6 @@ package me.onixdev.commands.impl;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.commands.api.OnixCommandBase;
-import me.onixdev.user.OnixUser;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

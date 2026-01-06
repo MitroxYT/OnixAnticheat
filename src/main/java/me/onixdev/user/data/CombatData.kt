@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 class CombatData(private val user: OnixUser) {
     var dist: Double = 0.0
-    var lastAttacked:Int = 158145;
+    var lastAttacked: Int = 158145;
     var target: Player? = null;
     fun onEvent(event: BaseEvent) {
         if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && user.bukkitPlayer != null) {
@@ -26,7 +26,7 @@ class CombatData(private val user: OnixUser) {
             if (target != null && user.bukkitPlayer != null) {
                 val valid = user.bukkitPlayer.world == target!!.world
                 if (valid) {
-                    dist=user.bukkitPlayer.location.distance(target!!.location)
+                    dist = user.bukkitPlayer.location.distance(target!!.location)
                 }
             }
         }

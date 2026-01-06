@@ -7,7 +7,6 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientSettings
 import me.onixdev.OnixAnticheat
 import me.onixdev.event.impl.PlayerCloseInventoryEvent
 import me.onixdev.event.impl.PlayerPacketClickEvent

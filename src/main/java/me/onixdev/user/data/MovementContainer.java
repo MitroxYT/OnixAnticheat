@@ -58,9 +58,11 @@ public class MovementContainer {
     @Getter
     private Location setbackLocation;
     private boolean usingItem, sprinting, jump, slowdown, fastMath;
+
     public MovementContainer(OnixUser user) {
         this.user = user;
     }
+
     public void handleFlying(final PacketReceiveEvent event, final WrapperPlayClientPlayerFlying wrapper) {
         if (this.user.getBukkitPlayer() != null) {
             this.setLastLastClientGround(this.lastClientOnGround);
@@ -91,11 +93,12 @@ public class MovementContainer {
 
         }
     }
+
     public void OnBukkit(PlayerMoveEvent event) {
         if (this.user.getBukkitPlayer() != null) {
             boolean onGround = clientOnGround;
             Location setBackLocation = event.getFrom();
-            if (onGround&&setbackticks > 5) {
+            if (onGround && setbackticks > 5) {
                 setbackLocation = setBackLocation;
             }
             ++setbackticks;
@@ -105,9 +108,10 @@ public class MovementContainer {
     public boolean isLastLastClientGround() {
         return lastLastClientGround;
     }
+
     public void setback() {
         if (setbackLocation != null) {
-            Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), ()-> user.getBukkitPlayer().teleport(setbackLocation));
+            Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> user.getBukkitPlayer().teleport(setbackLocation));
             setbackticks = 0;
         }
     }
@@ -115,6 +119,7 @@ public class MovementContainer {
     public void setLastLastClientGround(boolean lastLastClientGround) {
         this.lastLastClientGround = lastLastClientGround;
     }
+
     public boolean GetLastClientOnGround() {
         return lastClientOnGround;
     }
@@ -148,7 +153,7 @@ public class MovementContainer {
                                             if (usingItem) {
                                                 moveForward *= 0.2F;
                                                 moveStrafe *= 0.2F;
-                                              //  user.debug("us pre");
+                                                //  user.debug("us pre");
                                             }
 
                                             if (sneaking) {
@@ -188,7 +193,7 @@ public class MovementContainer {
 
                                                 if (fastMath) {
                                                     motionX -= VanillaMath.sin(radians) * 0.2F;
-                                                    motionZ +=  VanillaMath.cos(radians) * 0.2F;
+                                                    motionZ += VanillaMath.cos(radians) * 0.2F;
                                                 } else {
                                                     motionX -= VanillaMath.sin(radians) * 0.2F;
                                                     motionZ += VanillaMath.cos(radians) * 0.2F;
@@ -198,7 +203,7 @@ public class MovementContainer {
                                             float friction = 0.91F;
                                             if (user.getMovementContainer().GetLastClientOnGround()) friction *= 0.6F;
 
-                                            final float moveSpeed = (float) user.getMoveSpeed(sprinting,false);
+                                            final float moveSpeed = (float) user.getMoveSpeed(sprinting, false);
                                             final float moveFlyingFriction;
 
                                             if (ground) {
@@ -231,7 +236,7 @@ public class MovementContainer {
                                                 this.usingItem = usingItem;
                                                 this.slowdown = slowdown;
                                                 this.fastMath = fastMath;
-                                                user.theoreticalInput = new ClientInput(moveForward >0.0,moveForward < 0.0,moveStrafe == 0.98F,moveStrafe == -0.98F,jump,sneaking,sprinting,slowdown,moveForward,moveStrafe,distance);
+                                                user.theoreticalInput = new ClientInput(moveForward > 0.0, moveForward < 0.0, moveStrafe == 0.98F, moveStrafe == -0.98F, jump, sneaking, sprinting, slowdown, moveForward, moveStrafe, distance);
                                                 if (distance < 1e-14) break iteration;
                                             }
                                         }
@@ -277,7 +282,7 @@ public class MovementContainer {
             moveFlyingFactorZ = factorZ;
         }
 
-        return new float[] {
+        return new float[]{
                 moveFlyingFactorX,
                 moveFlyingFactorZ
         };

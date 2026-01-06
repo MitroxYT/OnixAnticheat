@@ -18,9 +18,11 @@ public class PositionListener extends PacketListenerAbstract {
     public PositionListener() {
         super(PacketListenerPriority.NORMAL);
     }
+
     @Override
     public void onPacketSend(PacketSendEvent event) {
     }
+
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
         if (event.getPacketType() == PacketType.Play.Client.TELEPORT_CONFIRM) {
@@ -30,16 +32,16 @@ public class PositionListener extends PacketListenerAbstract {
             WrapperPlayClientPlayerFlying flying = new WrapperPlayClientPlayerFlying(event);
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null && user.hasConfirmPlayState()) {
-            Location location = flying.getLocation();
-            boolean rotation = flying.hasRotationChanged();
-            if (rotation) user.getRotationContainer().handle(location.getYaw(),location.getPitch());
-            user.getMovementContainer().handleFlying(event,flying);
-            user.handleEvent(new TickEvent(TickEvent.Target.FLYING));
-            user.currentTick++;
-            user.lastHitTime++;
-            if (user.isUsingItem()) user.ItemUseTime++;
-            else user.ItemUseTime = 0;
-            user.getMovementContainer().registerIncomingPreHandler(event);
+                Location location = flying.getLocation();
+                boolean rotation = flying.hasRotationChanged();
+                if (rotation) user.getRotationContainer().handle(location.getYaw(), location.getPitch());
+                user.getMovementContainer().handleFlying(event, flying);
+                user.handleEvent(new TickEvent(TickEvent.Target.FLYING));
+                user.currentTick++;
+                user.lastHitTime++;
+                if (user.isUsingItem()) user.ItemUseTime++;
+                else user.ItemUseTime = 0;
+                user.getMovementContainer().registerIncomingPreHandler(event);
             }
         }
         if (event.getPacketType() == PacketType.Play.Client.ENTITY_ACTION) {
@@ -54,9 +56,10 @@ public class PositionListener extends PacketListenerAbstract {
                 OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
                 if (user != null && user.hasConfirmPlayState()) {
                     user.lastHitTime = 0;
-                    PlayerUseEntityEvent event1 = new PlayerUseEntityEvent(use.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK ? PlayerUseEntityEvent.UseType.ATTACK : PlayerUseEntityEvent.UseType.INTERACT,use.getEntityId());
+                    PlayerUseEntityEvent event1 = new PlayerUseEntityEvent(use.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK ? PlayerUseEntityEvent.UseType.ATTACK : PlayerUseEntityEvent.UseType.INTERACT, use.getEntityId());
                     user.handleEvent(event1);
-                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage") || event1.isCancelled()) event.setCancelled(true);
+                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage") || event1.isCancelled())
+                        event.setCancelled(true);
                 }
             }
         }

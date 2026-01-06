@@ -29,7 +29,8 @@ class ProfileCommand : OnixCommandBase("profile") {
             val user = OnixAnticheat.INSTANCE.playerDatamanager.get(bplayer.uniqueId)
             if (user != null) {
                 val msg = OnixAnticheat.INSTANCE.configManager.proFileMsg.replace("%player%", user.name)
-                    .replace("%version%", user.user.clientVersion.releaseName).replace("%brand%",user.brand).replace("%sens%",user.sensitivity.toInt().toString())
+                    .replace("%version%", user.user.clientVersion.releaseName).replace("%brand%", user.brand)
+                    .replace("%sens%", user.sensitivity.toInt().toString())
                 sender.sendMessage(msg)
             }
         }

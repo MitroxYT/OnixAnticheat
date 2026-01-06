@@ -25,13 +25,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConnectionContainer {
     private final OnixUser user;
     private final boolean ping = PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_17_1);
-    private long transactionPing,transactionPingMs;
+    private long transactionPing, transactionPingMs;
     public long lastTransSent = 0;
     public long lastTransReceived = 0;
 
     public ConnectionContainer(OnixUser user) {
         this.user = user;
     }
+
     @Getter
     public long playerClockAtLeast = System.nanoTime();
     public long lastPlayerClockAtLeast = System.nanoTime();
@@ -42,13 +43,14 @@ public class ConnectionContainer {
     public final AtomicInteger lastTransactionReceived = new AtomicInteger(0);
 
 
-
     public void handlein(PacketReceiveEvent event) {
         if (event.getPacketType() == PacketType.Play.Client.WINDOW_CONFIRMATION) {
             WrapperPlayClientWindowConfirmation transaction = new WrapperPlayClientWindowConfirmation(event);
             short id = transaction.getActionId();
 
-            if (id >= 0 && TransactionResponse(id)) ;
+            if (id >= 0) {
+                TransactionResponse(id);
+            }
         }
 
         if (event.getPacketType() == PacketType.Play.Client.PONG) {
@@ -58,7 +60,7 @@ public class ConnectionContainer {
             int id = pong.getId();
             if (id == (short) id) {
                 short shortID = ((short) id);
-                if (TransactionResponse(shortID));
+                TransactionResponse(shortID);
             }
         }
 
@@ -88,6 +90,7 @@ public class ConnectionContainer {
             }
         }
     }
+
     public void sendTransaction() {
         sendTransaction(false);
     }
@@ -139,7 +142,8 @@ public class ConnectionContainer {
         }
 
         if (hasID) {
-            if (skipped >  0 && user.getServerTickSinceJoin() > 20) user.getCheck(BadPacketC.class).fail("invalid: " + skipped);
+            if (skipped > 0 && user.getServerTickSinceJoin() > 20)
+                user.getCheck(BadPacketC.class).fail("invalid: " + skipped);
 
             do {
                 data = transactionsSent.poll();
@@ -153,11 +157,12 @@ public class ConnectionContainer {
                 playerClockAtLeast = data.getY();
                 transactionPingMs = (playerClockAtLeast - lastPlayerClockAtLeast) / 1000000L;
             } while (data.getX() != id);
-
+            user.lagCompensation.syncTransaction(lastTransactionReceived.get());
         }
 
         return data != null;
     }
+
     public double getTransactionPingMs() {
         return transactionPingMs;
     }

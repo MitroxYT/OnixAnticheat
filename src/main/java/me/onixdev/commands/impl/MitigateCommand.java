@@ -23,13 +23,16 @@ public class MitigateCommand extends OnixCommandBase {
     private final List<String> time = Arrays.asList(
             "1000", "2000", "3000", "5000", "10000"
     );
+
     public MitigateCommand() {
         super("mitigate");
     }
+
     @Override
     public String getPermission() {
         return "onix.mitigate";
     }
+
     @Override
     public String getDescription() {
         return "";
@@ -81,7 +84,7 @@ public class MitigateCommand extends OnixCommandBase {
 
         OnixUser targeted = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(target.getUniqueId());
         if (targeted != null) {
-            targeted.mitigate(mitigationType,duration);
+            targeted.mitigate(mitigationType, duration);
         }
         return true;
     }
@@ -95,18 +98,16 @@ public class MitigateCommand extends OnixCommandBase {
                     .map(Player::getName)
                     .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList()));
-        }
-        else if (args.length == 2) {
+        } else if (args.length == 2) {
             suggestions.addAll(mitigates.stream()
                     .filter(type -> type.toLowerCase().startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList()));
-        }
-        else if (args.length == 3) {
-                suggestions.addAll(time.stream()
-                        .filter(time -> time.startsWith(args[2]))
-                        .collect(Collectors.toList()));
-                if (suggestions.isEmpty()) {
-                    suggestions.add("<время в мс>");
+        } else if (args.length == 3) {
+            suggestions.addAll(time.stream()
+                    .filter(time -> time.startsWith(args[2]))
+                    .collect(Collectors.toList()));
+            if (suggestions.isEmpty()) {
+                suggestions.add("<время в мс>");
             }
         }
 

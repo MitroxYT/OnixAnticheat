@@ -25,7 +25,8 @@ public class PlayerClickListener implements Listener {
                 PlayerClickEvent clickEvent = new PlayerClickEvent(event.getSlotType(), event.getSlot(), event.getClick(), event.getAction(), event.getCurrentItem(), event.getClickedInventory().getType() == InventoryType.PLAYER);
                 user.handleEvent(clickEvent);
                 if (clickEvent.isCancelled()) event.setCancelled(true);
-            } catch (NullPointerException ignored){}
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 }

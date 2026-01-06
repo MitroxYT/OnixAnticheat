@@ -14,11 +14,11 @@ public class PlayerMoveListener implements Listener {
     public void onPlayerMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer();
         final UUID uuid = player.getUniqueId();
-        OnixAnticheat.INSTANCE.getTaskExecutor().run(()-> {
-           OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(uuid);
-           if (user != null) {
-               user.getMovementContainer().OnBukkit(event);
-           }
+        OnixAnticheat.INSTANCE.getTaskExecutor().run(() -> {
+            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(uuid);
+            if (user != null) {
+                user.getMovementContainer().OnBukkit(event);
+            }
         });
     }
 }
