@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.combat.aura
 
+import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -9,7 +10,7 @@ import me.onixdev.util.net.PlayerUtil
 import org.bukkit.Material
 import java.util.Locale
 
-class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aura").setType("B").build()){
+class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aura").setCheckStage(CheckStage.EXPERIMENTAL).setType("B").build()){
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && player.bukkitPlayer != null){
             val target = PlayerUtil.getPlayer(event.id)
