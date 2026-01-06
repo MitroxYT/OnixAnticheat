@@ -158,5 +158,8 @@ public class ConnectionContainer {
 
         return data != null;
     }
+    public double getTransactionPingMs() {
+        return transactionPingMs;
+    }
 
 }

@@ -22,8 +22,8 @@ class AimC(player: OnixUser?) :
                 val dx = rotationEvent.deltaYaw
                 val acelx = abs(dx - lastX)
                 val absdx = abs(dx)
-
-                if (absdx > 170.0f && lastX < 50 && acelx > 100) {
+                val valid = player.combatData.dist > 0.1
+                if (absdx > 170.0f && lastX < 50 && acelx > 100 && valid) {
                     val deltax = String.format("%.5f", dx)
                     val ldeltax = String.format("%.5f", lastX)
                     val acelX = String.format("%.5f", acelx)
@@ -36,25 +36,26 @@ class AimC(player: OnixUser?) :
 //                    }
                 }
                 lastX = dx
-            } else {
-                val dx = rotationEvent.deltaYaw
-                val acelx = abs(dx - lastXPost)
-                val absdx = abs(dx)
-
-                if (absdx > 170.0f && lastXPost < 50 && acelx > 100) {
-                    val deltax = String.format("%.5f", dx)
-                    val ldeltax = String.format("%.5f", lastXPost)
-                    val acelX = String.format("%.5f", acelx)
-                    if (acelx > 400) {
-                        fail("type=Post dx: $deltax ldx: $ldeltax ax: $acelX")
-                    }
-
-                    //                    if (player.isGliding) {
-//                        fail("dx: " + deltax + " ldx: " + ldeltax + " ax: " + acelX);
-//                    }
-                }
-                lastXPost = dx
             }
+//            } else {
+//                val dx = rotationEvent.deltaYaw
+//                val acelx = abs(dx - lastXPost)
+//                val absdx = abs(dx)
+//
+//                if (absdx > 170.0f && lastXPost < 50 && acelx > 100) {
+//                    val deltax = String.format("%.5f", dx)
+//                    val ldeltax = String.format("%.5f", lastXPost)
+//                    val acelX = String.format("%.5f", acelx)
+//                    if (acelx > 400) {
+//                        fail("type=Post dx: $deltax ldx: $ldeltax ax: $acelX")
+//                    }
+//
+//                    //                    if (player.isGliding) {
+////                        fail("dx: " + deltax + " ldx: " + ldeltax + " ax: " + acelX);
+////                    }
+//                }
+//                lastXPost = dx
+//            }
         }
     }
 }

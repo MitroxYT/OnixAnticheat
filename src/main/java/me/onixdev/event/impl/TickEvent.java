@@ -9,6 +9,11 @@ public class TickEvent extends BaseEvent {
     public TickEvent(final Target tickType) {
         this.tickType = tickType;
     }
+
+    public boolean notTickEnd() {
+        return tickType == Target.FLYING || tickType == Target.TRANSACTION;
+    }
+
     public enum Target {
         FLYING,
         TRANSACTION,

@@ -82,6 +82,8 @@ public class OnixUser implements IOnixUser {
     private final BrigingContainer brigingContainer;
     private final MovementContainer movementContainer;
     private final PlayerInventory inventory;
+    public final AntiFalsePositivesHandler antiFalsePositivesHandler;
+    public final CombatData combatData;
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     public boolean isUsingItem = false;
     public int ItemUseTime;
@@ -111,6 +113,8 @@ public class OnixUser implements IOnixUser {
         brigingContainer = new BrigingContainer(this);
         movementContainer = new MovementContainer(this);
         inventory = new PlayerInventory(this);
+        antiFalsePositivesHandler = new AntiFalsePositivesHandler(this);
+        combatData = new CombatData(this);
         checkAlertsTogglingWhileBukkitPlayerNotNull = true;
         if ((Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
@@ -189,6 +193,8 @@ public class OnixUser implements IOnixUser {
     }
 
     public void handleEvent(BaseEvent clickEvent) {
+        antiFalsePositivesHandler.onEvent(clickEvent);
+        combatData.onEvent(clickEvent);
         for (Check check : checks) {
             check.onEvent(clickEvent);
         }

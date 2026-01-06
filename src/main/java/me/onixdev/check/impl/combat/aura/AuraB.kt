@@ -6,6 +6,8 @@ import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
+import org.bukkit.Material
+import java.util.Locale
 
 class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aura").setType("B").build()){
     override fun onEvent(event: BaseEvent?) {
@@ -21,12 +23,17 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                     val result1 = PlayerUtil.raytrace(player.bukkitPlayer,vec1,dist,0.1)
                     if (result.second != null) {
                         player.debug(result.second.type.name + " 1: " + result.first)
+                        val mat = result.second
+                        if (mat != null) {
+                            if (mat.type.name.lowercase(Locale.ROOT).contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("Fence")) return
+                        }
                         fail(result.second.type.name)
+                        if (shouldCancel()) event.cancel()
                     }
-                    if (result1.second != null) {
-                        player.debug(result1.second.type.name + " 2: " + result1.first)
-                        fail(result1.second.type.name)
-                    }
+//                    if (result1.second != null) {
+//                        player.debug(result1.second.type.name + " 2: " + result1.first)
+//                        fail(result1.second.type.name)
+//                    }
                 }
             }
         }

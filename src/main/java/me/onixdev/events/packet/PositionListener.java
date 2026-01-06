@@ -12,9 +12,6 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import me.onixdev.OnixAnticheat;
 import me.onixdev.event.impl.PlayerUseEntityEvent;
 import me.onixdev.event.impl.TickEvent;
-import me.onixdev.onixcloud.impl.c2.PlayerActionC2Packet;
-import me.onixdev.onixcloud.impl.c2.PlayerRotationC2Packet;
-import me.onixdev.onixcloud.impl.c2.PlayerUseEntityC2Packet;
 import me.onixdev.user.OnixUser;
 
 public class PositionListener extends PacketListenerAbstract {
