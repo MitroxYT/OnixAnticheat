@@ -35,7 +35,7 @@ public class CheckManager
     public static final Class<? extends Check>[] CHECKS;
 
     public static List<Check> loadChecks(final OnixUser data) {
-        final List<Check> checkList = new ArrayList<Check>();
+        final List<Check> checkList = new ArrayList<>();
 
         for (final Constructor<?> constructor : CheckManager.CONSTRUCTORS) {
             try {
@@ -46,9 +46,6 @@ public class CheckManager
             }
         }
         return checkList;
-    }
-    public void CreateCheck(OnixUser data) {
-        data.getChecks().add(new Check(data, CheckBuilder.create().setCheckName("aaaa").setType("A")));
     }
     public static void setup() {
         for (final Class<? extends Check> clazz : CheckManager.CHECKS) {

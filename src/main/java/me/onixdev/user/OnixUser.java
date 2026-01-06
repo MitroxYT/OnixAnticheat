@@ -13,6 +13,7 @@ import com.github.retrooper.packetevents.protocol.player.InteractionHand;
 import com.github.retrooper.packetevents.protocol.player.User;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
 import com.github.retrooper.packetevents.wrapper.play.server.*;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
@@ -24,6 +25,7 @@ import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
+import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
@@ -69,6 +71,7 @@ public class OnixUser implements IOnixUser {
     private final AlertManager alertManager;
     private boolean checkAlertsTogglingWhileBukkitPlayerNotNull;
     private boolean debug;
+    private long lastStopSprint;
 
     public AlertManager getAlertManager() {
         return alertManager;
@@ -162,6 +165,9 @@ public class OnixUser implements IOnixUser {
             case "hitticks" -> {
                 return Optional.of(lastHitTime);
             }
+            case "sprintstop" -> {
+                return Optional.of(System.currentTimeMillis() - lastStopSprint);
+            }
 
         }
         return Optional.empty();
@@ -205,6 +211,11 @@ public class OnixUser implements IOnixUser {
     }
 
     public void handleEvent(BaseEvent clickEvent) {
+        if (clickEvent instanceof PlayerActionPacket) {
+            if (((PlayerActionPacket) clickEvent).action == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) {
+                lastStopSprint = System.currentTimeMillis();
+            }
+        }
         antiFalsePositivesHandler.onEvent(clickEvent);
         combatData.onEvent(clickEvent);
         for (Check check : checks) {

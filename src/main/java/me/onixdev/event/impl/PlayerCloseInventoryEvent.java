@@ -5,7 +5,7 @@ import dev.onixac.api.events.api.BaseEvent;
 
 @Getter
 public class PlayerCloseInventoryEvent extends BaseEvent {
-    private int id;
+    private final int id;
     public PlayerCloseInventoryEvent(final int id) {
         this.id = id;
     }

@@ -12,12 +12,11 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerClickEvent extends BaseEvent {
     private final ClickType click;
     private final InventoryAction action;
-    private InventoryType.SlotType slot_type;
-    private int whichSlot;
-    private int rawSlot;
-    private ItemStack current;
-    private int hotbarKey;
-    private boolean isPlayer;
+    private final InventoryType.SlotType slot_type;
+    private final int rawSlot;
+    private final ItemStack current;
+    private final int hotbarKey;
+    private final boolean isPlayer;
     public PlayerClickEvent(@NotNull InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action,ItemStack current,boolean player) {
         this.current = current;
         this.hotbarKey = -1;

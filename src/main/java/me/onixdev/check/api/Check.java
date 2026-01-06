@@ -1,14 +1,13 @@
 package me.onixdev.check.api;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
-import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
+import dev.onixac.api.events.api.BaseEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
-import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.alert.id.PunishIdSystem;
 import me.onixdev.util.net.KickTypes;

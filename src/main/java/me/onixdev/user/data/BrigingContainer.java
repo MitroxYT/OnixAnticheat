@@ -12,7 +12,7 @@ import org.bukkit.Material;
 @Getter
 public class BrigingContainer {
     private final OnixUser user;
-    private int BrigeTicks, lastPlaceTick;
+    private int brigeTicks, lastPlaceTick;
     private boolean brige;
 
     public BrigingContainer(OnixUser user) {
@@ -23,14 +23,14 @@ public class BrigingContainer {
     public void handlePacket(PacketReceiveEvent event) {
         if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
             ++lastPlaceTick;
-            ++BrigeTicks;
+            ++brigeTicks;
 
             if (user.getBukkitPlayer() != null) {
                 OnixAnticheat.INSTANCE.getTaskExecutor().run(() -> {
                     Location loc = user.getBukkitPlayer().getLocation().subtract(0.0, 2.0, 0.0);
                     if (loc.getBlock().getType() == Material.AIR && user.getBukkitPlayer().getInventory().getItemInHand().getType().isBlock()) {
                         if (lastPlaceTick < 20) {
-                            BrigeTicks = 0;
+                            brigeTicks = 0;
                         }
                         brige = true;
                     } else {
@@ -45,7 +45,7 @@ public class BrigingContainer {
         }
     }
 
-    public boolean isBrige() {
-        return brige && BrigeTicks < 20 && lastPlaceTick < 7;
+    public boolean isBridge() {
+        return brige && brigeTicks < 20 && lastPlaceTick < 7;
     }
 }

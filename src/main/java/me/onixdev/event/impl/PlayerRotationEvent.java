@@ -5,9 +5,11 @@ import lombok.Getter;
 import dev.onixac.api.events.api.BaseEvent;
 
 public class PlayerRotationEvent extends BaseEvent {
-    private boolean Post;
-    private double yaw,pitch;
-    private double deltaYaw,deltaPitch;
+    private final boolean Post;
+    private final double yaw;
+    private final double pitch;
+    private final double deltaYaw;
+    private final double deltaPitch;
     public PlayerRotationEvent(boolean post, double yaw, double pitch, double deltaYaw, double deltaPitch) {
         this.Post = post;
         this.yaw = yaw;

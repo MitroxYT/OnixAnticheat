@@ -30,7 +30,6 @@ public class BukkitNms {
 
     public static void resetBukkitItemUsage(@Nullable Player player) {
         if (player != null && resetActiveBukkitItem.test(player)) {
-            // only update if they were using an item to prevent certain issues
             player.updateInventory();
         }
     }

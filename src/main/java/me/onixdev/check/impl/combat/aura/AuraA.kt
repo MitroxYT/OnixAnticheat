@@ -26,7 +26,7 @@ class AuraA(player: OnixUser?) :
         if (WrapperPlayClientPlayerFlying.isFlying(event!!.packetType)) {
             val delay: Long = (System.currentTimeMillis() - last)
             if (this.send) {
-                if (delay in 41..99) {
+                if (delay in 39..99) {
                     fail("delay=$delay")
                 }
 

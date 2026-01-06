@@ -10,6 +10,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEn
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.event.impl.PlayerUseEntityEvent;
 import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
@@ -48,6 +49,7 @@ public class PositionListener extends PacketListenerAbstract {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null && user.hasConfirmPlayState()) {
                 WrapperPlayClientEntityAction action = new WrapperPlayClientEntityAction(event);
+                user.handleEvent(new PlayerActionPacket(action.getAction()));
             }
         }
         if (event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
