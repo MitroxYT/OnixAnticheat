@@ -49,9 +49,6 @@ public class PositionListener extends PacketListenerAbstract {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null && user.hasConfirmPlayState()) {
                 WrapperPlayClientEntityAction action = new WrapperPlayClientEntityAction(event);
-                if (OnixAnticheat.INSTANCE.getCloudManager().isConnected()) {
-                    OnixAnticheat.INSTANCE.getCloudManager().sendPacket(new PlayerActionC2Packet(user.getUuid(),action.getAction().name()).export());
-                }
             }
         }
         if (event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
@@ -62,9 +59,6 @@ public class PositionListener extends PacketListenerAbstract {
                     user.lastHitTime = 0;
                     PlayerUseEntityEvent event1 = new PlayerUseEntityEvent(use.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK ? PlayerUseEntityEvent.UseType.ATTACK : PlayerUseEntityEvent.UseType.INTERACT,use.getEntityId());
                     user.handleEvent(event1);
-                    if (OnixAnticheat.INSTANCE.getCloudManager().isConnected()) {
-                        OnixAnticheat.INSTANCE.getCloudManager().sendPacket(new PlayerUseEntityC2Packet(user.getUuid(),use.getEntityId(),use.getAction().name()).export());
-                    }
                     if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage") || event1.isCancelled()) event.setCancelled(true);
                 }
             }
