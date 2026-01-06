@@ -20,7 +20,6 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
     @Override
     public void onPacketReceive(final PacketReceiveEvent event) {
         try {
-             OnixAnticheat.INSTANCE.getPacketProccesor().run(() -> {
                 OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
                 if (user != null) {
                     if (event.getPacketType() == PacketType.Configuration.Client.CONFIGURATION_END_ACK) {
@@ -53,7 +52,6 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
                     }
                     for (Check check : user.getChecks()) check.onPacketIn(event);
                 }
-            });
         } catch (Exception e) {
             OnixAnticheat.INSTANCE.getPlugin().getLogger().warning("При обработке пакета: " + event.getPacketType().getName() + " для игрока: " + event.getUser().getName() + " error: " + e.getMessage());
 //            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());

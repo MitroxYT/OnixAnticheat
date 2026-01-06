@@ -15,3 +15,5 @@ build/libs/OnixAnticheat-1.0.jar
 build
 *.html
 /build/kotlin/compileKotlin
+*.tab_i
+*.tab
