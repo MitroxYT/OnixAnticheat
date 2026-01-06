@@ -7,29 +7,29 @@ import org.bukkit.command.CommandSender
 
 class ProfileCommand : OnixCommandBase("profile") {
     override fun getDescription(): String {
-      return  "profile"
+        return "profile"
     }
 
     override fun getMinArgs(): Int {
-    return    1
+        return 1
     }
 
     override fun getMaxArgs(): Int {
-      return  2
+        return 2
     }
 
     override fun noConsole(): Boolean {
-      return  false
+        return false
     }
 
     override fun onCommand(sender: CommandSender, args: Array<out String>?): Boolean {
-        System.out.println("a: " + args!![0])
         val playerName = args!![0]
         val bplayer = Bukkit.getPlayer(playerName)
         if (bplayer != null) {
             val user = OnixAnticheat.INSTANCE.playerDatamanager.get(bplayer.uniqueId)
             if (user != null) {
-                val msg = OnixAnticheat.INSTANCE.configManager.proFileMsg.replace("%player%",user.name).replace("%version%",user.user.clientVersion.releaseName)
+                val msg = OnixAnticheat.INSTANCE.configManager.proFileMsg.replace("%player%", user.name)
+                    .replace("%version%", user.user.clientVersion.releaseName)
                 sender.sendMessage(msg)
             }
         }
@@ -37,7 +37,7 @@ class ProfileCommand : OnixCommandBase("profile") {
     }
 
     override fun onTabComplete(sender: CommandSender?, args: Array<out String>?): MutableList<String> {
-     //   TODO("Not yet implemented")
+        //   TODO("Not yet implemented")
         return mutableListOf()
     }
 }

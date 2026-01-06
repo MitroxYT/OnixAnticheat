@@ -32,7 +32,6 @@ public class OnixAnticheat {
 
     private PlayerDatamanager playerDatamanager;
     private int ticksFromStart;
-    @Getter
     private ConfigManager configManager;
 
     public ConfigManager getConfigManager() {

@@ -1,7 +1,8 @@
 plugins {
     id 'java'
     id("com.gradleup.shadow") version "9.1.0"
-    id 'org.jetbrains.kotlin.jvm'
+    //id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.jvm' version '2.2.21'
 }
 
 group = 'me.onixdevb'
@@ -37,7 +38,7 @@ dependencies {
 // https://mvnrepository.com/artifact/net.kyori/adventure-text-serializer-legacy
    // compileOnly('net.kyori:adventure-text-serializer-legacy:4.17.0')
     implementation(project(":api"))
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+   // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 kotlin {
     jvmToolchain(17)

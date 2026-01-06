@@ -14,4 +14,3 @@ profile:
   - "<white>Игрок<dark_green>:</dark_green> <red>%player%<white>.</white>"
   - "<white>Бренд<dark_green>:</dark_green> <red>%brand%<white>.</white>"
   - "<white>Клиент<dark_green>:</dark_green> <red>%version%<white>.</white>"
-  - "<white>Инфо<dark_green>:</dark_green> <red>%verbose%<white>.</white>"
