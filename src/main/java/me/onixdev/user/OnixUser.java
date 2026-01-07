@@ -21,6 +21,7 @@ import dev.onixac.api.events.api.BaseEvent;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import dev.onixac.api.user.data.IPlayerRotationData;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -66,8 +67,6 @@ public class OnixUser implements IOnixUser {
     private final String name;
     @Getter
     private int id;
-    @Getter
-    @Setter
     private boolean alertsEnabled, verboseEnabled;
     private final AlertManager alertManager;
     private boolean checkAlertsTogglingWhileBukkitPlayerNotNull;
@@ -76,6 +75,25 @@ public class OnixUser implements IOnixUser {
 
     public AlertManager getAlertManager() {
         return alertManager;
+    }
+    
+    public boolean isAlertsEnabled() {
+        return this.alertsEnabled;
+    }
+
+    
+    public boolean isVerboseEnabled() {
+        return this.verboseEnabled;
+    }
+
+    
+    public void setAlertsEnabled(boolean alertsEnabled) {
+        this.alertsEnabled = alertsEnabled;
+    }
+
+    
+    public void setVerboseEnabled(boolean verboseEnabled) {
+        this.verboseEnabled = verboseEnabled;
     }
 
     @Getter

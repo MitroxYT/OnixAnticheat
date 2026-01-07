@@ -1,6 +1,7 @@
 package me.onixdev.util.config;
 
 
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -17,14 +18,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
-@Getter
 @Setter
 public class ConfigManager {
-    @Getter
     private YamlConfiguration messagesconfig;
-    @Getter
     private YamlConfiguration checksconfig;
-    @Getter
     private YamlConfiguration config;
 
     public ConfigManager(boolean onload) {
@@ -166,6 +163,56 @@ public class ConfigManager {
     }
     public String getUrl() {
         return "localhost:8080";
+    }
+
+    
+    public String getPrefix() {
+        return this.prefix;
+    }
+
+    
+    public String getAlertsformat() {
+        return this.alertsformat;
+    }
+
+    
+    public List<String> getHover() {
+        return this.hover;
+    }
+
+    
+    public String getOnAlertsMsg() {
+        return this.onAlertsMsg;
+    }
+
+    
+    public String getOffAlertsMsg() {
+        return this.offAlertsMsg;
+    }
+
+    
+    public String getHoverMsg() {
+        return this.hoverMsg;
+    }
+
+    
+    public String getProfileMessage() {
+        return this.profileMessage;
+    }
+
+    
+    public YamlConfiguration getMessagesconfig() {
+        return this.messagesconfig;
+    }
+
+    
+    public YamlConfiguration getChecksconfig() {
+        return this.checksconfig;
+    }
+
+    
+    public YamlConfiguration getConfig() {
+        return this.config;
     }
 }
 
