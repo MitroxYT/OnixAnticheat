@@ -6,6 +6,7 @@ import dev.onixac.api.OnixAPI;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
+import me.onixdev.events.bukkit.PlayerBreakBlockListener;
 import me.onixdev.events.bukkit.PlayerClickListener;
 import me.onixdev.events.bukkit.PlayerMoveListener;
 import me.onixdev.events.bukkit.PlayerReleaseUseItemState;
@@ -86,6 +87,7 @@ public class OnixAnticheat {
 
     private void registerBukkitEvents() {
         Bukkit.getPluginManager().registerEvents(new PlayerClickListener(), plugin);
+        Bukkit.getPluginManager().registerEvents(new PlayerBreakBlockListener(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerReleaseUseItemState(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), plugin);
     }

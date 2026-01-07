@@ -18,10 +18,9 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                 val valid = player.bukkitPlayer.world == target.world
                 if (valid) {
                     val dist = player.bukkitPlayer.location.distance(target.location)
-                    val vec = PlayerUtil.getDirection(player.rotationContainer.yaw.toFloat(),player.rotationContainer.pitch.toFloat())
+                    val vec = player.rotation.toDirection()
+                    //PlayerUtil.getDirection(player.rotationContainer.yaw.toFloat(),player.rotationContainer.pitch.toFloat())
                     val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,dist,0.1)
-                    val vec1 = PlayerUtil.getDirection(player.rotationContainer.lastYaw.toFloat(),player.rotationContainer.lastYaw.toFloat())
-                    val result1 = PlayerUtil.raytrace(player.bukkitPlayer,vec1,dist,0.1)
                     if (result.second != null) {
                         player.debug(result.second.type.name + " 1: " + result.first)
                         val mat = result.second
@@ -31,10 +30,6 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                         fail(result.second.type.name)
                         if (shouldCancel()) event.cancel()
                     }
-//                    if (result1.second != null) {
-//                        player.debug(result1.second.type.name + " 2: " + result1.first)
-//                        fail(result1.second.type.name)
-//                    }
                 }
             }
         }

@@ -225,4 +225,46 @@ public class MathUtil {
 
         return mode;
     }
+    public static double runsZScore(List<Double> values) {
+        if (values == null || values.size() < 10) {
+            return 0.0;
+        }
+        ArrayList<Double> sorted = new ArrayList<Double>(values);
+        Collections.sort(sorted);
+        double median = (Double)sorted.get(sorted.size() / 2);
+        ArrayList<Integer> signs = new ArrayList<Integer>();
+        for (double v : values) {
+            if (v > median) {
+                signs.add(1);
+                continue;
+            }
+            if (!(v < median)) continue;
+            signs.add(-1);
+        }
+        if (signs.size() < 10) {
+            return 0.0;
+        }
+        int runs = 1;
+        for (int i = 1; i < signs.size(); ++i) {
+            if (((Integer)signs.get(i)).equals(signs.get(i - 1))) continue;
+            ++runs;
+        }
+        int n1 = 0;
+        int n2 = 0;
+        Iterator iterator = signs.iterator();
+        while (iterator.hasNext()) {
+            int s = (Integer)iterator.next();
+            if (s == 1) {
+                ++n1;
+                continue;
+            }
+            ++n2;
+        }
+        double expectedRuns = 2.0 * (double)n1 * (double)n2 / (double)(n1 + n2) + 1.0;
+        double varianceRuns = 2.0 * (double)n1 * (double)n2 * (2.0 * (double)n1 * (double)n2 - (double)n1 - (double)n2) / (Math.pow(n1 + n2, 2.0) * (double)(n1 + n2 - 1));
+        if (varianceRuns <= 0.0) {
+            return 0.0;
+        }
+        return ((double)runs - expectedRuns) / Math.sqrt(varianceRuns);
+    }
 }

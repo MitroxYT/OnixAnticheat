@@ -2,8 +2,6 @@ package me.onixdev.event.impl;
 
 import com.github.retrooper.packetevents.protocol.item.ItemStack;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
-import lombok.Generated;
-import lombok.Getter;
 import dev.onixac.api.events.api.BaseEvent;
 
 public class PlayerPacketClickEvent extends BaseEvent {

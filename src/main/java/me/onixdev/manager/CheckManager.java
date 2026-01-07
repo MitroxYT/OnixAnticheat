@@ -2,15 +2,14 @@ package me.onixdev.manager;
 
 
 import me.onixdev.check.api.Check;
-import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.check.impl.combat.aim.*;
 import me.onixdev.check.impl.combat.aura.AuraA;
 import me.onixdev.check.impl.combat.aura.AuraB;
 import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
 import me.onixdev.check.impl.movement.noslow.NoslowTick;
 import me.onixdev.check.impl.player.airstuck.AirStuckA;
-import me.onixdev.check.impl.player.autototem.AutoTotemA;
 import me.onixdev.check.impl.player.badpackets.*;
+import me.onixdev.check.impl.player.block.BedBreakerA;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.inventory.InventoryC;
@@ -20,9 +19,7 @@ import me.onixdev.user.OnixUser;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CheckManager
@@ -62,7 +59,7 @@ public class CheckManager
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
         CHECKS = new Class[] {AimA.class, ClientBrandParser.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
-                InventoryA.class, AutoTotemA.class, InventoryB.class, InventoryC.class
+                InventoryA.class, BedBreakerA.class, InventoryB.class, InventoryC.class
         };
 
     }

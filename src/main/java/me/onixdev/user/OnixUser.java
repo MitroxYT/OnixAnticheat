@@ -22,9 +22,7 @@ import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import dev.onixac.api.user.data.IPlayerRotationData;
-import lombok.Generated;
 import lombok.Getter;
-import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
@@ -36,6 +34,7 @@ import me.onixdev.util.color.MessageUtil;
 import me.onixdev.util.items.PlayerInventory;
 import me.onixdev.util.net.*;
 import me.onixdev.util.net.ping.PingUtil;
+import me.onixdev.util.rotation.Rotation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -77,22 +76,22 @@ public class OnixUser implements IOnixUser {
     public AlertManager getAlertManager() {
         return alertManager;
     }
-    
+
     public boolean isAlertsEnabled() {
         return this.alertsEnabled;
     }
 
-    
+
     public boolean isVerboseEnabled() {
         return this.verboseEnabled;
     }
 
-    
+
     public void setAlertsEnabled(boolean alertsEnabled) {
         this.alertsEnabled = alertsEnabled;
     }
 
-    
+
     public void setVerboseEnabled(boolean verboseEnabled) {
         this.verboseEnabled = verboseEnabled;
     }
@@ -126,6 +125,7 @@ public class OnixUser implements IOnixUser {
     private final double walkSpeed = 0.10000000149011612D;
     @Getter
     private int jumpBoost, speedBoost, slowness;
+    public Rotation rotation = new Rotation(0, 0);
 
     public OnixUser(User user) {
         this.user = user;
@@ -183,6 +183,9 @@ public class OnixUser implements IOnixUser {
             case "usingitem" -> {
                 return Optional.of(isUsingItem);
             }
+            case "itemusetime" -> {
+                return Optional.of(ItemUseTime);
+            }
             case "hitticks" -> {
                 return Optional.of(lastHitTime);
             }
@@ -210,7 +213,7 @@ public class OnixUser implements IOnixUser {
      */
     @Override
     public void runTaskPre(Runnable runnable) {
-        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 1,runnable);
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 1, runnable);
     }
 
     /**
@@ -218,7 +221,7 @@ public class OnixUser implements IOnixUser {
      */
     @Override
     public void runTaskPost(Runnable runnable) {
-        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 2,runnable);
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 2, runnable);
     }
 
     /**
@@ -227,7 +230,7 @@ public class OnixUser implements IOnixUser {
      */
     @Override
     public void runTask(Runnable runnable, int offset) {
-        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + offset,runnable);
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + offset, runnable);
     }
 
     public Player getBukkitPlayer() {
@@ -257,8 +260,8 @@ public class OnixUser implements IOnixUser {
     }
 
     public void handleEvent(BaseEvent clickEvent) {
-        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(),()-> {
-            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent,this,true));
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> {
+            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent, this, true));
         });
         if (clickEvent instanceof PlayerActionPacket) {
             if (((PlayerActionPacket) clickEvent).action == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) {
@@ -270,8 +273,8 @@ public class OnixUser implements IOnixUser {
         for (Check check : checks) {
             check.onEvent(clickEvent);
         }
-        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(),()-> {
-            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent,this,false));
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> {
+            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent, this, false));
         });
     }
 

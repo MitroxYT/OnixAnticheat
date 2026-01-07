@@ -12,11 +12,10 @@ class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("A
     private var minFovFactor:Double = Double.MAX_VALUE
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && !event.isPost && player.lastHitTime < 4) {
-            var yawDiff: Float = abs(player.rotationContainer.lastYaw - player.rotationContainer.yaw).toFloat()
+            var yawDiff: Float = abs(player.rotationContainer.lastYaw - player.rotationContainer.yaw)
             if (yawDiff > 180.0f) {
                 yawDiff = 360.0f - yawDiff
             }
-            player.debug("yd: $yawDiff fov: $minFovFactor")
             if (yawDiff > minFovFactor && player.movementContainer.deltaXZ > 0.12) {
                 if (lastTickFlagget) {
                     fail(String.format("%.5f", yawDiff))

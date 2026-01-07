@@ -151,7 +151,7 @@ public class Check implements ICheck {
                     String[] vlData = parts[0].split(":");
                     int vlThreshold = Integer.parseInt(vlData[0]);
                     int alertInterval = Integer.parseInt(vlData[1]);
-                    String command = parts.length > 1 ? parts[1] : "";
+                    String command = parts.length > 1 ? OnixAnticheat.INSTANCE.getColorizer().colorize(parts[1]) : "";
                     commands.add(new ConfigVlCommandData(vlThreshold, alertInterval, command));
                 } catch (Exception e) {
                     Bukkit.getLogger().warning("Invalid command format in checks.yml: " + cmd);
@@ -161,6 +161,9 @@ public class Check implements ICheck {
     }
     public String getCheckPatch() {
         return "checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT)  + ".";
+    }
+    public String format(Double value) {
+        return String.format("%.5f", value);
     }
     public YamlConfiguration getCheckConfig() {
         return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();

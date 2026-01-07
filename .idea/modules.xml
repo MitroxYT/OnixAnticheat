@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/abobatests/OnixAnticheat.abobatests.main.iml" filepath="$PROJECT_DIR$/.idea/modules/abobatests/OnixAnticheat.abobatests.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/OnixAnticheat.api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/OnixAnticheat.api.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OnixAnticheat.main.iml" filepath="$PROJECT_DIR$/.idea/modules/OnixAnticheat.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OnixAnticheat.test.iml" filepath="$PROJECT_DIR$/.idea/modules/OnixAnticheat.test.iml" />
     </modules>
