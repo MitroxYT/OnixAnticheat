@@ -18,6 +18,7 @@ import com.github.retrooper.packetevents.wrapper.play.server.*;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
 import dev.onixac.api.events.api.BaseEvent;
+import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
 import dev.onixac.api.user.data.IPlayerRotationData;
@@ -256,6 +257,9 @@ public class OnixUser implements IOnixUser {
     }
 
     public void handleEvent(BaseEvent clickEvent) {
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(),()-> {
+            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent,this,true));
+        });
         if (clickEvent instanceof PlayerActionPacket) {
             if (((PlayerActionPacket) clickEvent).action == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) {
                 lastStopSprint = System.currentTimeMillis();
@@ -266,6 +270,9 @@ public class OnixUser implements IOnixUser {
         for (Check check : checks) {
             check.onEvent(clickEvent);
         }
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(),()-> {
+            Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent,this,false));
+        });
     }
 
     public boolean hasConfirmPlayState() {

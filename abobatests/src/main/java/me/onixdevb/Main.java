@@ -4,6 +4,7 @@ package me.onixdevb;
 import dev.onixac.api.OnixAPI;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
+import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import dev.onixac.api.user.IOnixUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,6 +26,8 @@ public class Main extends JavaPlugin implements Listener {
         // Plugin startup logic
 
     }
+    @EventHandler
+    public void onOnixEvent(PlayerOnixEventCall eventCall) {}
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();

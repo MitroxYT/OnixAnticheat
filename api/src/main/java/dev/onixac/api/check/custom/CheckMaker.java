@@ -2,15 +2,27 @@ package dev.onixac.api.check.custom;
 
 import dev.onixac.api.check.CheckStage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CheckMaker {
     private String checkName,type,description;
     private double maxBuffer = 10;
     private CheckStage checkStage;
+    private List<ConfigVlCommandData> commandData = new ArrayList<>();
     public static CheckMaker create() {
         return new CheckMaker();
     }
     public CheckMaker setBuffer(double buffer) {
         this.maxBuffer = buffer;
+        return this;
+    }
+    public List<ConfigVlCommandData> getCommandData() {
+        return commandData;
+    }
+
+    public CheckMaker setCommandData(List<ConfigVlCommandData> commandData) {
+        this.commandData = commandData;
         return this;
     }
     public CheckMaker setCheckName(String checkName) {

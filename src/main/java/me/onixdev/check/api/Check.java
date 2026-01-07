@@ -3,6 +3,7 @@ package me.onixdev.check.api;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
+import dev.onixac.api.check.custom.ConfigVlCommandData;
 import dev.onixac.api.events.api.BaseEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,10 @@ public class Check implements ICheck {
     protected double maxbuffer;
     protected double decay;
     protected final OnixUser player;
-    private final List<ConfigVlCommandData> commands = new ArrayList<>();
+    private List<ConfigVlCommandData> commands = new ArrayList<>();
     public double setbackVL;
     private boolean setback;
+    private boolean createdByAPI;
 
     public Check(OnixUser player, CheckBuilder builder) {
         this.player = player;
@@ -41,6 +43,11 @@ public class Check implements ICheck {
             stage = builder.getCheckStage();
             type = builder.getType();
             maxbuffer = builder.getMaxBuffer();
+            createdByAPI = builder.isCreatedByApi();
+            if (createdByAPI) {
+                enabled = true;
+                commands = builder.getCommandData();
+            }
         }
     }
 
@@ -122,6 +129,8 @@ public class Check implements ICheck {
     }
 
     public void reload() {
+        // чеки созданные через апи не возможно использовать через конфиг
+        if (createdByAPI) return;
         OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
             YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
             //  if (noCheck) return;
@@ -181,15 +190,5 @@ public class Check implements ICheck {
                 }
             }
         }
-    }
-
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    static
-    class ConfigVlCommandData {
-        int vl;
-        int alertInterval;
-        String command;
     }
 }
