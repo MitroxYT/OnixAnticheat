@@ -29,7 +29,6 @@ class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("A
 
     override fun reload() {
         minFovFactor = checkConfig.getDouble(checkPatch+"minFov",85.0)
-        println(checkPatch+"minFov" + " fov: " + minFovFactor)
         super.reload()
     }
 }

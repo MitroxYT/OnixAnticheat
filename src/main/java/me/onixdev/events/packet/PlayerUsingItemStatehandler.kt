@@ -9,6 +9,7 @@ import com.github.retrooper.packetevents.protocol.player.DiggingAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientHeldItemChange
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientUseItem
+import io.github.retrooper.packetevents.util.SpigotConversionUtil
 import me.onixdev.OnixAnticheat
 import me.onixdev.check.impl.player.badpackets.BadPacketA
 import me.onixdev.check.impl.player.badpackets.BadPacketB
@@ -35,6 +36,8 @@ class PlayerUsingItemStatehandler : PacketListenerAbstract(PacketListenerPriorit
             val user = OnixAnticheat.INSTANCE.playerDatamanager.get(event.user)
             if (user != null) {
                 val itemStack = user.inventory.getItemInHand(useItem.hand)
+                val peStack = SpigotConversionUtil.fromBukkitItemStack(itemStack)
+                if (user.inventory.hasCooldown(peStack.type)) return
                 val usable = MaterialsUtil.isUsable(itemStack, user.food)
                 user.sendTransaction()
                 val badPacketB = user.getCheck(BadPacketB::class.java)

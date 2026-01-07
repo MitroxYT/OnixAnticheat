@@ -17,10 +17,10 @@ class ClientBrandParser(user: OnixUser) : Check(user, CheckBuilder.create().setC
     ) "minecraft:brand" else "MC|Brand"
 
     override fun onPacketIn(event: PacketReceiveEvent?) {
-        if (event!!.getPacketType() === PacketType.Play.Client.PLUGIN_MESSAGE) {
+        if (event!!.packetType === PacketType.Play.Client.PLUGIN_MESSAGE) {
             val packet = WrapperPlayClientPluginMessage(event)
             handle(packet.channelName, packet.data)
-        } else if (event.getPacketType() === PacketType.Configuration.Client.PLUGIN_MESSAGE) {
+        } else if (event.packetType === PacketType.Configuration.Client.PLUGIN_MESSAGE) {
             val packet = WrapperConfigClientPluginMessage(event)
             handle(packet.channelName, packet.data)
         }

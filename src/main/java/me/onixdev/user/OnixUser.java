@@ -91,6 +91,7 @@ public class OnixUser implements IOnixUser {
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     public boolean isUsingItem = false;
     public int ItemUseTime;
+    public boolean isDead;
     public int lastHitTime = 100;
     @Getter
     private String mitigateType;
@@ -182,6 +183,31 @@ public class OnixUser implements IOnixUser {
     public void setBrand(String brand) {
         if (brand == null || brand.isBlank()) return;
         this.brand = brand;
+    }
+
+    /**
+     * @param runnable
+     */
+    @Override
+    public void runTaskPre(Runnable runnable) {
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 1,runnable);
+    }
+
+    /**
+     * @param runnable
+     */
+    @Override
+    public void runTaskPost(Runnable runnable) {
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + 2,runnable);
+    }
+
+    /**
+     * @param runnable
+     * @param offset
+     */
+    @Override
+    public void runTask(Runnable runnable, int offset) {
+        lagCompensation.addTask(connectionContainer.lastTransactionSent.get() + offset,runnable);
     }
 
     public Player getBukkitPlayer() {
@@ -344,7 +370,7 @@ public class OnixUser implements IOnixUser {
     }
 
     public boolean isDead() {
-        return player != null && player.isDead();
+        return player != null && isDead;
     }
 
     public boolean isSpectator() {

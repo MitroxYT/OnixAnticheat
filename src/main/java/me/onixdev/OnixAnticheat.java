@@ -94,6 +94,7 @@ public class OnixAnticheat {
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerUsingItemStatehandler());
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerConnectionHandler());
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerFoodHealthHandler());
+        PacketEvents.getAPI().getEventManager().registerListeners(new PlayerServerCooldownHandler());
         PacketEvents.getAPI().init();
         noSupportComponentMessage = PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
     }

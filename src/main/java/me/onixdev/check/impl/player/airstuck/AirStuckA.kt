@@ -17,7 +17,7 @@ class AirStuckA(player: OnixUser) : Check(player, CheckBuilder.create().setCheck
         if (PacketUtil.isTransaction(event.packetType)) {
             val ms: Long = (player.connectionContainer.playerClockAtLeast - this.clock) / 1000000L
             val diff = System.currentTimeMillis() - this.lastTransTime
-            val exempt = player.inVehicle()
+            val exempt = player.inVehicle() || player.isDead || player.isSpectator
             if (diff > 2000L && ms > 2000L) {
                 if (this.positions == 0 && (this.clock != 0L) && !exempt) {
                     fail("player no Response Since $ms ms")

@@ -15,4 +15,7 @@ public interface IOnixUser {
     Optional<Object> getValue(String name);
     String getBrand();
     void setBrand(String brand);
+    void runTaskPre(Runnable runnable);
+    void runTaskPost(Runnable runnable);
+    void runTask(Runnable runnable,int offset);
 }

@@ -168,10 +168,10 @@ public class Check implements ICheck {
                 else if (command.startsWith("[invalidItem]")) player.disconnect(KickTypes.InvalidItemUse,"sss");//player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
                 else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
                     try {
-                        String punishid = PunishIdSystem.GenerateId(player.getName());
-                        PunishIdSystem.LogPunish(player, this, punishid, verbose);
-                        String finalcmd = command.replace("%id%", punishid);
-                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalcmd));
+                        String punished = PunishIdSystem.GenerateId(player.getName());
+                        PunishIdSystem.LogPunish(player, this, punished, verbose);
+                        String finalised = command.replace("%id%", punished);
+                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalised));
                     } catch (IllegalArgumentException e) {
                         Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
                         throw new RuntimeException(e);
@@ -186,6 +186,7 @@ public class Check implements ICheck {
     @AllArgsConstructor
     @Getter
     @Setter
+    static
     class ConfigVlCommandData {
         int vl;
         int alertInterval;

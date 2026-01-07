@@ -13,7 +13,16 @@ class PlayerFoodHealthHandler: PacketListenerAbstract(PacketListenerPriority.NOR
         if (event.packetType == PacketType.Play.Server.UPDATE_HEALTH) {
             val packet = WrapperPlayServerUpdateHealth(event)
             val user = OnixAnticheat.INSTANCE.playerDatamanager.get(event.user)?: return
-            user.food = packet.food
+            user.sendTransaction()
+            user.runTaskPre { user.food = packet.food }
+            val health = packet.health
+            user.sendTransaction()
+            if (health <= 0.0) {
+                user.runTaskPre { user.isDead = true }
+            }
+            else {
+                user.runTaskPre { user.isDead = false }
+            }
         }
     }
 }
