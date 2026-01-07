@@ -3,8 +3,17 @@ package me.onixdev.util.net;
 import dev.onixac.api.user.IClientInput;
 
 public class ClientInput implements IClientInput {
-    private boolean forward, backward, left, right, jump, shift, sprint,slowing;
-    private double forwardMotion,strafe,motion;
+    private boolean forward;
+    private boolean backward;
+    private boolean left;
+    private boolean right;
+    private boolean jump;
+    private boolean shift;
+    private boolean sprint;
+    private final boolean slowing;
+    private double forwardMotion;
+    private double strafe;
+    private final double motion;
 
     public ClientInput(boolean forward, boolean backward, boolean left, boolean right, boolean jump, boolean shift, boolean sprint,boolean slowing, double forwardMotion, double strafe,double motion) {
         this.forward = forward;

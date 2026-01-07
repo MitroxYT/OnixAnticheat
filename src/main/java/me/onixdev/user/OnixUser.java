@@ -20,6 +20,7 @@ import dev.onixac.api.check.custom.CheckMaker;
 import dev.onixac.api.events.api.BaseEvent;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
+import dev.onixac.api.user.data.IPlayerRotationData;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -385,6 +386,14 @@ public class OnixUser implements IOnixUser {
             }
         }
         return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public IPlayerRotationData getRotationData() {
+        return rotationContainer;
     }
 
     @Override

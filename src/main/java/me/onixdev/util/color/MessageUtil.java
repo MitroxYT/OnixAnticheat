@@ -18,7 +18,9 @@ public class MessageUtil {
         }
 
         final Component component = MiniMessage.miniMessage().deserialize(input);
-        return LegacyComponentSerializer.legacySection().serialize(component);
+        return LegacyComponentSerializer.builder().character('§').hexColors().useUnusualXRepeatedCharacterHexFormat()
+                .build().serialize(component).replace("&", "§");
+       // return LegacyComponentSerializer.legacySection().serialize(component);
     }
     public static String listToString(List<String> list) {
         if (list == null || list.isEmpty()) {

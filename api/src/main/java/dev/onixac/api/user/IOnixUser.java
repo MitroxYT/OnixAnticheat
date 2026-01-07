@@ -2,6 +2,8 @@ package dev.onixac.api.user;
 
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
+import dev.onixac.api.events.api.BaseEvent;
+import dev.onixac.api.user.data.IPlayerRotationData;
 
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ public interface IOnixUser {
     String getName();
     void mitigate(String type,double time);
     ICheck getCheck(String name,String type);
+    IPlayerRotationData getRotationData();
     void registerCheck(CheckMaker checkMaker);
     void sendMessage(String message);
     double getSensitivity();
@@ -18,4 +21,5 @@ public interface IOnixUser {
     void runTaskPre(Runnable runnable);
     void runTaskPost(Runnable runnable);
     void runTask(Runnable runnable,int offset);
+    void handleEvent(BaseEvent clickEvent);
 }

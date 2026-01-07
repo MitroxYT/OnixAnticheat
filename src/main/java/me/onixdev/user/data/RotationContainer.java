@@ -1,5 +1,6 @@
 package me.onixdev.user.data;
 
+import dev.onixac.api.user.data.IPlayerRotationData;
 import me.onixdev.event.impl.PlayerRotationEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.math.GraphUtil;
@@ -9,7 +10,7 @@ import me.onixdev.util.net.MinecraftValues;
 import java.util.*;
 
 
-public class RotationContainer {
+public class RotationContainer  implements IPlayerRotationData {
     private final OnixUser user;
     private float yaw;
     private float pitch;

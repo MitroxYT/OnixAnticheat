@@ -13,6 +13,8 @@ import me.onixdev.events.packet.*;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.color.Colorizer;
+import me.onixdev.util.color.impl.MiniMessageColor;
 import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.*;
@@ -29,6 +31,7 @@ public class OnixAnticheat {
     private PlayerDatamanager playerDatamanager;
     private int ticksFromStart;
     private ConfigManager configManager;
+    private Colorizer colorizer = new MiniMessageColor();
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -123,4 +126,6 @@ public class OnixAnticheat {
     public IThreadExecutor getCloudCheckExecuter() {
         return cloudCheckExecuter;
     }
+    public void setColorizer(Colorizer colorizer) {this.colorizer = colorizer;}
+    public Colorizer getColorizer() {return colorizer;}
 }

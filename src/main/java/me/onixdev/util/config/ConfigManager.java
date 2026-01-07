@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.util.color.MessageUtil;
+import me.onixdev.util.color.impl.LegacyHexColor;
+import me.onixdev.util.color.impl.MiniMessageColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -60,7 +62,7 @@ public class ConfigManager {
         var configFiles = Map.of(
                 "config.yml",   1.1,
                 "checks.yml",   1.1,
-                "messages.yml", 1.4
+                "messages.yml", 1.5
         );
 
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
@@ -142,13 +144,20 @@ public class ConfigManager {
 
 
     private void init() {
-        prefix = MessageUtil.translate(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
-        alertsformat = MessageUtil.translate(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
+        String color = messagesconfig.getString("system","MINIMESSAGE");
+        if (color.equals("MINIMESSAGE")) {
+            OnixAnticheat.INSTANCE.setColorizer(new MiniMessageColor());
+        }
+        else {
+            OnixAnticheat.INSTANCE.setColorizer(new LegacyHexColor());
+        }
+        prefix = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
+        alertsformat = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         hover= messagesconfig.getStringList("hover");
-        hoverMsg = MessageUtil.translate(MessageUtil.listToString(hover));
-        profileMessage = MessageUtil.translate(MessageUtil.listToString(messagesconfig.getStringList("profile")));
-        onAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
-        offAlertsMsg = MessageUtil.translate(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
+        hoverMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(hover));
+        profileMessage = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(messagesconfig.getStringList("profile")));
+        onAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
+        offAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
     }
 
