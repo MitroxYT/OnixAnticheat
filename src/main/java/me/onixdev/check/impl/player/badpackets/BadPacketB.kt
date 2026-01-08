@@ -17,7 +17,9 @@ class BadPacketB(player: OnixUser?) :
         if (event is PlayerActionPacket) {
             if (event.action === WrapperPlayClientEntityAction.Action.START_SPRINTING) {
                 val passed: Long = player.getValue("sprintstop").get() as Long
-                if (passed < threshold) {
+                // проверка работала всегда а не только при пвп ><
+                val imIdiot = player.combatData.hasAttackedSince(500)
+                if (passed < threshold && imIdiot) {
                     if (++buffer > maxBuffer) {
                         fail("time: $passed ms")
                     }
