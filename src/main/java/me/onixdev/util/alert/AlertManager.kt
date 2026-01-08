@@ -6,6 +6,7 @@ import me.onixdev.check.api.Check
 import me.onixdev.user.OnixUser
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.minimessage.MiniMessage
 
 class AlertManager(private val user: OnixUser) : IAlertManager {
     override fun toggleAlerts() {
@@ -30,8 +31,8 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
 
 
     override fun toggleVerbose() {
-        if (user.isVerboseEnabled()) user.setVerboseEnabled(false)
-        else user.setVerboseEnabled(true)
+        if (user.isVerboseEnabled) user.isVerboseEnabled = false
+        else user.isVerboseEnabled = true
     }
 
     @Suppress("DEPRECATION")
@@ -52,8 +53,8 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
-            val alert: Component =
-                Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
+            val alert: Component = MiniMessage.miniMessage().deserialize(finalAlertMsg).hoverEvent(HoverEvent.showText(MiniMessage.miniMessage().deserialize(finalVerboseMsg).compact()))
+                //Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
                 if (users.isVerboseEnabled) users.sendMessage(alert)
             }

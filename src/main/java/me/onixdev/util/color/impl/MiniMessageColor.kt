@@ -1,9 +1,9 @@
 package me.onixdev.util.color.impl
 
-import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer
 import me.onixdev.util.color.Colorizer
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 
 class MiniMessageColor : Colorizer {
     override fun colorize(message: String?): String? {

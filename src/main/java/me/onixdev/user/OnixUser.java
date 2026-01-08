@@ -21,6 +21,7 @@ import dev.onixac.api.events.api.BaseEvent;
 import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import dev.onixac.api.user.IClientInput;
 import dev.onixac.api.user.IOnixUser;
+import dev.onixac.api.user.data.IPlayerClickData;
 import dev.onixac.api.user.data.IPlayerRotationData;
 import lombok.Getter;
 import me.onixdev.OnixAnticheat;
@@ -101,6 +102,7 @@ public class OnixUser implements IOnixUser {
     @Getter
     private List<Check> checks = new ArrayList<>();
     private final RotationContainer rotationContainer;
+    public final ClickData clickData;
     private final ConnectionContainer connectionContainer;
     private final BrigingContainer brigingContainer;
     private final MovementContainer movementContainer;
@@ -141,6 +143,7 @@ public class OnixUser implements IOnixUser {
         inventory = new PlayerInventory(this);
         antiFalsePositivesHandler = new AntiFalsePositivesHandler(this);
         combatData = new CombatData(this);
+        clickData = new ClickData(this);
         lagCompensation = new PingUtil(this);
         checkAlertsTogglingWhileBukkitPlayerNotNull = true;
         if ((Bukkit.getPlayer(this.uuid) != null)) {
@@ -422,6 +425,14 @@ public class OnixUser implements IOnixUser {
     @Override
     public IPlayerRotationData getRotationData() {
         return rotationContainer;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public IPlayerClickData getClickData() {
+        return clickData;
     }
 
     @Override
