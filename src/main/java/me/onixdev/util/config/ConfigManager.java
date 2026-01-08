@@ -57,7 +57,7 @@ public class ConfigManager {
     private void updateAllConfigFiles() {
 
         var configFiles = Map.of(
-                "config.yml",   1.1,
+                "config.yml",   1.2,
                 "checks.yml",   1.1,
                 "messages.yml", 1.5
         );
@@ -137,6 +137,7 @@ public class ConfigManager {
     public String offAlertsMsg = "%prefix% <gray> alerts <green> off";
     private String hoverMsg = "";
     private String profileMessage;
+    private boolean fixHoverSystemCompability;
     public boolean enableAlertsOnJoin;
 
 
@@ -148,6 +149,7 @@ public class ConfigManager {
         else {
             OnixAnticheat.INSTANCE.setColorizer(new LegacyHexColor());
         }
+        fixHoverSystemCompability = getConfig().getBoolean("disable-hover-message",false);
         prefix = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
         alertsformat = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         hover= messagesconfig.getStringList("hover");
@@ -203,6 +205,9 @@ public class ConfigManager {
     
     public YamlConfiguration getMessagesconfig() {
         return this.messagesconfig;
+    }
+    public boolean isFixHoverSystemCompability() {
+        return fixHoverSystemCompability;
     }
 
     

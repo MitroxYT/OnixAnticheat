@@ -9,20 +9,20 @@ import net.kyori.adventure.text.event.HoverEvent
 
 class AlertManager(private val user: OnixUser) : IAlertManager {
     override fun toggleAlerts() {
-        if (user.isAlertsEnabled()) {
-            user.setAlertsEnabled(false)
+        if (user.isAlertsEnabled) {
+            user.isAlertsEnabled = false
             user.sendMessage(
-                OnixAnticheat.INSTANCE.getConfigManager().offAlertsMsg.replace(
+                OnixAnticheat.INSTANCE.configManager.offAlertsMsg.replace(
                     "%prefix%".toRegex(),
-                    OnixAnticheat.INSTANCE.getConfigManager().getPrefix()
+                    OnixAnticheat.INSTANCE.configManager.prefix
                 )
             )
         } else {
-            user.setAlertsEnabled(true)
+            user.isAlertsEnabled = true
             user.sendMessage(
-                OnixAnticheat.INSTANCE.getConfigManager().onAlertsMsg.replace(
+                OnixAnticheat.INSTANCE.configManager.onAlertsMsg.replace(
                     "%prefix%".toRegex(),
-                    OnixAnticheat.INSTANCE.getConfigManager().getPrefix()
+                    OnixAnticheat.INSTANCE.configManager.prefix
                 )
             )
         }
@@ -34,49 +34,64 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
         else user.setVerboseEnabled(true)
     }
 
+    @Suppress("DEPRECATION")
     fun handleVerbose(user: OnixUser, check: Check, verbose: String) {
-        val alertString = OnixAnticheat.INSTANCE.getConfigManager().getAlertsformat()
-        val prefix = OnixAnticheat.INSTANCE.getConfigManager().getPrefix()
-        val hoverMessage = OnixAnticheat.INSTANCE.getConfigManager().getHoverMsg()
+        val alertString = OnixAnticheat.INSTANCE.configManager.alertsformat
+        val prefix = OnixAnticheat.INSTANCE.configManager.prefix
+        val hoverMessage = OnixAnticheat.INSTANCE.configManager.hoverMsg
         val finalAlertMsg = alertString.replace("%prefix%".toRegex(), prefix)
-            .replace("%player%", user.getName())
-            .replace("%check_name%", check.getName())
+            .replace("%player%", user.name)
+            .replace("%check_name%", check.name)
             .replace("%vl%", check.getVl().toInt().toString())
             .replace("%type%", check.getType().uppercase())
             .replace("%verbose%", verbose)
-            .replace("%experimental%", if (check.isExperimental()) " *" else "")
-        val finalVerboseMsg = hoverMessage.replace("%player%".toRegex(), user.getName())
-            .replace("%check_name%", check.getName().uppercase())
+            .replace("%experimental%", if (check.isExperimental) " *" else "")
+        val finalVerboseMsg = hoverMessage.replace("%player%".toRegex(), user.name)
+            .replace("%check_name%", check.name.uppercase())
             .replace("%type%", check.getType().uppercase())
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
-        val alert: Component =
-            Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
-        for (users in OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData()) {
-            if (users.isVerboseEnabled()) users.sendMessage(alert)
+        if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
+            val alert: Component =
+                Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
+            for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
+                if (users.isVerboseEnabled) users.sendMessage(alert)
+            }
+        }
+        else {
+            for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
+                if (users.isVerboseEnabled) users.sendMessage(finalAlertMsg)
+            }
         }
     }
 
     fun handleAlert(user: OnixUser, check: Check, verbose: String) {
-        val alertString = OnixAnticheat.INSTANCE.getConfigManager().getAlertsformat()
-        val prefix = OnixAnticheat.INSTANCE.getConfigManager().getPrefix()
-        val hoverMessage = OnixAnticheat.INSTANCE.getConfigManager().getHoverMsg()
+        val alertString = OnixAnticheat.INSTANCE.configManager.alertsformat
+        val prefix = OnixAnticheat.INSTANCE.configManager.prefix
+        val hoverMessage = OnixAnticheat.INSTANCE.configManager.hoverMsg
         val finalAlertMsg = alertString.replace("%prefix%".toRegex(), prefix)
-            .replace("%player%", user.getName())
-            .replace("%check_name%", check.getName())
-            .replace("%type%", check.getType().uppercase())
+            .replace("%player%", user.name)
+            .replace("%check_name%", check.name)
             .replace("%vl%", check.getVl().toInt().toString())
+            .replace("%type%", check.getType().uppercase())
             .replace("%verbose%", verbose)
-            .replace("%experimental%", if (check.isExperimental()) " *" else "")
-        val finalVerboseMsg = hoverMessage.replace("%player%".toRegex(), user.getName())
-            .replace("%check_name%", check.getName().uppercase())
+            .replace("%experimental%", if (check.isExperimental) "*" else "")
+        val finalVerboseMsg = hoverMessage.replace("%player%".toRegex(), user.name)
+            .replace("%check_name%", check.name.uppercase())
             .replace("%type%", check.getType().uppercase())
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
-        val alert: Component =
-            Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
-        for (users in OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData()) {
-            if (users.isAlertsEnabled()) users.sendMessage(alert)
+        if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
+            val alert: Component =
+                Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
+            for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
+                if (users.isAlertsEnabled) users.sendMessage(alert)
+            }
+        }
+        else {
+            for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
+                if (users.isAlertsEnabled) users.sendMessage(finalAlertMsg)
+            }
         }
     }
 }
