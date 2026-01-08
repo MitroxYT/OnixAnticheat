@@ -4,6 +4,7 @@ import dev.onixac.api.manager.IAlertManager
 import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
 import me.onixdev.user.OnixUser
+import me.onixdev.util.color.MessageUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -53,7 +54,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
-            val alert: Component = MiniMessage.miniMessage().deserialize(finalAlertMsg).hoverEvent(HoverEvent.showText(MiniMessage.miniMessage().deserialize(finalVerboseMsg).compact()))
+            val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))
                 //Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
                 if (users.isVerboseEnabled) users.sendMessage(alert)
