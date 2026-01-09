@@ -2,6 +2,7 @@ package me.onixdev.user.data;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
+import dev.onixac.api.events.impl.PlayerInputChangeEvent;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
@@ -230,13 +231,15 @@ public class MovementContainer {
                                                 this.motionZ = motionZ;
                                                 this.moveStrafe = moveStrafe;
                                                 this.moveForward = moveForward;
-
                                                 this.sprinting = sprinting;
                                                 this.jump = getDeltaY() > 0.2 && GetLastClientOnGround();
                                                 this.usingItem = usingItem;
                                                 this.slowdown = slowdown;
                                                 this.fastMath = fastMath;
                                                 user.theoreticalInput = new ClientInput(moveForward > 0.0, moveForward < 0.0, moveStrafe == 0.98F, moveStrafe == -0.98F, jump, sneaking, sprinting, slowdown, moveForward, moveStrafe, distance);
+                                                PlayerInputChangeEvent eventInput = new PlayerInputChangeEvent(user.theoreticalInput);
+                                                user.handleEvent(eventInput);
+                                                if (eventInput.isCancelled()) user.theoreticalInput.reset();
                                                 if (distance < 1e-14) break iteration;
                                             }
                                         }

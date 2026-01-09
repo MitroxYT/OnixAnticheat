@@ -6,13 +6,14 @@ import com.github.retrooper.packetevents.protocol.item.type.ItemType
 import com.github.retrooper.packetevents.protocol.player.InteractionHand
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerHeldItemChange
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSetCooldown
+import dev.onixac.api.user.data.IPlayerInventory
 import me.onixdev.user.OnixUser
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("UNREACHABLE_CODE", "DEPRECATION")
-class PlayerInventory(val user: OnixUser) {
+class PlayerInventory(val user: OnixUser) : IPlayerInventory {
     var heldItemSlot : Int = 0
     var lastHeldItemSlot : Int = 0
     var serverRequiestSetHeldItem : Boolean = false
@@ -30,10 +31,15 @@ class PlayerInventory(val user: OnixUser) {
         } else user.bukkitPlayer.inventory.itemInHand
         return ItemStack(Material.AIR)
     }
-    fun getItemInMainHand() : ItemStack {
+    override fun getItemInMainHand() : ItemStack {
         return getItemInHand(InteractionHand.MAIN_HAND)
     }
-    fun getItemInOffHand() : ItemStack {
+
+    override fun getItemInSlot(index: Int): ItemStack? {
+      return user.bukkitPlayer?.inventory?.getItem(index)
+    }
+
+    override fun getItemInOffHand() : ItemStack {
         return getItemInHand(InteractionHand.OFF_HAND)
     }
      fun handleCooldownPacket(cooldown: WrapperPlayServerSetCooldown) {
@@ -48,7 +54,7 @@ class PlayerInventory(val user: OnixUser) {
         return cooldowns.containsKey(item)
     }
 
-    fun swapSlot() {
+    override fun swapSlot() {
         var slot = heldItemSlot+1
         if (slot > 8) {
             slot = 0

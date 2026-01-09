@@ -15,16 +15,13 @@ import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 
-class AuraA(player: OnixUser?) :
-    Check(player,
-        CheckBuilder.create().setCheckName("Aura").setType("A").setDescription("PostCheck")
-            .setCheckStage(CheckStage.RELEASE).build()
-    ) {
+class AuraA(player: OnixUser?) : Check(player, CheckBuilder.create().setCheckName("Aura").setType("A").setDescription("PostCheck").setCheckStage(CheckStage.RELEASE).build()) {
     private var send = false
     private var last: Long = 0
     override fun onPacketIn(event: PacketReceiveEvent?) {
         if (WrapperPlayClientPlayerFlying.isFlying(event!!.packetType)) {
             val delay: Long = (System.currentTimeMillis() - last)
+            if (player.clickData.cps > 3) return
             if (this.send) {
                 if (delay in 39..99) {
                     fail("delay=$delay")

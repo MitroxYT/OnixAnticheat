@@ -7,8 +7,7 @@ import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
-import org.bukkit.Material
-import java.util.Locale
+import java.util.*
 
 class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aura").setCheckStage(CheckStage.EXPERIMENTAL).setType("B").build()){
     override fun onEvent(event: BaseEvent?) {
