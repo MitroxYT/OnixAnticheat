@@ -84,8 +84,8 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
-            val alert: Component =
-                Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
+           // val alert: Component = Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
+            val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
                 if (users.isAlertsEnabled) users.sendMessage(alert)
             }

@@ -9,7 +9,7 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import java.util.Locale
 
-class BedBreakerA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("BedBreaker").setCheckStage(CheckStage.EXPERIMENTAL).setType("A").build()) {
+class GhostHandB(user: OnixUser) : Check(user, CheckBuilder().setCheckName("GhostHand").setCheckStage(CheckStage.EXPERIMENTAL).setType("B").build()) {
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerBlockBreakEvent) {
             val block = event.getBlock()
@@ -24,6 +24,7 @@ class BedBreakerA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Bed
                     val validRay = result.second!!.type == block.type
                     if (!validRay) {
                         fail("result: ${result.second.type} e: ${block.type} ")
+                        if (shouldCancel()) event.cancel()
                     }
                 }
             }
