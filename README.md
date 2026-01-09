@@ -1,3 +1,3 @@
 Античит делается как дополнение
 и не имеет Movement проверок.
-Discord: soon
+Discord: https://discord.gg/5WGwJscnhY
