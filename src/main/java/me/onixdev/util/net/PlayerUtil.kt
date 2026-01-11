@@ -1,9 +1,7 @@
 package me.onixdev.util.net
 
-import me.onixdev.util.math.Pair
 import org.bukkit.Bukkit
 import org.bukkit.block.Block
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import kotlin.math.cos
@@ -19,6 +17,7 @@ object PlayerUtil {
         return Vector(x, y, z).normalize()
     }
     fun raytrace(player: Player, direction: Vector,maxDistance:Double,stepSize:Double): me.onixdev.util.math.Pair<Int, Block> {
+        if (player == null) me.onixdev.util.math.Pair(null,null)
         val eyeLocation = player.eyeLocation
         val currentPos = eyeLocation.clone()
         var currentStep = 0
@@ -42,5 +41,10 @@ object PlayerUtil {
             }
         }
         return null
+    }
+    fun isFullBlock(block: Block): Boolean {
+        val box = block.boundingBox
+        val size = box.getMax().subtract(box.getMin())
+        return size.getX() == 1.0 && size.getY() == 1.0 && size.getZ() == 1.0
     }
 }

@@ -28,8 +28,12 @@ public class MovementContainer {
     private int setbackticks;
     @Getter
     private double deltaX;
-    @Getter
     private double deltaY;
+
+    public double getDeltaY() {
+        return deltaY;
+    }
+
     @Getter
     private double deltaZ;
     public double deltaXZ;

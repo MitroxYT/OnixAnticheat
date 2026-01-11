@@ -10,6 +10,7 @@ import me.onixdev.check.impl.movement.noslow.NoslowTick;
 import me.onixdev.check.impl.player.airstuck.AirStuckA;
 import me.onixdev.check.impl.player.badpackets.*;
 import me.onixdev.check.impl.player.block.GhostHandB;
+import me.onixdev.check.impl.player.block.GhostHandC;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.inventory.InventoryC;
@@ -60,7 +61,7 @@ public class CheckManager
     static {
         CONSTRUCTORS = new ArrayList<Constructor<?>>();
         CHECKS = new Class[] {AimA.class, ClientBrandParser.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
-                InventoryA.class, GhostHandB.class, GhostHandA.class, InventoryB.class, InventoryC.class
+                InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class
         };
 
     }

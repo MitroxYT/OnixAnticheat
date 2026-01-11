@@ -132,6 +132,14 @@ checks:
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
         - "2:2 [alert]"
+    c:
+      enabled: true
+      setbackVL: 18
+      setback: false
+      cancel: true
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
   inventory:
     a:
       enabled: true
