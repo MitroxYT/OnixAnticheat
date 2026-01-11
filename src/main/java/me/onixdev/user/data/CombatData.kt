@@ -24,7 +24,7 @@ class CombatData(private val user: OnixUser) {
                 }
             }
         }
-        if (event is TickEvent && !event.notTickEnd()) {
+        if (event is TickEvent && event.notTickEnd()) {
             if (target != null && user.bukkitPlayer != null) {
                 val valid = user.bukkitPlayer.world == target!!.world
                 if (valid) {

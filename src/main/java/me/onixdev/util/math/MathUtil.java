@@ -1,6 +1,7 @@
 package me.onixdev.util.math;
 
 import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -266,5 +267,10 @@ public class MathUtil {
             return 0.0;
         }
         return ((double)runs - expectedRuns) / Math.sqrt(varianceRuns);
+    }
+
+    public static double scaleVal(double value, double scale) {
+        double scale2 = Math.pow(10, scale);
+        return Math.ceil(value * scale2) / scale2;
     }
 }

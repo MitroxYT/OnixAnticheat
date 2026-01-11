@@ -1,7 +1,6 @@
 package me.onixdev.check.impl.combat.aim
 
 import dev.onixac.api.events.api.BaseEvent
-import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerRotationEvent
@@ -40,18 +39,6 @@ class AimT(player: OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                 yawSamples.clear()
             }
 
-//            if (shortYawSamples.isCollected && shortPitchSamples.isCollected) {
-//                val yawLin = MathUtil.calculateLinearityScore(shortYawSamples)
-//                val pitchLin = MathUtil.calculateLinearityScore(shortPitchSamples)
-//
-//                if (yawLin < 0.01 && pitchLin < 0.02 && yawLin > 0.0001 && player.lastHitTime < 10) {
-//                    fail("High linearity: yaw=$yawLin pitch=$pitchLin")
-//                }
-//
-//                shortYawSamples.clear()
-//                shortPitchSamples.clear()
-//
-//            }
         }
     }
 }
