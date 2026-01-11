@@ -15,6 +15,7 @@ import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.inventory.InventoryC;
 import me.onixdev.check.impl.player.misc.ClientBrandParser;
+import me.onixdev.check.impl.player.misc.data.PlayerPacketData;
 import me.onixdev.check.impl.player.scaffold.ScaffoldA;
 import me.onixdev.check.impl.player.block.GhostHandA;
 import me.onixdev.user.OnixUser;
@@ -33,6 +34,7 @@ public class CheckManager
     public static final List<Constructor<?>> CONSTRUCTORS;
     public static final Class<? extends Check>[] CHECKS;
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static List<Check> loadChecks(final OnixUser data) {
         final List<Check> checkList = new ArrayList<>();
 
@@ -46,6 +48,7 @@ public class CheckManager
         }
         return checkList;
     }
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void setup() {
         for (final Class<? extends Check> clazz : CheckManager.CHECKS) {
             try {
@@ -59,8 +62,8 @@ public class CheckManager
 
 
     static {
-        CONSTRUCTORS = new ArrayList<Constructor<?>>();
-        CHECKS = new Class[] {AimA.class, ClientBrandParser.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CONSTRUCTORS = new ArrayList<>();
+        CHECKS = new Class[] {PlayerPacketData.class,AimA.class, ClientBrandParser.class, AimB.class, AimC.class, AimD.class, AimE.class, AuraA.class, AuraB.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
                 InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class
         };
 

@@ -138,6 +138,7 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun processCinematic() {
         val now = System.currentTimeMillis()
 

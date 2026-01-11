@@ -13,7 +13,6 @@ public class MaterialsUtil {
         if (stack == null || stack.getType() == Material.AIR) return false;
         if (stack.getType() == Material.GOLDEN_APPLE || stack.getType() == chorus || stack.getType() == potion) return true;
         if (stack.getType() == shield) return true;
-        if (stack.getType().isEdible() && foodLevel < 20) return true;
-        return false;
+        return stack.getType().isEdible() && foodLevel < 20;
     }
 }

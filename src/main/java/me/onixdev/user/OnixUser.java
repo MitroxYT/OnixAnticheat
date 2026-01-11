@@ -27,6 +27,7 @@ import lombok.Getter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
+import me.onixdev.check.impl.player.misc.data.PlayerPacketData;
 import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
@@ -109,6 +110,7 @@ public class OnixUser implements IOnixUser {
     private final PlayerInventory inventory;
     public final AntiFalsePositivesHandler antiFalsePositivesHandler;
     public final CombatData combatData;
+    public final PlayerPacketData packetData;
     private InteractionHand usingHand = InteractionHand.MAIN_HAND;
     public boolean isUsingItem = false;
     public int ItemUseTime;
@@ -136,6 +138,7 @@ public class OnixUser implements IOnixUser {
         alertManager = new AlertManager(this);
         this.player = Bukkit.getPlayer(this.uuid);
         checks = CheckManager.loadChecks(this);
+        packetData = getCheck(PlayerPacketData.class);
         rotationContainer = new RotationContainer(this);
         connectionContainer = new ConnectionContainer(this);
         brigingContainer = new BrigingContainer(this);
