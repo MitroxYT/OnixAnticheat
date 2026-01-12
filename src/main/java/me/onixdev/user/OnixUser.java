@@ -59,6 +59,7 @@ public class OnixUser implements IOnixUser {
     public int currentTick;
     public PlayerConnectionStep connectionStage;
     public PlayerConnectionStep ServerconnectionStage;
+    public int lastTeleportTime;
     @Getter
     private int serverTickSinceJoin;
     public int food;

@@ -46,6 +46,7 @@ public class ReloadCommand extends OnixCommandBase {
             OnixAnticheat.INSTANCE.getConfigManager().reload();
             OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData().forEach(t->t.getChecks().forEach(Check::reload));
         });
+        OnixAnticheat.INSTANCE.reload();
         return false;
     }
 

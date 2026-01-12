@@ -40,6 +40,7 @@ public class PositionListener extends PacketListenerAbstract {
                 user.handleEvent(new TickEvent(TickEvent.Target.FLYING));
                 user.currentTick++;
                 user.lastHitTime++;
+                user.lastTeleportTime++;
                 if (user.isUsingItem()) user.ItemUseTime++;
                 else user.ItemUseTime = 0;
                 user.getMovementContainer().registerIncomingPreHandler(event);

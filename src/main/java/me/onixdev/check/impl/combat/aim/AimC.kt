@@ -22,6 +22,7 @@ class AimC(player: OnixUser?) :
                 val dx = rotationEvent.deltaYaw
                 val acelx = abs(dx - lastX)
                 val absdx = abs(dx)
+                if (player.lastTeleportTime < 5) return
                 val valid = player.combatData.dist > 0.1
                 if (absdx > 170.0f && lastX < 50 && acelx > 100 && valid) {
                     val deltax = String.format("%.5f", dx)

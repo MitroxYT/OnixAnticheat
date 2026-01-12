@@ -12,6 +12,7 @@ class NoslowPrediction(user: OnixUser) : Check(user, CheckBuilder.create().setCh
     private var buffer = 0.0
     override fun onEvent(event: BaseEvent?) {
         if (event is TickEvent && event.tickType == TickEvent.Target.FLYING) {
+            if (player.lastTeleportTime < 5) return
             if (player.isUsingItem && player.ItemUseTime > 3) {
                 val offsetHorr = player.theoreticalInput.forwardMotion
                 val offsetSt = player.theoreticalInput.strafe

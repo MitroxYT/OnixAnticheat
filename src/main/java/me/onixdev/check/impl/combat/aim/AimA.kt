@@ -21,7 +21,7 @@ class AimA(player: OnixUser?) :
                 val yawRate =
                     abs(player.rotationContainer.yaw - player.rotationContainer.lastYaw)
                         .toFloat() //Math.abs(player.xRot - player.lastXRot);
-                if (yawRate < 1) return
+                if (yawRate < 1 || player.lastTeleportTime < 5) return
                 if (yawRate == yawChange) {
                     if (++buffer > maxBuffer) {
                         fail("x=$yawRate, xc=$yawChange")

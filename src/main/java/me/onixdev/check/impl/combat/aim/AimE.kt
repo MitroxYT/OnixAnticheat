@@ -11,6 +11,7 @@ class AimE(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && event.isPost) {
             if (player.lastHitTime < 4) {
+                if (player.lastTeleportTime < 5) return
                 val sens = player.sensitivity
                 val valid = player.combatData.dist > 0.1
                 if (sens < 0 && !player.rotationContainer.isCinematicRotation && valid) {

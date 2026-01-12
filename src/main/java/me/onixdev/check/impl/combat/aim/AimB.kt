@@ -23,6 +23,7 @@ class AimB(player: OnixUser?) :
                     abs(player.rotationContainer.pitch - player.rotationContainer.lastPitch)
                         .toFloat()
                 if (yR < 1) return
+                if (player.lastTeleportTime < 5) return
                 if (yR == yC) {
                     if (++buffer > maxBuffer) {
                         fail("y=$yC, yc=$yC")

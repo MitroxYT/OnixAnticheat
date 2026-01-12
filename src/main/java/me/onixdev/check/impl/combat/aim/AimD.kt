@@ -18,6 +18,7 @@ class AimD(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim
             var runszs: Double
             val dy: Double = abs(event.deltaYaw)
             val dp: Double = abs(event.deltaPitch)
+            if (player.lastTeleportTime < 5) return
             this.deltaYaws.add(dy)
             this.deltaPitches.add(dp)
             if (this.deltaYaws.size >= 80) {

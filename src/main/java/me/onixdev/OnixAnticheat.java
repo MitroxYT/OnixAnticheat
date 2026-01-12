@@ -77,6 +77,11 @@ public class OnixAnticheat {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
         },20*5);
     }
+    public void reload() {
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
+            Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
+        },20*5);
+    }
 
     public void onDisable() {
         playerDatamanager.getAllData().clear();

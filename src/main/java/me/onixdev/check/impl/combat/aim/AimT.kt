@@ -16,7 +16,7 @@ class AimT(player: OnixUser) : Check(player, CheckBuilder.create().setCheckName(
     val shortPitchSamples: DataList<Double> = DataList(15)
     override fun onEvent(event: BaseEvent?) {
         if (event !is PlayerRotationEvent || event.isPost) return
-
+        if (player.lastTeleportTime < 5) return
         val shouldAnalyze = player.lastHitTime < 20
         if (shouldAnalyze) {
             yawSamples.add(event.deltaYaw)

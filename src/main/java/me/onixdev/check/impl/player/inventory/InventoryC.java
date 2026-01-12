@@ -15,6 +15,7 @@ public class InventoryC extends Check {
     @Override
     public void onEvent(BaseEvent event) {
         if (event instanceof PlayerClickEvent) {
+            if (player.lastTeleportTime < 5) return;
             if (player.theoreticalInput.hasInput()) {
                 StringBuilder verbose = new StringBuilder();
                 if (player.theoreticalInput.isForward()) {
