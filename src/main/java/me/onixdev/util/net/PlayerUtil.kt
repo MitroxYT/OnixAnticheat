@@ -17,7 +17,6 @@ object PlayerUtil {
         return Vector(x, y, z).normalize()
     }
     fun raytrace(player: Player, direction: Vector,maxDistance:Double,stepSize:Double): me.onixdev.util.math.Pair<Int, Block> {
-        if (player == null) me.onixdev.util.math.Pair(null,null)
         val eyeLocation = player.eyeLocation
         val currentPos = eyeLocation.clone()
         var currentStep = 0

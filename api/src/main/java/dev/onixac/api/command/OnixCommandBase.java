@@ -1,12 +1,10 @@
-package me.onixdev.commands.api;
+package dev.onixac.api.command;
 
-import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@Getter
 public abstract class OnixCommandBase {
 
     protected final String name;
@@ -43,4 +41,7 @@ public abstract class OnixCommandBase {
     public abstract boolean onCommand(@NotNull CommandSender sender, String[] args);
 
     public abstract List<String> onTabComplete(CommandSender sender, String[] args);
+    public String getName() {
+        return this.name;
+    }
 }

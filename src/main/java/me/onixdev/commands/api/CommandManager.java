@@ -1,6 +1,8 @@
 package me.onixdev.commands.api;
 
 import com.google.common.collect.ImmutableList;
+import dev.onixac.api.command.OnixCommandBase;
+import dev.onixac.api.manager.ICommandManager;
 import me.onixdev.commands.impl.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,15 +14,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
-public class CommandManager implements TabExecutor {
-    private final List<OnixCommandBase> commands = List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand(),new ProfileCommand());
+public class CommandManager implements TabExecutor, ICommandManager {
+    private final List<OnixCommandBase> commands = new ArrayList<>();
+    //List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand(),new ProfileCommand());
+    public CommandManager() {
+        registerCommmand(new VerboseCommands());
+        registerCommmand(new ReloadCommand());
+        registerCommmand(new MitigateCommand());
+        registerCommmand(new AlertsCommand());
+        registerCommmand(new DebugCommand());
+        registerCommmand(new ProfileCommand());
+    }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!commandSender.hasPermission("onix.usecommand")) {
-            commandSender.sendMessage("You don't have permission!");
-            return true;
-        }
         if (!label.equalsIgnoreCase("onix")) {
             commandSender.sendMessage("Usage: /" + "onix");
             return true;
@@ -54,9 +62,6 @@ public class CommandManager implements TabExecutor {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!commandSender.hasPermission("onix.usecommand")) {
-            return ImmutableList.of();
-        }
         if (!label.equalsIgnoreCase("onix")) {
             return ImmutableList.of();
         }
@@ -102,4 +107,26 @@ public class CommandManager implements TabExecutor {
         return tempArgs;
     }
 
+    /**
+     * @param name
+     * @return Возвращает комманду если не найдет
+     * @since 1.0
+     */
+    @Override
+    public Optional<OnixCommandBase> getCommand(String name) {
+        for (OnixCommandBase command: commands) {
+            if (command.getName().equals(name)) return Optional.of(command);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * @param command
+     * @since 1.0
+     */
+    @Override
+    public void registerCommmand(OnixCommandBase command) {
+        if (command == null || command.getName().isBlank()) return;
+        commands.add(command);
+    }
 }

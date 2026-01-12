@@ -3,6 +3,8 @@ package me.onixdev;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import dev.onixac.api.OnixAPI;
+import dev.onixac.api.events.impl.OnixLoadedEvent;
+import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
@@ -67,7 +69,13 @@ public class OnixAnticheat {
             CommandManager handler = new CommandManager();
             pCommand.setExecutor(handler);
             pCommand.setTabCompleter(handler);
+            OnixAPI.INSTANCE.setCommandManager(handler);
         }
+        OnixAPI.INSTANCE.loadCorrectly();
+        // Запускаем евент спустя 5 секунд после лоада на случай если не все плагины с апи загрузились
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
+            Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
+        },20*5);
     }
 
     public void onDisable() {

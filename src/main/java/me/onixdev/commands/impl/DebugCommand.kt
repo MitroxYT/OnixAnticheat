@@ -1,7 +1,7 @@
 package me.onixdev.commands.impl
 
+import dev.onixac.api.command.OnixCommandBase
 import me.onixdev.OnixAnticheat
-import me.onixdev.commands.api.OnixCommandBase
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 

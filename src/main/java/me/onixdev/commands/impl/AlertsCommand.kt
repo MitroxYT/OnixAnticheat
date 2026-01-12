@@ -1,7 +1,7 @@
 package me.onixdev.commands.impl
 
+import dev.onixac.api.command.OnixCommandBase
 import me.onixdev.OnixAnticheat
-import me.onixdev.commands.api.OnixCommandBase
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -24,7 +24,7 @@ class AlertsCommand : OnixCommandBase("alerts") {
     }
 
     override fun getPermission(): String {
-        return "onix.alerts"
+        return "onix.commands.alerts"
     }
 
     override fun onCommand(sender: CommandSender, args: Array<String>): Boolean {

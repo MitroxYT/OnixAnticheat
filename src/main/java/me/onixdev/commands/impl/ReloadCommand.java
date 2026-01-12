@@ -1,8 +1,8 @@
 package me.onixdev.commands.impl;
 
+import dev.onixac.api.command.OnixCommandBase;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
-import me.onixdev.commands.api.OnixCommandBase;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +15,14 @@ public class ReloadCommand extends OnixCommandBase {
     @Override
     public String getDescription() {
         return "";
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public String getPermission() {
+        return "onix.commands.reload";
     }
 
     @Override
