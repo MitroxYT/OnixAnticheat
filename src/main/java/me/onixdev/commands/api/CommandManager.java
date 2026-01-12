@@ -11,10 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 public class CommandManager implements TabExecutor, ICommandManager {
     private final List<OnixCommandBase> commands = new ArrayList<>();
@@ -128,5 +125,18 @@ public class CommandManager implements TabExecutor, ICommandManager {
     public void registerCommmand(OnixCommandBase command) {
         if (command == null || command.getName().isBlank()) return;
         commands.add(command);
+    }
+
+    /**
+     * @param name@since 1.0
+     */
+    @Override
+    public void unregisterCommmand(String name) {
+        try {
+
+            for (OnixCommandBase command : commands) {
+                if (command.getName().equals(name)) commands.remove(command);
+            }
+        } catch (ConcurrentModificationException ignored) {}
     }
 }

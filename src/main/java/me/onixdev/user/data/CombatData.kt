@@ -33,10 +33,11 @@ class CombatData(private val user: OnixUser) {
             }
         }
     }
-    fun hasAttackedSince(time: Long) : Boolean {
-        return System.currentTimeMillis() - lastAttacked < time
+    fun hasAttackedSince(time: Long): Boolean {
+        return System.currentTimeMillis() - lastAttack < time
     }
-    fun getAttackedSince() : Double {
-        return System.currentTimeMillis().minus(lastAttack).toDouble()
+
+    fun getPassedAttackSince(): Long {
+        return System.currentTimeMillis() - lastAttack
     }
 }

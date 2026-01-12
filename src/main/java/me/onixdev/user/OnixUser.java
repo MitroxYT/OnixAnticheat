@@ -196,6 +196,9 @@ public class OnixUser implements IOnixUser {
             case "hitticks" -> {
                 return Optional.of(lastHitTime);
             }
+            case "lastmsattack" -> {
+                return Optional.of(combatData.getPassedAttackSince());
+            }
             case "sprintstop" -> {
                 return Optional.of(System.currentTimeMillis() - lastStopSprint);
             }
