@@ -642,4 +642,9 @@ public class OnixUser implements IOnixUser {
     public boolean isDebug() {
         return this.debug;
     }
+
+    public ClientVersion getClientVersion() {
+        if (user == null) return ClientVersion.UNKNOWN;
+        return user.getClientVersion();
+    }
 }
