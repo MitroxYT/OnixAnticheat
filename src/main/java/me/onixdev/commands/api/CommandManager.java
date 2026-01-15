@@ -133,10 +133,15 @@ public class CommandManager implements TabExecutor, ICommandManager {
     @Override
     public void unregisterCommmand(String name) {
         try {
-
+            int index = 0;
             for (OnixCommandBase command : commands) {
-                if (command.getName().equals(name)) commands.remove(command);
+                if (command.getName().equals(name)) {
+                    //commands.remove(command);
+                    break;
+                }
+                ++index;
             }
+            commands.remove(index);
         } catch (ConcurrentModificationException ignored) {}
     }
 }

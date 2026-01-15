@@ -57,7 +57,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))
                 //Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
-                if (users.isVerboseEnabled) users.sendMessage(alert)
+                if (users.isVerboseEnabled) MessageUtil.sendMessage(user.bukkitPlayer,alert)//users.sendMessage(alert)
             }
         }
         else {
@@ -87,7 +87,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
            // val alert: Component = Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
-                if (users.isAlertsEnabled) users.sendMessage(alert)
+                if (users.isAlertsEnabled) MessageUtil.sendMessage(user.bukkitPlayer,alert)//users.sendMessage(alert)
             }
         }
         else {

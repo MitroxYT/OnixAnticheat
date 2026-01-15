@@ -1,8 +1,13 @@
 package me.onixdev.util.color;
 
 import io.github.retrooper.packetevents.adventure.serializer.legacy.LegacyComponentSerializer;
+import io.github.retrooper.packetevents.util.folia.FoliaScheduler;
+import me.onixdev.OnixAnticheat;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +19,7 @@ import java.util.regex.Pattern;
 public class MessageUtil {
     private static final Pattern Cp = Pattern.compile("(?i)" + '§' + "[0-9A-FK-ORX]");
     private static final Pattern HEX_PATTERN = Pattern.compile("([&§]#[A-Fa-f0-9]{6})|([&§]x([&§][A-Fa-f0-9]){6})");
+    private static final BukkitAudiences adventure = BukkitAudiences.create(OnixAnticheat.INSTANCE.getPlugin());
     public static String translate(String input) {
         if (input == null || input.isEmpty()) {
             return input;
@@ -65,6 +71,22 @@ public class MessageUtil {
                 .replace("§o", "<italic>");
 
         return MiniMessage.miniMessage().deserialize(string).compact();
+    }
+    public static void sendMessage(@NotNull CommandSender commandSender, @NotNull Component component) {
+        if (commandSender instanceof Player) {
+            Player player = (Player) commandSender;
+            FoliaScheduler.getEntityScheduler().run(
+                    player,
+                    OnixAnticheat.INSTANCE.getPlugin(),
+                    t -> adventure.player(player).sendMessage(component),
+                    () -> adventure.player(player).sendMessage(component)
+            );
+        } else {
+            FoliaScheduler.getGlobalRegionScheduler().run(
+                    OnixAnticheat.INSTANCE.getPlugin(),
+                    (dummy) -> adventure.sender(commandSender).sendMessage(component)
+            );
+        }
     }
 
     @Contract("!null -> !null; null -> null")
