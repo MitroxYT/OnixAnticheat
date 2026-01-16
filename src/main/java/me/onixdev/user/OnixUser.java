@@ -118,7 +118,7 @@ public class OnixUser implements IOnixUser {
     public boolean isDead;
     public int lastHitTime = 100;
     @Getter
-    private String mitigateType;
+    public String mitigateType;
     private double timetoMitigate, lastMitigateTime;
     public IClientInput theoreticalInput = new ClientInput();
     public IClientInput Input = new ClientInput();

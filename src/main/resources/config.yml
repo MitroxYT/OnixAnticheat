@@ -4,3 +4,5 @@ kick-on-invalid-item-packet: true
 # Исправляет проблемы с hex
 disable-hover-message: false
 kick-on-invalid-transaction: true
+mitigations:
+  damage-reduce: 0.1
