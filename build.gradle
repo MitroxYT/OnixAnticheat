@@ -65,7 +65,6 @@ tasks.shadowJar {
     relocate("io.github.retrooper","libs.retooper.packetevents.io")
     relocate("com.github.retrooper","libs.retooper.packetevents.com")
     relocate("net.kyori", "libs.kyori")
-    //  relocate("org.bstats", "meghostydev.shaded.org.bstats")
 
 }
 

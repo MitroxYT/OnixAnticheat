@@ -57,7 +57,7 @@ public class ConfigManager {
     private void updateAllConfigFiles() {
 
         var configFiles = Map.of(
-                "config.yml",   1.2,
+                "config.yml",   1.3,
                 "checks.yml",   1.1,
                 "messages.yml", 1.5
         );
@@ -139,7 +139,7 @@ public class ConfigManager {
     private String profileMessage;
     private boolean fixHoverSystemCompability;
     public boolean enableAlertsOnJoin;
-
+    public double damageMultiPlayer;
 
     private void init() {
         String color = messagesconfig.getString("system","MINIMESSAGE");
@@ -150,6 +150,8 @@ public class ConfigManager {
             OnixAnticheat.INSTANCE.setColorizer(new LegacyHexColor());
         }
         fixHoverSystemCompability = getConfig().getBoolean("disable-hover-message",false);
+        damageMultiPlayer = getConfig().getDouble("mitigations.damage-reduce",1.0);
+        if (damageMultiPlayer > 1.0) damageMultiPlayer = 1.0;
         prefix = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
         alertsformat = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         hover= messagesconfig.getStringList("hover");

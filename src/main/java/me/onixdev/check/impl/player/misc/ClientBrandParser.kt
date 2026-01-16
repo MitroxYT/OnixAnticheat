@@ -12,7 +12,7 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.color.MessageUtil
 
 class ClientBrandParser(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("NotUsed").setType("A")) {
-    private val CHANNEL: String = if (PacketEvents.getAPI().getServerManager().getVersion()
+    private val CHANNEL: String = if (PacketEvents.getAPI().serverManager.version
             .isNewerThanOrEquals(ServerVersion.V_1_13)
     ) "minecraft:brand" else "MC|Brand"
 
