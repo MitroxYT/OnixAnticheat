@@ -72,6 +72,42 @@ public class MessageUtil {
 
         return MiniMessage.miniMessage().deserialize(string).compact();
     }
+    public static @NotNull Component miniMessageNotOptimized(@NotNull String string) {
+        Matcher matcher = HEX_PATTERN.matcher(string);
+        StringBuffer sb = new StringBuffer(string.length());
+
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "<#" + matcher.group(0).replaceAll("[&§#x]", "") + ">");
+        }
+
+        matcher.appendTail(sb);
+        string = sb.toString();
+        string = translateAlternateColorCodes('&', string)
+                .replace("§0", "<!b><!i><!u><!st><!obf><black>")
+                .replace("§1", "<!b><!i><!u><!st><!obf><dark_blue>")
+                .replace("§2", "<!b><!i><!u><!st><!obf><dark_green>")
+                .replace("§3", "<!b><!i><!u><!st><!obf><dark_aqua>")
+                .replace("§4", "<!b><!i><!u><!st><!obf><dark_red>")
+                .replace("§5", "<!b><!i><!u><!st><!obf><dark_purple>")
+                .replace("§6", "<!b><!i><!u><!st><!obf><gold>")
+                .replace("§7", "<!b><!i><!u><!st><!obf><gray>")
+                .replace("§8", "<!b><!i><!u><!st><!obf><dark_gray>")
+                .replace("§9", "<!b><!i><!u><!st><!obf><blue>")
+                .replace("§a", "<!b><!i><!u><!st><!obf><green>")
+                .replace("§b", "<!b><!i><!u><!st><!obf><aqua>")
+                .replace("§c", "<!b><!i><!u><!st><!obf><red>")
+                .replace("§d", "<!b><!i><!u><!st><!obf><light_purple>")
+                .replace("§e", "<!b><!i><!u><!st><!obf><yellow>")
+                .replace("§f", "<!b><!i><!u><!st><!obf><white>")
+                .replace("§r", "<reset>")
+                .replace("§k", "<obfuscated>")
+                .replace("§l", "<bold>")
+                .replace("§m", "<strikethrough>")
+                .replace("§n", "<underlined>")
+                .replace("§o", "<italic>");
+
+        return MiniMessage.miniMessage().deserialize(string);
+    }
     public static void sendMessage(@NotNull CommandSender commandSender, @NotNull Component component) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;

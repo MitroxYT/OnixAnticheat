@@ -15,7 +15,6 @@ import java.util.*;
 
 public class CommandManager implements TabExecutor, ICommandManager {
     private final List<OnixCommandBase> commands = new ArrayList<>();
-    //List.of(new VerboseCommands(),new ReloadCommand(),new MitigateCommand(),new AlertsCommand(),new DebugCommand(),new ProfileCommand());
     public CommandManager() {
         registerCommmand(new VerboseCommands());
         registerCommmand(new ReloadCommand());
@@ -23,6 +22,8 @@ public class CommandManager implements TabExecutor, ICommandManager {
         registerCommmand(new AlertsCommand());
         registerCommmand(new DebugCommand());
         registerCommmand(new ProfileCommand());
+        registerCommmand(new AutoSetupCommand());
+        registerCommmand(new AnimationCommand());
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

@@ -10,6 +10,7 @@ import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
 import me.onixdev.events.bukkit.*;
 import me.onixdev.events.packet.*;
+import me.onixdev.manager.AnimationManager;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
 import me.onixdev.user.OnixUser;
@@ -27,6 +28,8 @@ public class OnixAnticheat {
     @Getter
     private IThreadExecutor alertExecutor, reloadExecuter, taskExecutor;
     private IThreadExecutor PacketProccesor, cloudCheckExecuter;
+    public AnimationManager getAnimationManager() {return animationManager;}
+    private AnimationManager animationManager;
 
     private PlayerDatamanager playerDatamanager;
     private int ticksFromStart;
@@ -56,6 +59,8 @@ public class OnixAnticheat {
         cloudCheckExecuter = new CloudCheckExecuter();
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
+        animationManager = new AnimationManager();
+        animationManager.init();
         CheckManager.setup();
         OnixAPI.INSTANCE.setPlayerDataManager(playerDatamanager);
         registerPacketEvents();
