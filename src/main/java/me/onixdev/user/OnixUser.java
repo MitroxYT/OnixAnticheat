@@ -168,9 +168,9 @@ public class OnixUser implements IOnixUser {
     public void checkPermissions() {
         if (player == null) return;
         for (Check check : checks) {
-            check.setEnabled(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled"));
-            check.setSetback(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".setback"));
-            check.setSetback(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".cancel"));
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled")) check.setEnabled(false);
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".setback")) check.setSetback(false);
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".cancel")) check.setCancel(false);
         }
     }
 
