@@ -9,6 +9,10 @@ public interface ICheck {
     double getDecay();
     double getMaxBuffer();
     boolean isEnabled();
+    void setEnabled(boolean value);
+    void setCancel(boolean value);
+    void setSetback(boolean value);
+    void setVl(double value);
     boolean isExperimental();
     boolean fail(Object debug);
 }

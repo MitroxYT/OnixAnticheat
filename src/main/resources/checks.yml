@@ -1,24 +1,24 @@
-config-version: 1.1
+config-version: 1.0
 checks:
   aim:
     a:
       enabled: true
       setbackVL: 1
       setback: false
-      maxbuffer: 5
+      maxbuffer: 2
       commands:
         - "2:2 [alert]"
         - "3:3 onix mitigate %player% reducedamage 10000"
-        - "500:100 kick %player% TimerA"
+        - "10:1 kick %player% %prefix% Unfair Advantage(AA)"
     b:
       enabled: true
       setbackVL: 1
-      setback: true
-      maxbuffer: 5
+      setback: false
+      maxbuffer: 2
       commands:
         - "2:2 [alert]"
         - "3:3 onix mitigate %player% reducedamage 10000"
-        - "500:100 kick %player% TimerA"
+        - "10:1 kick %player% %prefix% Unfair Advantage(AB)"
     c:
       enabled: true
       setbackVL: 1
@@ -35,7 +35,7 @@ checks:
       decay: 0.25
       commands:
         - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#1) %id% -s"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#1) -s"
     e:
       enabled: true
       setbackVL: 1
@@ -44,7 +44,7 @@ checks:
       decay: 0.25
       commands:
         - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#2) %id% -s"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#2) -s"
     t:
       enabled: true
       setbackVL: 1
@@ -53,7 +53,8 @@ checks:
       decay: 0.25
       commands:
         - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#3) %id% -s"
+        - "2:2 onix mitigate %player% reducedamage 10000"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#3) -s"
     f:
       enabled: true
       setbackVL: 1
@@ -63,7 +64,8 @@ checks:
       decay: 0.25
       commands:
         - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#4) %id% -s"
+        - "2:2 onix mitigate %player% reducedamage 10000"
+        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#4) -s"
   aura:
     a:
       enabled: true
@@ -124,7 +126,7 @@ checks:
       enabled: true
       setbackVL: 18
       setback: false
-      cancel: false
+      cancel: true
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
         - "2:2 [alert]"
@@ -147,20 +149,21 @@ checks:
   inventory:
     a:
       enabled: true
-      setbackVL: 6
+      setbackVL: 2
       setback: true
+      cancel: true
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
-        - "1:1 [alert]"
-        - "2:2 kick %player% %prefix% invalid using item (A)"
+        - "2:1 [alert]"
+        - "10:3 kick %player% %prefix% Unfair Advantage(IA)"
     b:
       enabled: true
       setbackVL: 6
-      setback: true
+      setback: false
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
         - "1:1 [alert]"
-        - "5:1 kick %player% %prefix% invalid using item (A)"
+        - "5:3 kick %player% %prefix% Unfair Advantage(IB)"
     c:
       enabled: false
       setbackVL: 3

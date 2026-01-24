@@ -92,6 +92,26 @@ public class Check implements ICheck {
     }
 
     @Override
+    public void setEnabled(boolean value) {
+        this.enabled = value;
+    }
+
+    @Override
+    public void setCancel(boolean value) {
+        this.cancel = value;
+    }
+
+    @Override
+    public void setSetback(boolean value) {
+        this.setback = value;
+    }
+
+    @Override
+    public void setVl(double value) {
+        this.vl = value;
+    }
+
+    @Override
     public boolean isExperimental() {
         return stage != null && stage == CheckStage.EXPERIMENTAL;
     }

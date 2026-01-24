@@ -13,6 +13,7 @@ import me.onixdev.events.packet.*;
 import me.onixdev.manager.AnimationManager;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.manager.PlayerDatamanager;
+import me.onixdev.manager.ResetManager;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.color.Colorizer;
 import me.onixdev.util.color.impl.MiniMessageColor;
@@ -30,7 +31,7 @@ public class OnixAnticheat {
     private IThreadExecutor PacketProccesor, cloudCheckExecuter;
     public AnimationManager getAnimationManager() {return animationManager;}
     private AnimationManager animationManager;
-
+    private ResetManager resetManager;
     private PlayerDatamanager playerDatamanager;
     private int ticksFromStart;
     private ConfigManager configManager;
@@ -60,6 +61,7 @@ public class OnixAnticheat {
         playerDatamanager = new PlayerDatamanager();
         configManager = new ConfigManager(true);
         animationManager = new AnimationManager();
+        resetManager = new ResetManager();
         animationManager.init();
         CheckManager.setup();
         OnixAPI.INSTANCE.setPlayerDataManager(playerDatamanager);
@@ -78,6 +80,7 @@ public class OnixAnticheat {
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
         },20*5);
+        resetManager.start();
     }
     public void reload() {
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
@@ -92,6 +95,7 @@ public class OnixAnticheat {
         taskExecutor.shutdown();
         PacketProccesor.shutdown();
         cloudCheckExecuter.shutdown();
+        resetManager.stop();
         Bukkit.getScheduler().cancelTasks(plugin);
         PacketEvents.getAPI().terminate();
     }

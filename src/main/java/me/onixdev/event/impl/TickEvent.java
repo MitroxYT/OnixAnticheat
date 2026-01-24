@@ -14,6 +14,10 @@ public class TickEvent extends BaseEvent {
         return tickType == Target.FLYING || tickType == Target.TRANSACTION;
     }
 
+    public Target getTickType() {
+        return tickType;
+    }
+
     public enum Target {
         FLYING,
         TRANSACTION,

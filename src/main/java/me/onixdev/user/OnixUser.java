@@ -102,7 +102,7 @@ public class OnixUser implements IOnixUser {
     @Getter
     private Player player;
     @Getter
-    private List<Check> checks = new ArrayList<>();
+    public List<Check> checks = new ArrayList<>();
     private final RotationContainer rotationContainer;
     public final ClickData clickData;
     private final ConnectionContainer connectionContainer;
@@ -152,11 +152,25 @@ public class OnixUser implements IOnixUser {
         checkAlertsTogglingWhileBukkitPlayerNotNull = true;
         if ((Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
-            if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join")))
-                alertsEnabled = true;
         }
         for (Check check : checks) {
             check.reload();
+        }
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(OnixAnticheat.INSTANCE.getPlugin(),()-> {
+            if (player != null) {
+                if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) {
+                    alertManager.toggleAlerts();
+                    checkPermissions();
+                }
+            }
+        },20 * 3);
+    }
+    public void checkPermissions() {
+        if (player == null) return;
+        for (Check check : checks) {
+            check.setEnabled(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled"));
+            check.setSetback(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".setback"));
+            check.setSetback(!player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".cancel"));
         }
     }
 
@@ -397,6 +411,7 @@ public class OnixUser implements IOnixUser {
         }
     }
 
+
     @Override
     public void mitigate(String type, double time) {
         this.mitigateType = type;
@@ -445,7 +460,7 @@ public class OnixUser implements IOnixUser {
     @Override
     public void registerCheck(CheckMaker checkMaker) {
         Check customCheck = new Check(this, CheckBuilder.fromCheckMaker(checkMaker));
-        getChecks().add(customCheck);
+        checks.add(customCheck);
     }
 
     public void debug(Object object) {
@@ -464,7 +479,7 @@ public class OnixUser implements IOnixUser {
 
     @SuppressWarnings("unchecked")
     public <T extends Check> T getCheck(Class<T> check) {
-        for (Check check1 : getChecks()) {
+        for (Check check1 : checks) {
             if (check1.getClass() == check) {
                 return (T) check1;
             }

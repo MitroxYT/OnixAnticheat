@@ -3,6 +3,7 @@ package me.onixdev.commands.impl;
 import dev.onixac.api.command.OnixCommandBase;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
+import me.onixdev.user.OnixUser;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +46,7 @@ public class ReloadCommand extends OnixCommandBase {
         OnixAnticheat.INSTANCE.getReloadExecuter().run(()->{
             OnixAnticheat.INSTANCE.getConfigManager().reload();
             OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData().forEach(t->t.getChecks().forEach(Check::reload));
+            OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData().forEach(OnixUser::checkPermissions);
         });
         OnixAnticheat.INSTANCE.reload();
         return false;
