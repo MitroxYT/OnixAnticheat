@@ -59,7 +59,7 @@ public class ConfigManager {
         var configFiles = Map.of(
                 "config.yml",   1.4,
                 "checks.yml",   1.1,
-                "messages.yml", 1.5
+                "messages.yml", 1.6
         );
 
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
@@ -156,8 +156,6 @@ public class ConfigManager {
         if (damageMultiPlayer > 1.0) damageMultiPlayer = 1.0;
         prefix = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
         alertsformat = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
-        hover= messagesconfig.getStringList("hover");
-        hoverMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(hover));
         profileMessage = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(messagesconfig.getStringList("profile")));
         onAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
         offAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
