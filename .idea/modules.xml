@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/OnixAnticheat.api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/OnixAnticheat.api.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OnixAnticheat.main.iml" filepath="$PROJECT_DIR$/.idea/modules/OnixAnticheat.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OnixAnticheat.test.iml" filepath="$PROJECT_DIR$/.idea/modules/OnixAnticheat.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/api/me.onixanticheat.OnixAnticheat.api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api/me.onixanticheat.OnixAnticheat.api.main.iml" />
     </modules>
   </component>
 </project>

@@ -19,7 +19,7 @@ class ThunderAnimation : BaseAnimation("Thunder") {
     val PARTICLE: Particle = getDustParticle()
     override fun execute(player: Player?, data: String?) {
         player!!.addPotionEffect(PotionEffect(PotionEffectType.LEVITATION, 100, 1))
-        val location1 = player.getLocation()
+        val location1 = player.location
 
         val baseRadius = 0.5
         val maxRadius = 1.5

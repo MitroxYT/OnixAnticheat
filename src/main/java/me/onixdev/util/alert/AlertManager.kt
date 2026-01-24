@@ -8,6 +8,7 @@ import me.onixdev.util.color.MessageUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 
 class AlertManager(private val user: OnixUser) : IAlertManager {
     override fun toggleAlerts() {
@@ -53,6 +54,9 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%type%", check.getType().uppercase())
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
+        if (OnixAnticheat.INSTANCE.configManager.verboseToConsoe) {
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), MessageUtil.miniMessage(finalVerboseMsg).compact())
+        }
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
             val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))
                 //Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
@@ -83,6 +87,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%type%", check.getType().uppercase())
             .replace("%vl%", check.getVl().toString())
             .replace("%verbose%", verbose)
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(), MessageUtil.miniMessage(finalVerboseMsg).compact())
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
            // val alert: Component = Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             val alert: Component = MessageUtil.miniMessage(finalAlertMsg).hoverEvent(HoverEvent.showText(MessageUtil.miniMessage(finalVerboseMsg).compact()))

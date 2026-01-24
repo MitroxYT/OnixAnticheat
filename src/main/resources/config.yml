@@ -1,6 +1,7 @@
 config-version: 1.2
 enable-alert-on-join: true
 kick-on-invalid-item-packet: true
+verbose-to-console: false
 # Исправляет проблемы с hex
 disable-hover-message: false
 kick-on-invalid-transaction: true

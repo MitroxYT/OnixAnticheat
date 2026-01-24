@@ -17,3 +17,10 @@ build
 /build/kotlin/compileKotlin
 *.tab_i
 *.tab
+data.txt
+/.gradle
+.gradle/8.11/checksums/md5-checksums.bin
+.gradle/8.11/checksums/sha1-checksums.bin
+.gradle/8.11/fileHashes/fileHashes.bin
+.idea/modules.xml
+.gradle/file-system.probe
