@@ -1,6 +1,7 @@
 package me.onixdev.util.net
 
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
@@ -25,7 +26,7 @@ object PlayerUtil {
             currentPos.add(direction.clone().multiply(stepSize))
             val block = currentPos.block
 
-            if (!block.type.isAir) {
+            if (!isAir(block)) {
               return me.onixdev.util.math.Pair(currentStep,block)
             }
             distance += stepSize
@@ -45,5 +46,13 @@ object PlayerUtil {
         val box = block.boundingBox
         val size = box.getMax().subtract(box.getMin())
         return size.getX() == 1.0 && size.getY() == 1.0 && size.getZ() == 1.0
+    }
+    fun isAir(block: Block): Boolean {
+        return when (block.type) {
+            Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.LEGACY_AIR ->
+                true
+
+            else -> false
+        }
     }
 }

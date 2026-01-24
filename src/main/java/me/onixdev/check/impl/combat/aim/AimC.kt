@@ -15,11 +15,10 @@ class AimC(player: OnixUser?) :
 
     override fun onEvent(event: BaseEvent) {
         if (event is PlayerRotationEvent) {
-            val rotationEvent = event
             val valid = player.lastHitTime < 60
             if (!valid) return
-            if (!rotationEvent.isPost) {
-                val dx = rotationEvent.deltaYaw
+            if (!event.isPost) {
+                val dx = event.deltaYaw
                 val acelx = abs(dx - lastX)
                 val absdx = abs(dx)
                 if (player.lastTeleportTime < 5) return

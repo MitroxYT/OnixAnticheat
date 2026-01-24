@@ -8,6 +8,7 @@ checks:
       maxbuffer: 5
       commands:
         - "2:2 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
         - "500:100 kick %player% TimerA"
     b:
       enabled: true
@@ -16,6 +17,7 @@ checks:
       maxbuffer: 5
       commands:
         - "2:2 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
         - "500:100 kick %player% TimerA"
     c:
       enabled: true
@@ -70,6 +72,7 @@ checks:
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
         - "2:2 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
         - "10:10 kick %player% %prefix% <blue>Использование читов AuraA"
   badpacket:
     a:
@@ -88,16 +91,17 @@ checks:
       setback: false
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
-        - "10:1 [alert]"
+        - "2:2 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
         - "10:1 kick %player% %prefix% Unfair Advantage(BB)"
     c:
       enabled: true
       setbackVL: 6
-      setback: true
+      setback: false
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
-        - "1:1 [alert]"
-        - "10:1 kick %player% %prefix% invalid using item (A)"
+        - "2:2 [alert]"
+        #- "10:1 kick %player% %prefix% invalid using item (A)"
     d:
       enabled: true
       setbackVL: 10
@@ -158,9 +162,9 @@ checks:
         - "1:1 [alert]"
         - "5:1 kick %player% %prefix% invalid using item (A)"
     c:
-      enabled: true
+      enabled: false
       setbackVL: 3
-      setback: true
+      setback: false
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
         - "1:1 [alert]"
@@ -185,20 +189,20 @@ checks:
     a:
       enabled: true
       setbackVL: 2
-      setback: true
+      setback: false
       commands:
-        - "1:1 [alert]"
+        - "3:3 [alert]"
   noslow:
     a:
-      enabled: true
+      enabled: false
       setbackVL: 6
-      setback: true
+      setback: false
       commands:
         - "2:2 [alert]"
     b:
-      enabled: true
+      enabled: false
       setbackVL: 6
-      setback: true
+      setback: false
       commands:
         - "2:2 [alert]"
   scaffold:
@@ -208,4 +212,3 @@ checks:
       setback: true
       commands:
         - "2:2 [alert]"
-        - "7:7 kick %player% TimerA"
