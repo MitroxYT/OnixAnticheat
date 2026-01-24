@@ -75,7 +75,16 @@ checks:
       commands:
         - "2:2 [alert]"
         - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:10 kick %player% %prefix% <blue>Использование читов AuraA"
+        - "10:10 kick %player% %prefix% Unfair Advantage(AA)"
+    c:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
+      commands:
+        - "2:2 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
+        - "10:10 kick %player% %prefix% Unfair Advantage(HC)"
   badpacket:
     a:
       enabled: true
