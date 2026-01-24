@@ -9,6 +9,8 @@ import java.util.*;
 public class MathUtil {
 
 
+    public static final double EXPANDER = Math.pow(2.0D, 24.0D);
+
     public static double calculateVariationScore(List<Double> deltas) {
         double mean = calculateMean(deltas);
         double stdDev = calculateStdDev(deltas, mean);

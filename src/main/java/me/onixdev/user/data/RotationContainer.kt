@@ -21,6 +21,10 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
     private var lastDeltaYaw = 0f
     private var lastDeltaPitch = 0f
     private var yawAccel = 0f
+    var deltaYawABS = 0f
+    var deltaPitchABS = 0f
+    var lastDeltaYawABS = 0f
+    var lastDeltaPitchABS = 0f
     private var pitchAccel = 0f
     private var lastYawAccel = 0f
     private var lastPitchAccel = 0f
@@ -65,6 +69,10 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
         this.lastJoltPitch = this.joltPitch
         this.joltYaw = abs(deltaYaw - lastDeltaYaw)
         this.joltPitch = abs(deltaPitch - lastDeltaPitch)
+        this.lastDeltaYawABS = this.deltaYawABS
+        this.lastDeltaPitchABS = this.deltaPitchABS
+        this.deltaYawABS = abs(yaw - this.lastYaw).toFloat()
+        this.deltaPitchABS = abs(pitch - this.lastPitch).toFloat()
         this.lastDeltaYaw = this.deltaYaw
         this.lastDeltaPitch = this.deltaPitch
         this.deltaYaw = abs(yaw - this.lastYaw).toFloat()
@@ -136,6 +144,9 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
             }
             this.sensitivitySamples.clear()
         }
+    }
+    fun hasTooLowSensitivity(): Boolean {
+        return finalSensitivity > -5 && finalSensitivity < 40
     }
 
     @Suppress("UNCHECKED_CAST")
