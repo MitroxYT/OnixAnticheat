@@ -20,7 +20,7 @@ import kotlin.times
 class AimE(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim").setType("E").setBuffer(3.0).build()) {
     private var buffer:Double = 0.0
     override fun onEvent(event: BaseEvent?) {
-        if (event is PlayerRotationEvent && event.isPost) {
+        if (event is PlayerRotationEvent && event.isPost && player.lastHitTime < 20) {
             val deltaPitch: Float = player.rotationContainer.deltaPitchABS
             val lastDeltaPitch: Float = player.rotationContainer.lastDeltaPitchABS
 

@@ -1,5 +1,23 @@
 config-version: 1.0
 checks:
+  aimheuristic:
+    a:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      maxbuffer: 2
+      commands:
+        - "1:1 [alert]"
+        - "1:1 onix mitigate %player% reducedamage 10000"
+        - "6:1 kick %player% %prefix% Unfair Advantage(AHA)"
+    b:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      commands:
+        - "3:3 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
+        - "20:1 kick %player% %prefix% Unfair Advantage(AHB)"
   aim:
     a:
       enabled: true
