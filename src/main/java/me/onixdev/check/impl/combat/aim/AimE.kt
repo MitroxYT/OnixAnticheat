@@ -33,7 +33,7 @@ class AimE(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim
             val gcd: Long = MathUtil.getGcd(expandedDeltaPitch, expandedLastDeltaPitch)
 
             val exempt = deltaPitch == 0f || player.rotationContainer.hasTooLowSensitivity()
-                    || lastDeltaPitch == 0f
+                    || lastDeltaPitch == 0f || player.rotationContainer.isCinematicRotation
 
             if (!exempt && gcd < 131072L) {
                 if (++buffer > maxbuffer) {
