@@ -160,8 +160,8 @@ public class OnixUser implements IOnixUser {
             if (player != null) {
                 if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) {
                     alertManager.toggleAlerts();
-                    checkPermissions();
                 }
+                checkPermissions();
             }
         },20 * 3);
     }
