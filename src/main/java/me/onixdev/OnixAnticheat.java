@@ -23,6 +23,8 @@ import me.onixdev.util.thread.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 
+import java.nio.file.Files;
+
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
     private OnixPlugin plugin;
@@ -53,6 +55,11 @@ public class OnixAnticheat {
     }
 
     public void onEnable() {
+        try {
+            Class.forName("com.viaversion.viabackwards.ViaBackwards");
+            plugin.getLogger().info("Обнаружен Via Backwards Включаю поддержку");
+            System.setProperty("com.viaversion.handlePingsAsInvAcknowledgements", "true");
+        } catch (ClassNotFoundException ignored) {}
         reloadExecuter = new ReloadTaskExecutor();
         alertExecutor = new AlertTaskExecutor();
         taskExecutor = new TaskExecutor();
