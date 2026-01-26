@@ -10,10 +10,7 @@ import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
 import me.onixdev.events.bukkit.*;
 import me.onixdev.events.packet.*;
-import me.onixdev.manager.AnimationManager;
-import me.onixdev.manager.CheckManager;
-import me.onixdev.manager.PlayerDatamanager;
-import me.onixdev.manager.ResetManager;
+import me.onixdev.manager.*;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.color.Colorizer;
 import me.onixdev.util.color.impl.MiniMessageColor;
@@ -35,6 +32,8 @@ public class OnixAnticheat {
     private AnimationManager animationManager;
     private ResetManager resetManager;
     private PlayerDatamanager playerDatamanager;
+    private AddonManager addonManager;
+    public AddonManager getAddonManager() {return addonManager;}
     private int ticksFromStart;
     private ConfigManager configManager;
     private Colorizer colorizer = new MiniMessageColor();
@@ -82,6 +81,8 @@ public class OnixAnticheat {
             pCommand.setTabCompleter(handler);
             OnixAPI.INSTANCE.setCommandManager(handler);
         }
+        addonManager = new AddonManager();
+        addonManager.init();
         OnixAPI.INSTANCE.loadCorrectly();
         // Запускаем евент спустя 5 секунд после лоада на случай если не все плагины с апи загрузились
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
@@ -105,6 +106,7 @@ public class OnixAnticheat {
         resetManager.stop();
         Bukkit.getScheduler().cancelTasks(plugin);
         PacketEvents.getAPI().terminate();
+        addonManager.onDisable();
     }
 
     private void runShedulers() {
