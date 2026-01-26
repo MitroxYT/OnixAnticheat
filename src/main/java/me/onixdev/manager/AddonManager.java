@@ -18,8 +18,7 @@ public class AddonManager implements IAddonsManager {
     public void init() {
         File addonsFolder = new File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder() + "/addons");
         if (!addonsFolder.exists()) addonsFolder.mkdirs();
-        File[] jarFiles = addonsFolder.listFiles((dir, name) ->
-                name.toLowerCase().endsWith(".jar"));
+        File[] jarFiles = addonsFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".jar"));
         if (jarFiles != null) {
             for (File jarFile : jarFiles) {
                 try {
