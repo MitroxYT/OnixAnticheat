@@ -142,6 +142,11 @@ public class ConfigManager {
     public boolean enableAlertsOnJoin;
     public double damageMultiPlayer;
     public boolean verboseToConsoe;
+    public boolean healthHider;
+    public boolean xpHider;
+    public boolean absorptionHider;
+    public boolean saturationHider;
+    public boolean effectHider;
 
     private void init() {
         String color = messagesconfig.getString("system","MINIMESSAGE");
@@ -161,6 +166,11 @@ public class ConfigManager {
         profileMessage = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(messagesconfig.getStringList("profile")));
         onAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
         offAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
+        healthHider = config.getBoolean("visual.metadata-hider.health", false);
+        xpHider = config.getBoolean("visual.metadata-hider.xp", false);
+        absorptionHider = config.getBoolean("visual.metadata-hider.absorption", false);
+        saturationHider = config.getBoolean("visual.metadata-hider.saturation", false);
+        effectHider = config.getBoolean("visual.metadata-hider.effects", false);
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
     }
 

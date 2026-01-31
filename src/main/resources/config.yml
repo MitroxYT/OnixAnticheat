@@ -7,5 +7,17 @@ reset-time: 3
 # Исправляет проблемы с hex
 disable-hover-message: false
 kick-on-invalid-transaction: true
+visual:
+  metadata-hider:
+    # Должны ли мы скрывать здоровье?
+    health: true
+    # Должны ли мы скрывать поглощение?
+    absorption: true
+    # Должны ли мы скрывать насыщенность?
+    saturation: true
+    # Должны ли мы скрывать эффекты?
+    effects: true
+    # Должны ли мы скрывать опыт?
+    xp: true
 mitigations:
   damage-reduce: 0.1

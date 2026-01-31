@@ -115,6 +115,13 @@ checks:
         - "2:2 [alert]"
         - "3:3 onix mitigate %player% reducedamage 10000"
         - "10:10 kick %player% %prefix% Unfair Advantage(AA)"
+    b:
+      enabled: false
+      setbackVL: 1
+      setback: false
+      cancel: true
+      commands:
+        - "2:2 [alert]"
     c:
       enabled: true
       setbackVL: 1

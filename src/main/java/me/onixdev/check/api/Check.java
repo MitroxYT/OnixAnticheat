@@ -1,6 +1,7 @@
 package me.onixdev.check.api;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
+import com.github.retrooper.packetevents.event.PacketSendEvent;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.ConfigVlCommandData;
@@ -213,5 +214,8 @@ public class Check implements ICheck {
                 }
             }
         }
+    }
+
+    public void onPacketOut(PacketSendEvent event) {
     }
 }
