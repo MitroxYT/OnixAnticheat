@@ -18,6 +18,27 @@ checks:
         - "3:3 [alert]"
         - "3:3 onix mitigate %player% reducedamage 10000"
         - "20:1 kick %player% %prefix% Unfair Advantage(AHB)"
+    c:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      commands:
+        - "3:3 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
+    d:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      commands:
+        - "3:3 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
+    e:
+      enabled: true
+      setbackVL: 1
+      setback: false
+      commands:
+        - "3:3 [alert]"
+        - "3:3 onix mitigate %player% reducedamage 10000"
   aim:
     a:
       enabled: true

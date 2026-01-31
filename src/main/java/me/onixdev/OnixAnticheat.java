@@ -18,12 +18,16 @@ import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
+    private long time;
     private OnixPlugin plugin;
     @Getter
     private IThreadExecutor alertExecutor, reloadExecuter, taskExecutor;
@@ -54,9 +58,21 @@ public class OnixAnticheat {
     }
 
     public void onEnable() {
+        time = System.currentTimeMillis();
+        List<String> no = new ArrayList<>();
+        no.add("  $$$$$$\\            $$\\            $$$$$$\\             $$\\     $$\\           $$\\                            $$\\     ");
+        no.add("$$  __$$\\           \\__|          $$  __$$\\            $$ |    \\__|          $$ |                           $$ |    ");
+        no.add("$$ /  $$ |$$$$$$$\\  $$\\ $$\\   $$\\ $$ /  $$ |$$$$$$$\\ $$$$$$\\   $$\\  $$$$$$$\\ $$$$$$$\\   $$$$$$\\   $$$$$$\\ $$$$$$\\   ");
+        no.add("$$ |  $$ |$$  __$$\\ $$ |\\$$\\ $$  |$$$$$$$$ |$$  __$$\\\\_$$  _|  $$ |$$  _____|$$  __$$\\ $$  __$$\\  \\____$$\\\\_$$  _|  ");
+        no.add("$$ |  $$ |$$ |  $$ |$$ | \\$$$$  / $$  __$$ |$$ |  $$ | $$ |    $$ |$$ /      $$ |  $$ |$$$$$$$$ | $$$$$$$ | $$ |    ");
+        no.add("$$ |  $$ |$$ |  $$ |$$ | $$  $$<  $$ |  $$ |$$ |  $$ | $$ |$$\\ $$ |$$ |      $$ |  $$ |$$   ____|$$  __$$ | $$ |$$\\");
+        no.add(" $$$$$$  |$$ |  $$ |$$ |$$  /\\$$\\ $$ |  $$ |$$ |  $$ | \\$$$$  |$$ |\\$$$$$$$\\ $$ |  $$ |\\$$$$$$$\\ \\$$$$$$$ | \\$$$$  |");
+        no.add(" \\______/ \\__|  \\__|\\__|\\__/  \\__|\\__|  \\__|\\__|  \\__|  \\____/ \\__| \\_______|\\__|  \\__| \\_______| \\_______|  \\____/");
+        no.forEach(msg -> this.printCool("&b" + msg));
+        no.clear();
         try {
             Class.forName("com.viaversion.viabackwards.ViaBackwards");
-            plugin.getLogger().info("Обнаружен Via Backwards Включаю поддержку");
+            printCool("&bОбнаружен Via Backwards Включаю поддержку");
             System.setProperty("com.viaversion.handlePingsAsInvAcknowledgements", "true");
         } catch (ClassNotFoundException ignored) {}
         reloadExecuter = new ReloadTaskExecutor();
@@ -80,15 +96,18 @@ public class OnixAnticheat {
             pCommand.setExecutor(handler);
             pCommand.setTabCompleter(handler);
             OnixAPI.INSTANCE.setCommandManager(handler);
+            printCool("&bСистема Комманд загружена успешно");
         }
         addonManager = new AddonManager();
         addonManager.init();
+        printCool("&bСистема аддонов успешно загружена");
         OnixAPI.INSTANCE.loadCorrectly();
         // Запускаем евент спустя 5 секунд после лоада на случай если не все плагины с апи загрузились
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
         },20*5);
         resetManager.start();
+        printCool("&bАнтичит загружен за " + (System.currentTimeMillis() - time) + " ms");
     }
     public void reload() {
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
@@ -119,6 +138,7 @@ public class OnixAnticheat {
         Bukkit.getPluginManager().registerEvents(new PlayerAttackHandler(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerReleaseUseItemState(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), plugin);
+        printCool("&bBukkitEvents Загружены успешно");
     }
 
     private void registerPacketEvents() {
@@ -131,6 +151,7 @@ public class OnixAnticheat {
         PacketEvents.getAPI().getEventManager().registerListeners(new PlayerServerCooldownHandler());
         PacketEvents.getAPI().init();
         noSupportComponentMessage = PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
+        printCool("&bPacketEvents Загружены успешно");
     }
 
     private void tick() {
@@ -156,6 +177,9 @@ public class OnixAnticheat {
 
     public IThreadExecutor getCloudCheckExecuter() {
         return cloudCheckExecuter;
+    }
+    public void printCool(String text) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', text));
     }
     public void setColorizer(Colorizer colorizer) {this.colorizer = colorizer;}
     public Colorizer getColorizer() {return colorizer;}

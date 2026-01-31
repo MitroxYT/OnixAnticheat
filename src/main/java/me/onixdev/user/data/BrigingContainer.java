@@ -12,7 +12,7 @@ import org.bukkit.Material;
 @Getter
 public class BrigingContainer {
     private final OnixUser user;
-    private int brigeTicks, lastPlaceTick;
+    private int brigeTicks, lastPlaceTick = 45;
     private boolean brige;
 
     public BrigingContainer(OnixUser user) {
@@ -21,7 +21,7 @@ public class BrigingContainer {
 
     @SuppressWarnings("deprecation")
     public void handlePacket(PacketReceiveEvent event) {
-        if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
+        /*if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
             ++lastPlaceTick;
             ++brigeTicks;
 
@@ -42,7 +42,7 @@ public class BrigingContainer {
         }
         if (event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
             lastPlaceTick = 0;
-        }
+        }*/
     }
 
     public boolean isBridge() {
