@@ -24,3 +24,4 @@ data.txt
 .gradle/8.11/fileHashes/fileHashes.bin
 .idea/modules.xml
 .gradle/file-system.probe
+/.kotlin
