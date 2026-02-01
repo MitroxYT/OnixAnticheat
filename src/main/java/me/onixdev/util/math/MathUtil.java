@@ -275,4 +275,25 @@ public class MathUtil {
         double scale2 = Math.pow(10, scale);
         return Math.ceil(value * scale2) / scale2;
     }
+
+    public static double clamp(double num, double min, double max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
+
+    public static int clamp(int num, int min, int max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
+
+    public static float clamp(float num, float min, float max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
 }
