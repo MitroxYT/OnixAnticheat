@@ -9,9 +9,13 @@ import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.protocol.player.EquipmentSlot;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.util.Vector3d;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.grimentity.attribute.ValuedAttribute;
+import me.onixdev.util.grimentity.boxes.CollisionBox;
+import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
 import me.onixdev.util.grimentity.position.ReachInterpolationData;
 import me.onixdev.util.grimentity.position.TrackedPosition;
 
@@ -192,7 +196,7 @@ public class PacketEntity extends TypedPacketEntity {
     }
 
     // This is for handling riding and entities attached to one another.
-    public void setPositionRaw(GrimPlayer player, SimpleCollisionBox box) {
+    public void setPositionRaw(OnixUser player, SimpleCollisionBox box) {
         // I'm disappointed in you mojang.  Please don't set the packet position as it desyncs it...
         // But let's follow this flawed client-sided logic!
         this.trackedServerPosition.setPos(new Vector3d((box.maxX - box.minX) / 2 + box.minX, box.minY, (box.maxZ - box.minZ) / 2 + box.minZ));

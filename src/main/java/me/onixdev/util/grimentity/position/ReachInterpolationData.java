@@ -7,6 +7,10 @@ import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
 import com.github.retrooper.packetevents.util.Vector3d;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.grimentity.boxes.CollisionBox;
+import me.onixdev.util.grimentity.boxes.GetBoundingBox;
+import me.onixdev.util.grimentity.boxes.NoCollisionBox;
+import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
 import me.onixdev.util.grimentity.entity.PacketEntity;
 
 // You may not copy the check unless you are licensed under GPL
@@ -21,7 +25,7 @@ public class ReachInterpolationData {
     private boolean expandNonRelative = false;
 
     public ReachInterpolationData(OnixUser player, SimpleCollisionBox startingLocation, TrackedPosition position, PacketEntity entity) {
-        final boolean unreliableTicking = !player.inVehicle() && player.canSkipTicks();
+        final boolean unreliableTicking = false;//!player.inVehicle()/* && player.canSkipTicks()*/;
 
         this.startingLocation = startingLocation;
         final Vector3d pos = position.getPos();
@@ -48,7 +52,7 @@ public class ReachInterpolationData {
         } else if (entity.isLivingEntity && entity.type != EntityTypes.PLAYER) {
             interpolationSteps = 3;
         } else if (entity.type == EntityTypes.PLAYER) {
-            interpolationSteps = (player.isStrictHitboxes() ? 2 : 3);
+            interpolationSteps = (3);
         } else {
             interpolationSteps = 1;
         }
