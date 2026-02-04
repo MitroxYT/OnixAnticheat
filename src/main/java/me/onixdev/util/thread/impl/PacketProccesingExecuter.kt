@@ -9,7 +9,7 @@ class PacketProccesingExecuter : IThreadExecutor {
     private var executor: ExecutorService? = null
     init {
         executor =
-            Executors.newFixedThreadPool(3, ThreadFactoryBuilder().setNameFormat("Onix-PacketExecuter %d").build())
+            Executors.newFixedThreadPool(1, ThreadFactoryBuilder().setNameFormat("Onix-PacketExecuter %d").build())
     }
 
     override fun run(runnable: Runnable?) {

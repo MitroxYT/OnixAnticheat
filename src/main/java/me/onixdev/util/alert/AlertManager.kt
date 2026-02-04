@@ -48,11 +48,12 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%type%", check.getType().uppercase())
             .replace("%verbose%", verbose)
             .replace("%experimental%", if (check.isExperimental) " *" else "")
+        val alert = MessageUtil.miniMessage(finalAlertMsg).compact()
         if (OnixAnticheat.INSTANCE.configManager.verboseToConsoe) {
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), MessageUtil.miniMessage(finalAlertMsg).compact())
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(),alert/* MessageUtil.miniMessage(finalAlertMsg).compact()*/)
         }
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
-            val alert: Component = MessageUtil.miniMessage(finalAlertMsg)
+         //   val alert: Component = MessageUtil.miniMessage(finalAlertMsg)
                 //Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
                 if (users.isVerboseEnabled) MessageUtil.sendMessage(users.bukkitPlayer,alert)//users.sendMessage(alert)
@@ -60,7 +61,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
         }
         else {
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
-                if (users.isVerboseEnabled) users.sendMessage(finalAlertMsg)
+                if (users.isVerboseEnabled) users.sendMessage(alert)
             }
         }
     }
@@ -76,17 +77,18 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%type%", check.getType().uppercase())
             .replace("%verbose%", verbose)
             .replace("%experimental%", if (check.isExperimental) "*" else "")
-            MessageUtil.sendMessage(Bukkit.getConsoleSender(), MessageUtil.miniMessage(finalAlertMsg).compact())
+        val alert = MessageUtil.miniMessage(finalAlertMsg).compact()
+            MessageUtil.sendMessage(Bukkit.getConsoleSender(),alert /*MessageUtil.miniMessage(finalAlertMsg).compact()*/)
         if (!OnixAnticheat.INSTANCE.configManager.isFixHoverSystemCompability) {
            // val alert: Component = Component.text(finalAlertMsg).hoverEvent(HoverEvent.showText(Component.text(finalVerboseMsg)))
-            val alert: Component = MessageUtil.miniMessage(finalAlertMsg)
+         //   val alert: Component = MessageUtil.miniMessage(finalAlertMsg)
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
                 if (users.isAlertsEnabled) MessageUtil.sendMessage(users.bukkitPlayer,alert)//users.sendMessage(alert)
             }
         }
         else {
             for (users in OnixAnticheat.INSTANCE.playerDatamanager.allData) {
-                if (users.isAlertsEnabled) users.sendMessage(finalAlertMsg)
+                if (users.isAlertsEnabled) users.sendMessage(alert)
             }
         }
     }
