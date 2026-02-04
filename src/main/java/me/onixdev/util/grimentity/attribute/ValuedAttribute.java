@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static me.onixdev.util.grimentity.entity.CompensatedEntities.SPRINTING_MODIFIER_UUID;
+
 public final class ValuedAttribute {
 
     private static final Function<Double, Double> DEFAULT_GET_REWRITE = Function.identity();

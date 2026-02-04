@@ -55,7 +55,7 @@ public class PacketEntity extends TypedPacketEntity {
         initAttributes(player);
         this.trackedServerPosition = new TrackedPosition();
         this.trackedServerPosition.setPos(new Vector3d(x, y, z));
-        if (player.getClientVersion().isOlderThan(ClientVersion.V_1_9)) { // Thanks ViaVersion
+        if (player.getClientVersion().isOlderThan(ClientVersion.V_1_9)) {
             trackedServerPosition.setPos(new Vector3d(((int) (x * 32)) / 32d, ((int) (y * 32)) / 32d, ((int) (z * 32)) / 32d));
         }
         final Vector3d pos = trackedServerPosition.getPos();

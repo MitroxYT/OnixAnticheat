@@ -24,8 +24,8 @@ public class GetBoundingBox {
     // Size while gliding/swimming: 0.6 width 0.6 height
     // Size while sleeping: 0.2 width 0.2 height
     public static SimpleCollisionBox getPlayerBoundingBox(OnixUser player, double centerX, double minY, double centerZ) {
-        float width = player.pose.width;
-        float height = player.pose.height;
+        float width = 0.6F;//player.pose.width;
+        float height = 1.8F;//player.pose.height;
         return getBoundingBoxFromPosAndSize(player, centerX, minY, centerZ, width, height);
     }
 

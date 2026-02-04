@@ -2,13 +2,13 @@ package me.onixdev.util.grimentity.boxes;
 
 
 import com.github.retrooper.packetevents.protocol.world.BlockFace;
-import com.github.retrooper.packetevents.protocol.world.Direction;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.util.Vector3i;
 import com.google.common.collect.AbstractIterator;
 import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
+import me.onixdev.util.math.MathUtil;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -21,23 +21,13 @@ public class SimpleCollisionBox implements CollisionBox {
     public double minX, minY, minZ, maxX, maxY, maxZ;
     private boolean isFullBlock = false;
 
-    SimpleCollisionBox[] boxes = new SimpleCollisionBox[ComplexCollisionBox.DEFAULT_MAX_COLLISION_BOX_SIZE];
+    SimpleCollisionBox[] boxes = new SimpleCollisionBox[15];
 
     public SimpleCollisionBox() {
         this(0, 0, 0, 0, 0, 0, false);
     }
 
-    /**
-     * Creates a box defined by two points in 3d space; used to represent hitboxes and collision boxes.
-     * If your min/max values are > 1 you should probably check out {@link HexCollisionBox}
-     * @param minX x position of first corner
-     * @param minY y position of first corner
-     * @param minZ z position of first corner
-     * @param maxX x position of second corner
-     * @param maxY y position of second corner
-     * @param maxZ z position of second corner
-     * @param fullBlock - whether on not the box is a perfect 1x1x1 sized block
-     */
+
     public SimpleCollisionBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ, boolean fullBlock) {
         this.minX = minX;
         this.maxX = maxX;
@@ -61,17 +51,7 @@ public class SimpleCollisionBox implements CollisionBox {
         this(minX, minY, minZ, minX + 1, minY + 1, minZ + 1, true);
     }
 
-    /**
-     * Creates a box defined by two points in 3d space; used to represent hitboxes and collision boxes.
-     * If your min/max values are > 1 you should probably check out {@link HexCollisionBox}
-     * Use only if you don't know the fullBlock status, which is rare
-     * @param minX x position of first corner
-     * @param minY y position of first corner
-     * @param minZ z position of first corner
-     * @param maxX x position of second corner
-     * @param maxY y position of second corner
-     * @param maxZ z position of second corner
-     */
+
     public SimpleCollisionBox(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
         this.minX = minX;
         this.maxX = maxX;
@@ -217,7 +197,8 @@ public class SimpleCollisionBox implements CollisionBox {
 
     @Override
     public CollisionBox union(SimpleCollisionBox other) {
-        return new ComplexCollisionBox(2, this, other);
+        return null;
+      //  return new ComplexCollisionBox(2, this, other);
     }
 
     @Override
@@ -413,70 +394,70 @@ public class SimpleCollisionBox implements CollisionBox {
         return z >= this.minZ && z <= this.maxZ ? 0.0 : Math.min(Math.abs(z - this.minZ), Math.abs(z - this.maxZ));
     }
 
-    /**
-     * Calculates intersection with the given ray between a certain distance
-     * interval.
-     * <p>
-     * Ray-box intersection is using IEEE numerical properties to ensure the
-     * test is both robust and efficient, as described in:
-     * <p>
-     * Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley: "An
-     * Efficient and Robust Ray-Box Intersection Algorithm" Journal of graphics
-     * tools, 10(1):49-54, 2005
-     *
-     * @param ray     incident ray
-     * @param minDist minimum distance
-     * @param maxDist maximum distance
-     * @return intersection point on the bounding box (only the first is
-     * returned) or null if no intersection
-     */
-    // Copied from hawk lol
-    // I would like to point out that this is magic to me and I have not attempted to understand this code
-    public Vector intersectsRay(Ray ray, float minDist, float maxDist) {
-        Vector invDir = new Vector(1f / ray.getDirection().getX(), 1f / ray.getDirection().getY(), 1f / ray.getDirection().getZ());
-
-        boolean signDirX = invDir.getX() < 0;
-        boolean signDirY = invDir.getY() < 0;
-        boolean signDirZ = invDir.getZ() < 0;
-
-        Vector bbox = signDirX ? max() : min();
-        double tmin = (bbox.getX() - ray.getOrigin().getX()) * invDir.getX();
-        bbox = signDirX ? min() : max();
-        double tmax = (bbox.getX() - ray.getOrigin().getX()) * invDir.getX();
-        bbox = signDirY ? max() : min();
-        double tymin = (bbox.getY() - ray.getOrigin().getY()) * invDir.getY();
-        bbox = signDirY ? min() : max();
-        double tymax = (bbox.getY() - ray.getOrigin().getY()) * invDir.getY();
-
-        if ((tmin > tymax) || (tymin > tmax)) {
-            return null;
-        }
-        if (tymin > tmin) {
-            tmin = tymin;
-        }
-        if (tymax < tmax) {
-            tmax = tymax;
-        }
-
-        bbox = signDirZ ? max() : min();
-        double tzmin = (bbox.getZ() - ray.getOrigin().getZ()) * invDir.getZ();
-        bbox = signDirZ ? min() : max();
-        double tzmax = (bbox.getZ() - ray.getOrigin().getZ()) * invDir.getZ();
-
-        if ((tmin > tzmax) || (tzmin > tmax)) {
-            return null;
-        }
-        if (tzmin > tmin) {
-            tmin = tzmin;
-        }
-        if (tzmax < tmax) {
-            tmax = tzmax;
-        }
-        if ((tmin < maxDist) && (tmax > minDist)) {
-            return ray.getPointAtDistance(tmin);
-        }
-        return null;
-    }
+//    /**
+//     * Calculates intersection with the given ray between a certain distance
+//     * interval.
+//     * <p>
+//     * Ray-box intersection is using IEEE numerical properties to ensure the
+//     * test is both robust and efficient, as described in:
+//     * <p>
+//     * Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley: "An
+//     * Efficient and Robust Ray-Box Intersection Algorithm" Journal of graphics
+//     * tools, 10(1):49-54, 2005
+//     *
+//     * @param ray     incident ray
+//     * @param minDist minimum distance
+//     * @param maxDist maximum distance
+//     * @return intersection point on the bounding box (only the first is
+//     * returned) or null if no intersection
+//     */
+//    // Copied from hawk lol
+//    // I would like to point out that this is magic to me and I have not attempted to understand this code
+//    public Vector intersectsRay(Ray ray, float minDist, float maxDist) {
+//        Vector invDir = new Vector(1f / ray.getDirection().getX(), 1f / ray.getDirection().getY(), 1f / ray.getDirection().getZ());
+//
+//        boolean signDirX = invDir.getX() < 0;
+//        boolean signDirY = invDir.getY() < 0;
+//        boolean signDirZ = invDir.getZ() < 0;
+//
+//        Vector bbox = signDirX ? max() : min();
+//        double tmin = (bbox.getX() - ray.getOrigin().getX()) * invDir.getX();
+//        bbox = signDirX ? min() : max();
+//        double tmax = (bbox.getX() - ray.getOrigin().getX()) * invDir.getX();
+//        bbox = signDirY ? max() : min();
+//        double tymin = (bbox.getY() - ray.getOrigin().getY()) * invDir.getY();
+//        bbox = signDirY ? min() : max();
+//        double tymax = (bbox.getY() - ray.getOrigin().getY()) * invDir.getY();
+//
+//        if ((tmin > tymax) || (tymin > tmax)) {
+//            return null;
+//        }
+//        if (tymin > tmin) {
+//            tmin = tymin;
+//        }
+//        if (tymax < tmax) {
+//            tmax = tymax;
+//        }
+//
+//        bbox = signDirZ ? max() : min();
+//        double tzmin = (bbox.getZ() - ray.getOrigin().getZ()) * invDir.getZ();
+//        bbox = signDirZ ? min() : max();
+//        double tzmax = (bbox.getZ() - ray.getOrigin().getZ()) * invDir.getZ();
+//
+//        if ((tmin > tzmax) || (tzmin > tmax)) {
+//            return null;
+//        }
+//        if (tzmin > tmin) {
+//            tmin = tzmin;
+//        }
+//        if (tzmax < tmax) {
+//            tmax = tzmax;
+//        }
+//        if ((tmin < maxDist) && (tmax > minDist)) {
+//            return ray.getPointAtDistance(tmin);
+//        }
+//        return null;
+//    }
 
     public Vector3d getMaxPosition() { // done to omit conversions bukkit -> packetevents
         return new Vector3d(maxX, maxY, maxZ);
@@ -494,16 +475,9 @@ public class SimpleCollisionBox implements CollisionBox {
         return new Vector(minX, minY, minZ);
     }
 
-    public Vector3dm max3dm() {
-        return new Vector3dm(maxX, maxY, maxZ);
-    }
-
-    public Vector3dm min3dm() {
-        return new Vector3dm(minX, minY, minZ);
-    }
 
     public Vector3d getCenter() {
-        return new Vector3d(GrimMath.lerp(0.5, this.minX, this.maxX), GrimMath.lerp(0.5, this.minY, this.maxY), GrimMath.lerp(0.5, this.minZ, this.maxZ));
+        return new Vector3d(MathUtil.lerp(0.5, this.minX, this.maxX), MathUtil.lerp(0.5, this.minY, this.maxY), MathUtil.lerp(0.5, this.minZ, this.maxZ));
     }
 
     public DoubleList getYPointPositions() {
@@ -605,7 +579,7 @@ public class SimpleCollisionBox implements CollisionBox {
     }
 
     public static Vector3i containing(double x, double y, double z) {
-        return new Vector3i(GrimMath.floor(x), GrimMath.floor(y), GrimMath.floor(z));
+        return new Vector3i(MathUtil.floor(x), MathUtil.floor(y), MathUtil.floor(z));
     }
 
     public static Iterable<Vector3i> betweenClosed(Vector3i firstPos, Vector3i secondPos) {
@@ -643,94 +617,94 @@ public class SimpleCollisionBox implements CollisionBox {
         };
     }
 
-    public static Iterable<Vector3i> betweenCornersInDirection(SimpleCollisionBox boundingBox, Vector3d directionVector) {
-        Vector3d min = boundingBox.min3dm().toVector3d();
-        int minX = GrimMath.floor(min.x);
-        int minY = GrimMath.floor(min.y);
-        int minZ = GrimMath.floor(min.z);
-        Vector3d max = boundingBox.max3dm().toVector3d();
-        int maxX = GrimMath.floor(max.x);
-        int maxY = GrimMath.floor(max.y);
-        int maxZ = GrimMath.floor(max.z);
-        return betweenCornersInDirection(minX, minY, minZ, maxX, maxY, maxZ, directionVector);
-    }
+//    public static Iterable<Vector3i> betweenCornersInDirection(SimpleCollisionBox boundingBox, Vector3d directionVector) {
+//        Vector3d min = boundingBox.min3dm().toVector3d();
+//        int minX = MathUtil.floor(min.x);
+//        int minY = MathUtil.floor(min.y);
+//        int minZ = MathUtil.floor(min.z);
+//        Vector3d max = boundingBox.max3dm().toVector3d();
+//        int maxX = MathUtil.floor(max.x);
+//        int maxY = MathUtil.floor(max.y);
+//        int maxZ = MathUtil.floor(max.z);
+//        return betweenCornersInDirection(minX, minY, minZ, maxX, maxY, maxZ, directionVector);
+//    }
 
-    public static Iterable<Vector3i> betweenCornersInDirection(Vector3i min, Vector3i max, Vector3d directionVector) {
-        return betweenCornersInDirection(min.getX(), min.getY(), min.getZ(), max.getX(), max.getY(), max.getZ(), directionVector);
-    }
-
-    public static Iterable<Vector3i> betweenCornersInDirection(int x1, int y1, int z1, int x2, int y2, int z2, Vector3d directionVector) {
-        int minX = Math.min(x1, x2);
-        int minY = Math.min(y1, y2);
-        int minZ = Math.min(z1, z2);
-        int maxX = Math.max(x1, x2);
-        int maxY = Math.max(y1, y2);
-        int maxZ = Math.max(z1, z2);
-
-        int sizeX = maxX - minX;
-        int sizeY = maxY - minY;
-        int sizeZ = maxZ - minZ;
-
-        int startX = directionVector.x >= 0.0 ? minX : maxX;
-        int startY = directionVector.y >= 0.0 ? minY : maxY;
-        int startZ = directionVector.z >= 0.0 ? minZ : maxZ;
-
-        List<Collisions.Axis> axisOrder = BlockCollisions.axisStepOrder(directionVector);
-        Collisions.Axis primaryAxis = axisOrder.get(0);
-        Collisions.Axis secondaryAxis = axisOrder.get(1);
-        Collisions.Axis tertiaryAxis = axisOrder.get(2);
-
-        Direction primaryDirection = primaryAxis.get(directionVector) >= 0.0 ? primaryAxis.getPositive() : primaryAxis.getNegative();
-        Direction secondaryDirection = secondaryAxis.get(directionVector) >= 0.0 ? secondaryAxis.getPositive() : secondaryAxis.getNegative();
-        Direction tertiaryDirection = tertiaryAxis.get(directionVector) >= 0.0 ? tertiaryAxis.getPositive() : tertiaryAxis.getNegative();
-
-        int primaryCount = primaryAxis.choose(sizeX, sizeY, sizeZ);
-        int secondaryCount = secondaryAxis.choose(sizeX, sizeY, sizeZ);
-        int tertiaryCount = tertiaryAxis.choose(sizeX, sizeY, sizeZ);
-
-        return () -> new AbstractIterator<>() {
-            private int firstIndex;
-            private int secondIndex;
-            private int thirdIndex;
-            private boolean end;
-            private final int firstDirX = primaryDirection.getVector().getX();
-            private final int firstDirY = primaryDirection.getVector().getY();
-            private final int firstDirZ = primaryDirection.getVector().getZ();
-            private final int secondDirX = secondaryDirection.getVector().getX();
-            private final int secondDirY = secondaryDirection.getVector().getY();
-            private final int secondDirZ = secondaryDirection.getVector().getZ();
-            private final int thirdDirX = tertiaryDirection.getVector().getX();
-            private final int thirdDirY = tertiaryDirection.getVector().getY();
-            private final int thirdDirZ = tertiaryDirection.getVector().getZ();
-
-            protected Vector3i computeNext() {
-                if (this.end) {
-                    return this.endOfData();
-                } else {
-                    Vector3i cursor = new Vector3i(
-                            startX + this.firstDirX * this.firstIndex + this.secondDirX * this.secondIndex + this.thirdDirX * this.thirdIndex,
-                            startY + this.firstDirY * this.firstIndex + this.secondDirY * this.secondIndex + this.thirdDirY * this.thirdIndex,
-                            startZ + this.firstDirZ * this.firstIndex + this.secondDirZ * this.secondIndex + this.thirdDirZ * this.thirdIndex
-                    );
-
-                    if (this.thirdIndex < tertiaryCount) {
-                        this.thirdIndex++;
-                    } else if (this.secondIndex < secondaryCount) {
-                        this.secondIndex++;
-                        this.thirdIndex = 0;
-                    } else if (this.firstIndex < primaryCount) {
-                        this.firstIndex++;
-                        this.thirdIndex = 0;
-                        this.secondIndex = 0;
-                    } else {
-                        this.end = true;
-                    }
-
-                    return cursor;
-                }
-            }
-        };
-    }
+//    public static Iterable<Vector3i> betweenCornersInDirection(Vector3i min, Vector3i max, Vector3d directionVector) {
+//        return betweenCornersInDirection(min.getX(), min.getY(), min.getZ(), max.getX(), max.getY(), max.getZ(), directionVector);
+//    }
+//
+//    public static Iterable<Vector3i> betweenCornersInDirection(int x1, int y1, int z1, int x2, int y2, int z2, Vector3d directionVector) {
+//        int minX = Math.min(x1, x2);
+//        int minY = Math.min(y1, y2);
+//        int minZ = Math.min(z1, z2);
+//        int maxX = Math.max(x1, x2);
+//        int maxY = Math.max(y1, y2);
+//        int maxZ = Math.max(z1, z2);
+//
+//        int sizeX = maxX - minX;
+//        int sizeY = maxY - minY;
+//        int sizeZ = maxZ - minZ;
+//
+//        int startX = directionVector.x >= 0.0 ? minX : maxX;
+//        int startY = directionVector.y >= 0.0 ? minY : maxY;
+//        int startZ = directionVector.z >= 0.0 ? minZ : maxZ;
+//
+//        List<Collisions.Axis> axisOrder = BlockCollisions.axisStepOrder(directionVector);
+//        Collisions.Axis primaryAxis = axisOrder.get(0);
+//        Collisions.Axis secondaryAxis = axisOrder.get(1);
+//        Collisions.Axis tertiaryAxis = axisOrder.get(2);
+//
+//        Direction primaryDirection = primaryAxis.get(directionVector) >= 0.0 ? primaryAxis.getPositive() : primaryAxis.getNegative();
+//        Direction secondaryDirection = secondaryAxis.get(directionVector) >= 0.0 ? secondaryAxis.getPositive() : secondaryAxis.getNegative();
+//        Direction tertiaryDirection = tertiaryAxis.get(directionVector) >= 0.0 ? tertiaryAxis.getPositive() : tertiaryAxis.getNegative();
+//
+//        int primaryCount = primaryAxis.choose(sizeX, sizeY, sizeZ);
+//        int secondaryCount = secondaryAxis.choose(sizeX, sizeY, sizeZ);
+//        int tertiaryCount = tertiaryAxis.choose(sizeX, sizeY, sizeZ);
+//
+//        return () -> new AbstractIterator<>() {
+//            private int firstIndex;
+//            private int secondIndex;
+//            private int thirdIndex;
+//            private boolean end;
+//            private final int firstDirX = primaryDirection.getVector().getX();
+//            private final int firstDirY = primaryDirection.getVector().getY();
+//            private final int firstDirZ = primaryDirection.getVector().getZ();
+//            private final int secondDirX = secondaryDirection.getVector().getX();
+//            private final int secondDirY = secondaryDirection.getVector().getY();
+//            private final int secondDirZ = secondaryDirection.getVector().getZ();
+//            private final int thirdDirX = tertiaryDirection.getVector().getX();
+//            private final int thirdDirY = tertiaryDirection.getVector().getY();
+//            private final int thirdDirZ = tertiaryDirection.getVector().getZ();
+//
+//            protected Vector3i computeNext() {
+//                if (this.end) {
+//                    return this.endOfData();
+//                } else {
+//                    Vector3i cursor = new Vector3i(
+//                            startX + this.firstDirX * this.firstIndex + this.secondDirX * this.secondIndex + this.thirdDirX * this.thirdIndex,
+//                            startY + this.firstDirY * this.firstIndex + this.secondDirY * this.secondIndex + this.thirdDirY * this.thirdIndex,
+//                            startZ + this.firstDirZ * this.firstIndex + this.secondDirZ * this.secondIndex + this.thirdDirZ * this.thirdIndex
+//                    );
+//
+//                    if (this.thirdIndex < tertiaryCount) {
+//                        this.thirdIndex++;
+//                    } else if (this.secondIndex < secondaryCount) {
+//                        this.secondIndex++;
+//                        this.thirdIndex = 0;
+//                    } else if (this.firstIndex < primaryCount) {
+//                        this.firstIndex++;
+//                        this.thirdIndex = 0;
+//                        this.secondIndex = 0;
+//                    } else {
+//                        this.end = true;
+//                    }
+//
+//                    return cursor;
+//                }
+//            }
+//        };
+//    }
 
     @Override
     public String toString() {

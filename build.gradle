@@ -61,6 +61,7 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 tasks.shadowJar {
+    minimize()
     archiveClassifier.set("")
  //   relocate("net.kyori", "libs.kyori")
     relocate("io.github.retrooper","libs.retooper.packetevents.io")
