@@ -3,12 +3,14 @@ package me.onixdev.check.impl.player.misc;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.netty.channel.ChannelHelper;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
+import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.grimentity.entity.PacketEntity;
 import me.onixdev.util.net.MinecraftValues;
 
 import java.util.Iterator;
@@ -28,6 +30,8 @@ public class PlayerDataHider extends Check {
             WrapperPlayServerEntityMetadata wrapper = new WrapperPlayServerEntityMetadata(event);
             int entityId = wrapper.getEntityId();
             if (event.getUser().getEntityId() != entityId) {
+                PacketEntity entity = player.compensatedEntities.getEntity(entityId);
+                if (entity == null ||  entity.type != EntityTypes.PLAYER) return;
                     List<? extends EntityData> entityMetaData = wrapper.getEntityMetadata();
 
                     boolean shouldPush = false;

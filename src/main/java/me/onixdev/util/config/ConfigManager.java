@@ -1,20 +1,16 @@
 package me.onixdev.util.config;
 
 
-import lombok.Generated;
-import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.util.color.MessageUtil;
 import me.onixdev.util.color.impl.LegacyHexColor;
 import me.onixdev.util.color.impl.MiniMessageColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 

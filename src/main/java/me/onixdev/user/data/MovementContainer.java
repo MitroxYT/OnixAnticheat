@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.user.OnixUser;
+import me.onixdev.util.grimentity.boxes.GetBoundingBox;
 import me.onixdev.util.math.MathUtil;
 import me.onixdev.util.math.VanillaMath;
 import me.onixdev.util.net.ClientInput;
@@ -91,7 +92,7 @@ public class MovementContainer {
                 this.deltaX = this.x - this.lastx;
                 this.deltaY = this.y - this.lasty;
                 this.deltaZ = this.z - this.lastz;
-
+                user.boundingBox = GetBoundingBox.getBoundingBoxFromPosAndSizeRaw(x, y, z, 0.6f, 1.8f);
                 this.lastDeltaXZ = this.deltaXZ;
                 this.deltaXZ = MathUtil.hypot(this.deltaX, this.deltaZ);
             }

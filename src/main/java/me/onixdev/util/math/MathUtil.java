@@ -275,4 +275,71 @@ public class MathUtil {
         double scale2 = Math.pow(10, scale);
         return Math.ceil(value * scale2) / scale2;
     }
+
+    public static double clamp(double num, double min, double max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
+
+    public static int clamp(int num, int min, int max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
+
+    public static float clamp(float num, float min, float max) {
+        if (num < min) {
+            return min;
+        }
+        return Math.min(num, max);
+    }
+
+    public static int floor(double d) {
+        return (int) Math.floor(d);
+    }
+
+    public static int ceil(double d) {
+        return (int) Math.ceil(d);
+    }
+
+
+    public static int sign(double x) {
+        if (x == 0.0) {
+            return 0;
+        } else {
+            return x > 0.0 ? 1 : -1;
+        }
+    }
+
+    public static float square(float value) {
+        return value * value;
+    }
+
+    public static double square(double value) {
+        return value * value;
+    }
+
+    public static boolean equal(double first, double second) {
+        return Math.abs(second - first) < 1.0E-5F;
+    }
+
+    public static float sqrt(float value) {
+        return (float)Math.sqrt(value);
+    }
+
+    public static double lerp(double lerpAmount, double start, double end) {
+        return start + lerpAmount * (end - start);
+    }
+
+    public static double frac(double p_14186_) {
+        return p_14186_ - lfloor(p_14186_);
+    }
+
+    public static long lfloor(double p_14135_) {
+        long i = (long) p_14135_;
+        return p_14135_ < (double) i ? i - 1L : i;
+    }
 }

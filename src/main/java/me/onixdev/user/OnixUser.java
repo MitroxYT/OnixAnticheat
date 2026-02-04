@@ -33,6 +33,9 @@ import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
 import me.onixdev.util.color.MessageUtil;
+import me.onixdev.util.grimentity.boxes.GetBoundingBox;
+import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
+import me.onixdev.util.grimentity.entity.CompensatedEntities;
 import me.onixdev.util.items.PlayerInventory;
 import me.onixdev.util.net.*;
 import me.onixdev.util.net.ping.PingUtil;
@@ -60,6 +63,8 @@ public class OnixUser implements IOnixUser {
     public PlayerConnectionStep connectionStage;
     public PlayerConnectionStep ServerconnectionStage;
     public int lastTeleportTime;
+    public CompensatedEntities compensatedEntities;
+    public SimpleCollisionBox boundingBox;
     @Getter
     private int serverTickSinceJoin;
     public int food;
@@ -150,12 +155,14 @@ public class OnixUser implements IOnixUser {
         clickData = new ClickData(this);
         lagCompensation = new PingUtil(this);
         checkAlertsTogglingWhileBukkitPlayerNotNull = true;
+        boundingBox = GetBoundingBox.getBoundingBoxFromPosAndSizeRaw(0, 0, 0, 0.6f, 1.8f);
         if ((Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
         }
         for (Check check : checks) {
             check.reload();
         }
+        compensatedEntities = new CompensatedEntities(this);
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(OnixAnticheat.INSTANCE.getPlugin(),()-> {
             if (player != null) {
                 if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) {
@@ -307,7 +314,7 @@ public class OnixUser implements IOnixUser {
     }
 
     public boolean shouldMitigate() {
-        return System.currentTimeMillis() - lastMitigateTime < timetoMitigate && mitigateType != null && mitigateType.equals("canceldamage") || (mitigateType != null && mitigateType.equals("reducedamage"));
+        return System.currentTimeMillis() - lastMitigateTime < timetoMitigate && mitigateType != null && mitigateType.equals("canceldamage") || (mitigateType != null && System.currentTimeMillis() - lastMitigateTime < timetoMitigate && mitigateType.equals("reducedamage"));
     }
 
     public void sendTransaction() {
