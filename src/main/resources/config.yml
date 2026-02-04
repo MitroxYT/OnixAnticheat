@@ -19,5 +19,7 @@ visual:
     effects: true
     # Должны ли мы скрывать опыт?
     xp: true
+    # Должны ли мы скывать обход через FuntimeMode TargetHud
+    fix-scoreboard: false
 mitigations:
   damage-reduce: 0.1
