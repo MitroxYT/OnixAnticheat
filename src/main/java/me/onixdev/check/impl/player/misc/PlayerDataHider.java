@@ -6,6 +6,8 @@ import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityMetadata;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerScoreboardObjective;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateScore;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
@@ -13,12 +15,12 @@ import me.onixdev.user.OnixUser;
 import me.onixdev.util.grimentity.entity.PacketEntity;
 import me.onixdev.util.net.MinecraftValues;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("all")
 public class PlayerDataHider extends Check {
+    private final Set<String> healthObjectives = ConcurrentHashMap.newKeySet();
     public PlayerDataHider(OnixUser player) {
         super(player,CheckBuilder.create().setCheckName("aaaaa").setType("a").build());
     }
@@ -45,12 +47,15 @@ public class PlayerDataHider extends Check {
                             if (OnixAnticheat.INSTANCE.getConfigManager().healthHider && data.getIndex() == MinecraftValues.HEALTH) {
                                 float health = Float.parseFloat(String.valueOf(data.getValue()));
                                 if (health > 0.0F) {
-                                    float randomHealth = (float) (1 + random.nextInt(20));
-                                    data.setValue(randomHealth);
+                                    int randomHealth =  (1 + random.nextInt(20));
+                                    setDynamicValue(data, randomHealth);
+                                  //  data.setValue(randomHealth);
                                     shouldPush = true;
                                 }
                             } else if (OnixAnticheat.INSTANCE.getConfigManager().absorptionHider && data.getIndex() == MinecraftValues.ABSORPTION) {
-                                setDynamicValue(data, 1000);
+//                                setDynamicValue(data, 1000);
+                                int randomHealth =  (1 + random.nextInt(20));
+                                setDynamicValue(data, randomHealth);
                                 shouldPush = true;
                             }
 
@@ -67,6 +72,42 @@ public class PlayerDataHider extends Check {
                         return;
                     }
             }
+        }
+        if (event.getPacketType().equals(PacketType.Play.Server.SCOREBOARD_OBJECTIVE)) {
+            if (OnixAnticheat.INSTANCE.getConfigManager().fixHeathBypass) handleScoreboardObjective(event);
+        }
+
+        if (event.getPacketType().equals(PacketType.Play.Server.UPDATE_SCORE)) {
+            if (OnixAnticheat.INSTANCE.getConfigManager().fixHeathBypass)  handleUpdateScore(event);
+        }
+    }
+    private void handleScoreboardObjective(PacketSendEvent event) {
+        WrapperPlayServerScoreboardObjective packet = new WrapperPlayServerScoreboardObjective(event);
+        WrapperPlayServerScoreboardObjective.ObjectiveMode mode = packet.getMode();
+        String objectiveName = packet.getName();
+
+        if (mode == WrapperPlayServerScoreboardObjective.ObjectiveMode.REMOVE) {
+            healthObjectives.remove(objectiveName);
+            return;
+        }
+
+        boolean isHeartsRenderType = packet.getRenderType() == WrapperPlayServerScoreboardObjective.RenderType.HEARTS;
+
+        if (mode == WrapperPlayServerScoreboardObjective.ObjectiveMode.UPDATE || isHeartsRenderType) {
+            if (isHeartsRenderType) {
+                healthObjectives.add(objectiveName);
+            } else {
+                healthObjectives.remove(objectiveName);
+            }
+        }
+    }
+
+    private void handleUpdateScore(PacketSendEvent event) {
+        WrapperPlayServerUpdateScore packet = new WrapperPlayServerUpdateScore(event);
+
+        if (healthObjectives.contains(packet.getObjectiveName()) && packet.getValue().isPresent()) {
+            packet.setValue(Optional.of(-1));
+            event.markForReEncode(true);
         }
     }
     @SuppressWarnings("rawtypes")

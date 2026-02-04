@@ -139,6 +139,7 @@ public class ConfigManager {
     public double damageMultiPlayer;
     public boolean verboseToConsoe;
     public boolean healthHider;
+    public boolean fixHeathBypass;
     public boolean xpHider;
     public boolean absorptionHider;
     public boolean saturationHider;
@@ -166,6 +167,7 @@ public class ConfigManager {
         xpHider = config.getBoolean("visual.metadata-hider.xp", false);
         absorptionHider = config.getBoolean("visual.metadata-hider.absorption", false);
         saturationHider = config.getBoolean("visual.metadata-hider.saturation", false);
+        fixHeathBypass = config.getBoolean("visual.metadata-hider.fix-scoreboard",false);
         effectHider = config.getBoolean("visual.metadata-hider.effects", false);
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
     }

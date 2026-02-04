@@ -8,8 +8,8 @@ checks:
       maxbuffer: 2
       commands:
         - "1:1 [alert]"
-        - "1:1 onix mitigate %player% reducedamage 10000"
-        - "6:1 kick %player% %prefix% Unfair Advantage(AHA)"
+        - "2:2 onix mitigate %player% reducedamage 10000"
+        - "60:1 kick %player% %prefix% Unfair Advantage(AHA)"
     b:
       enabled: true
       setbackVL: 1
@@ -65,6 +65,7 @@ checks:
       maxbuffer: 5
       commands:
         - "2:2 [alert]"
+        - "1:1 onix mitigate %player% reducedamage 5000"
         - "500:100 kick %player% TimerA"
     d:
       enabled: true
@@ -205,7 +206,7 @@ checks:
     a:
       enabled: true
       setbackVL: 2
-      setback: true
+      setback: false
       cancel: true
       #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
       commands:
