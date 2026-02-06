@@ -3,6 +3,7 @@ package me.onixdev.check.impl.player.block
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientUseItem
+import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
@@ -13,6 +14,7 @@ class GhostHandC(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
     override fun onPacketIn(event: PacketReceiveEvent?) {
         if (event == null) return
         if (event.packetType == PacketType.Play.Client.USE_ITEM) {
+            if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) return
             if (player.bukkitPlayer == null) return
             val use = WrapperPlayClientUseItem(event)
             val itemInHand = player.inventory.getItemInHand(use.hand)
