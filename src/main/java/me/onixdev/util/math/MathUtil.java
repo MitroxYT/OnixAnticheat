@@ -1,10 +1,10 @@
 package me.onixdev.util.math;
 
 import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+@SuppressWarnings("all")
 @UtilityClass
 public class MathUtil {
 
@@ -76,6 +76,7 @@ public class MathUtil {
 
         return 1 - (ssRes / (ssTot + 1e-10));
     }
+
     public static double getMedian(final List<Double> data) {
         if (data.size() % 2 == 0) {
             return (data.get(data.size() / 2) + data.get(data.size() / 2 - 1)) / 2;
@@ -113,12 +114,14 @@ public class MathUtil {
     private double calculateMean(List<Double> values) {
         return values.stream().mapToDouble(Double::doubleValue).average().orElse(0);
     }
+
     public static double calculateStdDev(List<Double> values) {
         double variance = values.stream()
                 .mapToDouble(v -> Math.pow(v - 2, 2))
                 .average().orElse(0);
         return Math.sqrt(variance);
     }
+
     public double calculateStdDev(List<Double> values, double mean) {
         double variance = values.stream()
                 .mapToDouble(v -> Math.pow(v - mean, 2))
@@ -145,6 +148,7 @@ public class MathUtil {
             return Math.abs(b) < 0.001D ? a : getGcd(b, a - Math.floor(a / b) * b);
         }
     }
+
     public static float calculateGCDError(float delta) {
         if (Math.abs(delta) < 0.0001f) {
             return 0.0f;
@@ -167,6 +171,7 @@ public class MathUtil {
 
         return a;
     }
+
     public static double getSE(final Collection<? extends Number> numberSet) {
         if (numberSet == null || numberSet.isEmpty()) return 0.0;
 
@@ -203,6 +208,7 @@ public class MathUtil {
         }
         return total / (data.size() - 3);
     }
+
     public static int getMode(Collection<? extends Number> array) {
         int mode = (Integer) array.toArray()[0];
         int maxCount = 0;
@@ -228,13 +234,14 @@ public class MathUtil {
 
         return mode;
     }
+
     public static double runsZScore(List<Double> values) {
         if (values == null || values.size() < 10) {
             return 0.0;
         }
         ArrayList<Double> sorted = new ArrayList<Double>(values);
         Collections.sort(sorted);
-        double median = (Double)sorted.get(sorted.size() / 2);
+        double median = (Double) sorted.get(sorted.size() / 2);
         ArrayList<Integer> signs = new ArrayList<Integer>();
         for (double v : values) {
             if (v > median) {
@@ -249,26 +256,26 @@ public class MathUtil {
         }
         int runs = 1;
         for (int i = 1; i < signs.size(); ++i) {
-            if (((Integer)signs.get(i)).equals(signs.get(i - 1))) continue;
+            if (((Integer) signs.get(i)).equals(signs.get(i - 1))) continue;
             ++runs;
         }
         int n1 = 0;
         int n2 = 0;
         Iterator iterator = signs.iterator();
         while (iterator.hasNext()) {
-            int s = (Integer)iterator.next();
+            int s = (Integer) iterator.next();
             if (s == 1) {
                 ++n1;
                 continue;
             }
             ++n2;
         }
-        double expectedRuns = 2.0 * (double)n1 * (double)n2 / (double)(n1 + n2) + 1.0;
-        double varianceRuns = 2.0 * (double)n1 * (double)n2 * (2.0 * (double)n1 * (double)n2 - (double)n1 - (double)n2) / (Math.pow(n1 + n2, 2.0) * (double)(n1 + n2 - 1));
+        double expectedRuns = 2.0 * (double) n1 * (double) n2 / (double) (n1 + n2) + 1.0;
+        double varianceRuns = 2.0 * (double) n1 * (double) n2 * (2.0 * (double) n1 * (double) n2 - (double) n1 - (double) n2) / (Math.pow(n1 + n2, 2.0) * (double) (n1 + n2 - 1));
         if (varianceRuns <= 0.0) {
             return 0.0;
         }
-        return ((double)runs - expectedRuns) / Math.sqrt(varianceRuns);
+        return ((double) runs - expectedRuns) / Math.sqrt(varianceRuns);
     }
 
     public static double scaleVal(double value, double scale) {
@@ -327,7 +334,7 @@ public class MathUtil {
     }
 
     public static float sqrt(float value) {
-        return (float)Math.sqrt(value);
+        return (float) Math.sqrt(value);
     }
 
     public static double lerp(double lerpAmount, double start, double end) {
@@ -342,4 +349,13 @@ public class MathUtil {
         long i = (long) p_14135_;
         return p_14135_ < (double) i ? i - 1L : i;
     }
+
+    public static double lengthSquared(double pXDistance, double pYDistance, double pZDistance) {
+        return pXDistance * pXDistance + pYDistance * pYDistance + pZDistance * pZDistance;
+    }
+
+    public static double lengthSquared(double pXDistance, double pYDistance) {
+        return pXDistance * pXDistance + pYDistance * pYDistance;
+    }
+
 }
