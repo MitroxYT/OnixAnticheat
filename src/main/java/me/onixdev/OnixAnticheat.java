@@ -20,6 +20,7 @@ import me.onixdev.util.color.impl.MiniMessageColor;
 import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.*;
+import me.onixdev.util.world.utils.versions.BlockVersionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
@@ -37,6 +38,8 @@ public class OnixAnticheat {
     @Getter
     private IThreadExecutor alertExecutor, reloadExecuter, taskExecutor;
     private IThreadExecutor PacketProccesor, cloudCheckExecuter;
+    private BlockVersionManager blockVersionManager;
+
     public AnimationManager getAnimationManager() {return animationManager;}
     private AnimationManager animationManager;
     private ResetManager resetManager;
@@ -45,8 +48,13 @@ public class OnixAnticheat {
     public AddonManager getAddonManager() {return addonManager;}
     private int ticksFromStart;
     private ConfigManager configManager;
+    private ServerVersion serverVersion = ServerVersion.ERROR;
     private Colorizer colorizer = new MiniMessageColor();
     private CompatibilityManager compatibilityManager;
+
+    public ServerVersion getServerVersion() {
+        return serverVersion;
+    }
 
     public CompatibilityManager getCompatibilityManager() {
         return compatibilityManager;
@@ -57,7 +65,6 @@ public class OnixAnticheat {
     }
 
     public static boolean noSupportComponentMessage = false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
-    private List<String> myList = new ArrayList<>();
     @SuppressWarnings("UnstableApiUsage")
     public void onLoad(OnixPlugin plugin) {
         this.plugin = plugin;
@@ -68,6 +75,7 @@ public class OnixAnticheat {
         PacketEvents.getAPI().getSettings().kickOnPacketException(true);
         PacketEvents.getAPI().getSettings().checkForUpdates(false);
         PacketEvents.getAPI().load();
+        serverVersion = PacketEvents.getAPI().getServerManager().getVersion();
     }
 
     public void onEnable() {
@@ -94,6 +102,7 @@ public class OnixAnticheat {
         animationManager = new AnimationManager();
         resetManager = new ResetManager();
         animationManager.init();
+        blockVersionManager = new BlockVersionManager();
         CheckManager.setup();
         OnixAPI.INSTANCE.setPlayerDataManager(playerDatamanager);
         registerPacketEvents();
@@ -192,4 +201,8 @@ public class OnixAnticheat {
     }
     public void setColorizer(Colorizer colorizer) {this.colorizer = colorizer;}
     public Colorizer getColorizer() {return colorizer;}
+
+    public BlockVersionManager getBlockVersionManager() {
+        return this.blockVersionManager;
+    }
 }
