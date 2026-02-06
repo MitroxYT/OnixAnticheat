@@ -23,10 +23,12 @@ import me.onixdev.util.thread.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
@@ -55,10 +57,13 @@ public class OnixAnticheat {
     }
 
     public static boolean noSupportComponentMessage = false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
-
+    private List<String> myList = new ArrayList<>();
     @SuppressWarnings("UnstableApiUsage")
     public void onLoad(OnixPlugin plugin) {
         this.plugin = plugin;
+        if (!Bukkit.getOnlinePlayers().isEmpty()) {
+            for (Player player : Bukkit.getOnlinePlayers()) player.kickPlayer("Onix Anticheat Loading PacketEvents You kicked and prevented Crirical PEError");
+        }
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this.plugin));
         PacketEvents.getAPI().getSettings().kickOnPacketException(true);
         PacketEvents.getAPI().getSettings().checkForUpdates(false);

@@ -3,6 +3,7 @@ package me.onixdev.manager;
 import dev.onixac.api.addons.OnixAddon;
 import dev.onixac.api.manager.IAddonsManager;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.util.net.BukkitNms;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
@@ -40,7 +41,9 @@ public class AddonManager implements IAddonsManager {
     public void onDisable() {
         if (!addons.isEmpty()) {
             for (OnixAddon addon : addons) {
-                Bukkit.getPluginManager().disablePlugin(addon.getPlugin());
+                if (OnixAnticheat.INSTANCE.getCompatibilityManager().isHasPlugman()) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"plugman unload " + addon.getName());
+                }else Bukkit.getPluginManager().disablePlugin(addon.getPlugin());
             }
             addons.clear();
         }
