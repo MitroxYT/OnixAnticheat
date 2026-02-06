@@ -21,7 +21,7 @@ class GhostHandC(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
             val result = PlayerUtil.raytrace(player.bukkitPlayer,player.rotation.toDirection(), 2.0, 0.1)
             if (result.second != null && !player.bukkitPlayer.isSneaking) {
                 val block = result.second!!
-                if (block.type == Material.CRAFTING_TABLE || block.type == Material.FURNACE && itemInHand.type == Material.ENDER_PEARL) {
+                if (block.type == Material.CRAFTING_TABLE && itemInHand.type == Material.ENDER_PEARL || block.type == Material.FURNACE && itemInHand.type == Material.ENDER_PEARL) {
                     fail("Player Tried to Use Item on Interactable Block")
                     if (shouldCancel()) event.isCancelled = true
                 }

@@ -34,7 +34,8 @@ class DebugCommand : OnixCommandBase("debug") {
     }
 
     override fun onTabComplete(sender: CommandSender?, args: Array<out String>?): MutableList<String> {
-        TODO("Not yet implemented")
+      //  TODO("Not yet implemented")
+        return mutableListOf()
     }
 
 }
