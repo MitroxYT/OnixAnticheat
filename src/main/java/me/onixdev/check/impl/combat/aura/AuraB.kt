@@ -7,6 +7,7 @@ import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
+import me.onixdev.util.world.utils.versions.BlockData
 import java.util.*
 
 class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aura").setCheckStage(CheckStage.EXPERIMENTAL).setType("B").build()){
@@ -26,6 +27,7 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                         if (mat != null) {
                             if (mat.type.name.lowercase(Locale.ROOT).contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("Fence")) return
                         }
+                        if (BlockData.isPassable(mat)) return
                         fail(result.second.type.name)
                         if (shouldCancel()) event.cancel()
                     }

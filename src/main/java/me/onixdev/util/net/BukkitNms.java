@@ -1,10 +1,16 @@
 package me.onixdev.util.net;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.item.type.ItemType;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import lombok.experimental.UtilityClass;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Powerable;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +24,27 @@ import java.util.function.Predicate;
 public class BukkitNms {
     private static final @NotNull Predicate<@NotNull Player> resetActiveBukkitItem;
 
+    public static int getDataFromBlock(final Block block) {
+        if (block == null) {
+            return 0;
+        }
+        if (PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_21)) {
+            return block.getData();
 
+        }
+        BlockData blockData = block.getBlockData();
+        if (blockData instanceof Waterlogged) {
+            return ((Waterlogged) blockData).isWaterlogged() ? 1 : 0;
+        }
+        if (blockData instanceof Powerable) {
+            return ((Powerable) blockData).isPowered() ? 1 : 0;
+        }
+        if (blockData instanceof Directional) {
+            return ((Directional) blockData).getFacing().ordinal();
+        }
+
+        return 0;
+    }
 
     public static EntityData<?> getIndex(List<EntityData<?>> objects, int index) {
         for (EntityData<?> object : objects) {
