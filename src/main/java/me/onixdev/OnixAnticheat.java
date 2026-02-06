@@ -8,6 +8,9 @@ import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
+import me.onixdev.compability.ICompabilityCheck;
+import me.onixdev.compability.impl.LeafCompabilityWorldTicking;
+import me.onixdev.compability.manager.CompatibilityManager;
 import me.onixdev.events.bukkit.*;
 import me.onixdev.events.packet.*;
 import me.onixdev.manager.*;
@@ -41,6 +44,11 @@ public class OnixAnticheat {
     private int ticksFromStart;
     private ConfigManager configManager;
     private Colorizer colorizer = new MiniMessageColor();
+    private CompatibilityManager compatibilityManager;
+
+    public CompatibilityManager getCompatibilityManager() {
+        return compatibilityManager;
+    }
 
     public ConfigManager getConfigManager() {
         return configManager;
@@ -70,11 +78,7 @@ public class OnixAnticheat {
         no.add(" \\______/ \\__|  \\__|\\__|\\__/  \\__|\\__|  \\__|\\__|  \\__|  \\____/ \\__| \\_______|\\__|  \\__| \\_______| \\_______|  \\____/");
         no.forEach(msg -> this.printCool("&b" + msg));
         no.clear();
-        try {
-            Class.forName("com.viaversion.viabackwards.ViaBackwards");
-            printCool("&bОбнаружен Via Backwards Включаю поддержку");
-            System.setProperty("com.viaversion.handlePingsAsInvAcknowledgements", "true");
-        } catch (ClassNotFoundException ignored) {}
+        compatibilityManager = new CompatibilityManager();
         reloadExecuter = new ReloadTaskExecutor();
         alertExecutor = new AlertTaskExecutor();
         taskExecutor = new TaskExecutor();

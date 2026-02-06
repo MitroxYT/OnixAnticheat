@@ -1,5 +1,6 @@
 package me.onixdev.events.bukkit
 
+import me.onixdev.OnixAnticheat
 import me.onixdev.event.impl.PlayerBlockBreakEvent
 import me.onixdev.event.impl.PlayerBlockInteractEvent
 import me.onixdev.event.impl.PlayerBlockPlaceEvent
@@ -22,7 +23,7 @@ class PlayerBlockListener : Listener {
     fun onPlayerInteractBlock(event: PlayerInteractEvent) {
         val user = event.player.getData()
         if (event.clickedBlock == null) return
-        event.action
+        if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) return
         val eventBreak = PlayerBlockInteractEvent(event.clickedBlock!!,event.action)
         user?.handleEvent(eventBreak)
         if (eventBreak.isCancelled) event.isCancelled = true

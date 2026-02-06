@@ -32,6 +32,7 @@ class PlayerUsingItemStatehandler : PacketListenerAbstract(PacketListenerPriorit
 
     override fun onPacketReceive(event: PacketReceiveEvent) {
         if (event.packetType === PacketType.Play.Client.USE_ITEM) {
+            if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) return
             val useItem = WrapperPlayClientUseItem(event)
             val user = OnixAnticheat.INSTANCE.playerDatamanager.get(event.user)
             if (user != null) {
