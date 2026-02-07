@@ -17,6 +17,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEn
 import com.github.retrooper.packetevents.wrapper.play.server.*;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
+import dev.onixac.api.check.util.PayloadExploitData;
 import dev.onixac.api.events.api.BaseEvent;
 import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import dev.onixac.api.user.IClientInput;
@@ -28,6 +29,7 @@ import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.check.impl.player.misc.data.PlayerPacketData;
+import me.onixdev.check.impl.player.misc.data.PlayerPayLoadHandler;
 import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
@@ -308,6 +310,16 @@ public class OnixUser implements IOnixUser {
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             Bukkit.getPluginManager().callEvent(new PlayerOnixEventCall(clickEvent, this, false));
         });
+    }
+
+    @Override
+    public List<PayloadExploitData> getExploitData() {
+        return getCheck(PlayerPayLoadHandler.class).getData();
+    }
+
+    @Override
+    public void registerExploit(PayloadExploitData data) {
+        getCheck(PlayerPayLoadHandler.class).register(data);
     }
 
     public boolean hasConfirmPlayState() {

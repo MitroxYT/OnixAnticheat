@@ -2,11 +2,13 @@ package dev.onixac.api.user;
 
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.CheckMaker;
+import dev.onixac.api.check.util.PayloadExploitData;
 import dev.onixac.api.events.api.BaseEvent;
 import dev.onixac.api.user.data.IPlayerClickData;
 import dev.onixac.api.user.data.IPlayerInventory;
 import dev.onixac.api.user.data.IPlayerRotationData;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IOnixUser {
@@ -26,4 +28,6 @@ public interface IOnixUser {
     void runTaskPost(Runnable runnable);
     void runTask(Runnable runnable,int offset);
     void handleEvent(BaseEvent clickEvent);
+    List<PayloadExploitData> getExploitData();
+    void registerExploit(PayloadExploitData data);
 }

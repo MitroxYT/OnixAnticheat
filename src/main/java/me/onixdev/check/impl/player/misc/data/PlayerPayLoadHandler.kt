@@ -21,7 +21,7 @@ class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().s
 
         try {
             lines = WrapperPlayClientUpdateSign(event).textLines
-            player.handleEvent(PlayerPayLoadEvent(lines))
+            player.handleEvent(PlayerPayLoadEvent(lines,player))
         } catch (e: Exception) {
             return
         }
@@ -30,5 +30,8 @@ class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().s
     }
     fun register(payload: PayloadExploitData) {
         data?.add(payload)
+    }
+    fun getData() : MutableList<PayloadExploitData>? {
+        return data;
     }
 }
