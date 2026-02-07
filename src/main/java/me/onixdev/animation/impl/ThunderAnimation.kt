@@ -92,7 +92,7 @@ class ThunderAnimation : BaseAnimation("Thunder") {
                     }
                 }
                 val centerParticle = location.clone().add(0.0, height * (this.t / (Math.PI * 2 * spiralTurns)) / 2, 0.0)
-                for (nearbyPlayer in location.getWorld().players) {
+                for (nearbyPlayer in location.getWorld()?.players!!) {
                     if (nearbyPlayer.location.distance(location) <= 30) {
                         nearbyPlayer.spawnParticle<DustOptions?>(
                             PARTICLE, centerParticle, 3,

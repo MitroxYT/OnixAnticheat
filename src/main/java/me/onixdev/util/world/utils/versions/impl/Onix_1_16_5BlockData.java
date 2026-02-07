@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import java.util.Locale;
+
 public class Onix_1_16_5BlockData implements VersionCFR {
 
         private iBlockData blockData;
@@ -140,6 +142,9 @@ public class Onix_1_16_5BlockData implements VersionCFR {
                     if (b.isLiquid()) {
                         return true;
                     }
+                    if (b.getType().name().toLowerCase(Locale.ROOT).contains("trapdoor")) return true;
+                    if (b.getType().name().toLowerCase(Locale.ROOT).contains("plate")) return true;
+                    if (b.getType().name().toLowerCase(Locale.ROOT).contains("button")) return true;
                     switch (b.getType()) {
 
                         case HOPPER:

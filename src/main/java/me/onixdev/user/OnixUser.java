@@ -65,6 +65,7 @@ public class OnixUser implements IOnixUser {
     public int lastTeleportTime;
     public CompensatedEntities compensatedEntities;
     public SimpleCollisionBox boundingBox;
+    public boolean sendingBundlePacket;
     @Getter
     private int serverTickSinceJoin;
     public int food;
@@ -187,7 +188,7 @@ public class OnixUser implements IOnixUser {
             return;
         }
         if (player == null) user.sendMessage(message);
-        else player.sendMessage(message);
+        else user.sendMessage(message);
     }
 
     public void sendMessage(String message) {

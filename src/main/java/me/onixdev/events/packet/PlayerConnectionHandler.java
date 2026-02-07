@@ -88,6 +88,9 @@ public class PlayerConnectionHandler extends PacketListenerAbstract {
 
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
             if (user != null) {
+                if (event.getPacketType() == PacketType.Play.Server.BUNDLE) {
+                    user.sendingBundlePacket = !user.sendingBundlePacket;
+                }
                 for (Check check : user.getChecks()) check.onPacketOut(event);
             }
         } catch (Exception e) {
