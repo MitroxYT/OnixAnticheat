@@ -43,6 +43,9 @@ public class PacketEntityReplication extends Check {
     public void onEvent(BaseEvent event) {
         if (event instanceof TickEvent event1 && ((TickEvent) event).notTickEnd()) {
             player.compensatedEntities.entitiesRemovedThisTick.clear();
+            for (PacketEntity entity : player.compensatedEntities.entityMap.values()) {
+                    entity.onMovement(false);
+            }
         }
     }
 
