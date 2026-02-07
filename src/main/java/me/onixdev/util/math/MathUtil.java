@@ -358,4 +358,8 @@ public class MathUtil {
         return pXDistance * pXDistance + pYDistance * pYDistance;
     }
 
+    public static float radians(float degrees) {
+        return degrees * (float) Math.PI / 180f;
+    }
+
 }

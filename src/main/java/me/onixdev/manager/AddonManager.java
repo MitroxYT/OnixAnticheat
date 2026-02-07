@@ -28,9 +28,7 @@ public class AddonManager implements IAddonsManager {
                  OnixAddon addon = new OnixAddon(plugin.getName(), plugin.getDescription().getVersion(), plugin);
                  OnixAnticheat.INSTANCE.getPlugin().getLogger().info("Загружаю: " + addon.getName() + " " + addon.getVersion());
                  addons.add(addon);
-                } catch (InvalidPluginException e) {
-                    throw new RuntimeException(e);
-                } catch (InvalidDescriptionException e) {
+                } catch (InvalidPluginException | InvalidDescriptionException e) {
                     throw new RuntimeException(e);
                 }
                 ++count;
