@@ -72,7 +72,6 @@ public class OnixUser implements IOnixUser {
     private int serverTickSinceJoin;
     public int food;
     private final User user;
-    @Getter
     private final UUID uuid;
     @Getter
     private final String name;
@@ -223,6 +222,7 @@ public class OnixUser implements IOnixUser {
             case "lastmsattack" -> {
                 return Optional.of(combatData.getPassedAttackSince());
             }
+            case "uuid" -> Optional.of(uuid);
             case "sprintstop" -> {
                 return Optional.of(System.currentTimeMillis() - lastStopSprint);
             }
@@ -431,6 +431,11 @@ public class OnixUser implements IOnixUser {
         }
     }
 
+
+    @Override
+    public UUID getUUID() {
+        return uuid;
+    }
 
     @Override
     public void mitigate(String type, double time) {

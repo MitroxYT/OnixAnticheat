@@ -10,9 +10,11 @@ import dev.onixac.api.user.data.IPlayerRotationData;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IOnixUser {
     String getName();
+    UUID getUUID();
     void mitigate(String type,double time);
     ICheck getCheck(String name,String type);
     IPlayerRotationData getRotationData();
