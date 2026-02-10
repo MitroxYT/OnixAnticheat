@@ -2,7 +2,7 @@ config-version: 1.0
 # MINIMESSAGE
 # LEGACY
 system: "MINIMESSAGE"
-prefix: "<dark_gray>«<white>[<red><underlined>Onix</underlined><white>]<dark_gray>»"
+prefix: "<gradient:#5472F4:#B66054>Onix</gradient>»"
 alerts_format: "%prefix% <dark_gray> <white>%player% <aqua>failed <gray>%check_name%%type%%experimental% <white>x%vl% <gray>%verbose%"
 alerts-on: "%prefix% <gray> alerts <green> on"
 alerts-off: "%prefix% <gray> alerts <green> off"
