@@ -7,6 +7,7 @@ import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerBlockInteractEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
+import me.onixdev.util.world.utils.versions.BlockData
 
 class GhostHandA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("GhostHand").setDescription("It doesn't allow opening the chest through blocks.").setType("A").setCheckStage(
     CheckStage.EXPERIMENTAL).build()) {
@@ -20,6 +21,8 @@ class GhostHandA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
                 val vec = player.rotation.toDirection()
                 val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.1)
                 if (result.second != null) {
+                    val mat = result.second ?: return
+                    if (BlockData.isPassable(mat)) return
                     val validRay = result.second!!.type == block.type
                     if (!validRay) {
                         fail("result: ${result.second.type} e: ${block.type} ")

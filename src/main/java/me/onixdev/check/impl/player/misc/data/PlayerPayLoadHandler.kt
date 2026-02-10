@@ -14,7 +14,7 @@ import java.util.*
 
 class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("checks").setType("aaa").build()) {
     private val packetSecret: UUID = UUID.randomUUID()
-    private val data: MutableList<PayloadExploitData>? = null
+    private val data: MutableList<PayloadExploitData> = mutableListOf()
     override fun onPacketIn(event: PacketReceiveEvent) {
         if (event.packetType !== PacketType.Play.Client.UPDATE_SIGN) return
         val lines: Array<String?>?
@@ -29,9 +29,9 @@ class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().s
 
     }
     fun register(payload: PayloadExploitData) {
-        data?.add(payload)
+        data.add(payload)
     }
-    fun getData() : MutableList<PayloadExploitData>? {
+    fun getData() : MutableList<PayloadExploitData> {
         return data;
     }
 }

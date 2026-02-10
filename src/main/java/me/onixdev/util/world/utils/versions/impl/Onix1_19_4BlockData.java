@@ -141,6 +141,7 @@ public class Onix1_19_4BlockData implements VersionCFR {
                 if (b.getType().name().toLowerCase(Locale.ROOT).contains("trapdoor")) return true;
                 if (b.getType().name().toLowerCase(Locale.ROOT).contains("button")) return true;
                 if (b.getType().name().toLowerCase(Locale.ROOT).contains("plate")) return true;
+                if (b.getType().name().toLowerCase(Locale.ROOT).contains("slab")) return true;
                 switch (b.getType()) {
 
                     case HOPPER:

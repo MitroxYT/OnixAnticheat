@@ -97,15 +97,15 @@ public class MitigateCommand extends OnixCommandBase {
             suggestions.addAll(Bukkit.getOnlinePlayers().stream()
                     .map(Player::getName)
                     .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
-                    .collect(Collectors.toList()));
+                    .toList());
         } else if (args.length == 2) {
             suggestions.addAll(mitigates.stream()
                     .filter(type -> type.toLowerCase().startsWith(args[1].toLowerCase()))
-                    .collect(Collectors.toList()));
+                    .toList());
         } else if (args.length == 3) {
             suggestions.addAll(time.stream()
                     .filter(time -> time.startsWith(args[2]))
-                    .collect(Collectors.toList()));
+                    .toList());
             if (suggestions.isEmpty()) {
                 suggestions.add("<время в мс>");
             }

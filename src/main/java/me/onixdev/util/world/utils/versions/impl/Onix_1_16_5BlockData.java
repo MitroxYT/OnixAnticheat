@@ -145,6 +145,7 @@ public class Onix_1_16_5BlockData implements VersionCFR {
                     if (b.getType().name().toLowerCase(Locale.ROOT).contains("trapdoor")) return true;
                     if (b.getType().name().toLowerCase(Locale.ROOT).contains("plate")) return true;
                     if (b.getType().name().toLowerCase(Locale.ROOT).contains("button")) return true;
+                    if (b.getType().name().toLowerCase(Locale.ROOT).contains("slab")) return true;
                     switch (b.getType()) {
 
                         case HOPPER:
@@ -330,7 +331,7 @@ public class Onix_1_16_5BlockData implements VersionCFR {
 
         @Override
         public String getName() {
-            return "v1_16_R1";
+            return "v1_16_R5";
         }
 
         @Override

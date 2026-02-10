@@ -2,6 +2,7 @@ package me.onixdev.commands.impl
 
 import dev.onixac.api.command.OnixCommandBase
 import me.onixdev.OnixAnticheat
+import me.onixdev.util.color.MessageUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
@@ -31,7 +32,7 @@ class ProfileCommand : OnixCommandBase("profile") {
                 val msg = OnixAnticheat.INSTANCE.configManager.proFileMsg.replace("%player%", user.name)
                     .replace("%version%", user.user.clientVersion.releaseName).replace("%brand%", user.brand)
                     .replace("%sens%", user.sensitivity.toInt().toString())
-                sender.sendMessage(msg)
+                MessageUtil.sendMessage(sender, MessageUtil.miniMessage(msg))
             }
         }
         return true

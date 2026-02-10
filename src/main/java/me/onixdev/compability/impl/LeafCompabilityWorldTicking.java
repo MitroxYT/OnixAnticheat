@@ -17,7 +17,7 @@ public class LeafCompabilityWorldTicking implements ICompabilityCheck {
                 compatibilityManager.setLeafTicking(true);
                 OnixAnticheat.INSTANCE.printCool("&bУ Вас включен паралельный тикинг включаю поддержку");
             }
-        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException ignored) {
 
         }
 
