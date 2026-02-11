@@ -198,6 +198,7 @@ public class Check implements ICheck {
                 if (command.startsWith("[alert]")) {
                     player.getAlertManager().handleAlert(player, this, verbose);
                 } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
+                else if (command.startsWith("[proxy]")) {player.getAlertManager().onProxy(player,this,verbose);}
                 else if (command.startsWith("[invalidItem]")) player.disconnect(KickTypes.InvalidItemUse,"sss");//player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
                 else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
                     try {

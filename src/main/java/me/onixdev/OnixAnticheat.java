@@ -14,6 +14,7 @@ import me.onixdev.compability.manager.CompatibilityManager;
 import me.onixdev.events.bukkit.*;
 import me.onixdev.events.packet.*;
 import me.onixdev.manager.*;
+import me.onixdev.messenger.impl.MessageManager;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.color.Colorizer;
 import me.onixdev.util.color.impl.MiniMessageColor;
@@ -43,6 +44,12 @@ public class OnixAnticheat {
     public AnimationManager getAnimationManager() {return animationManager;}
     private AnimationManager animationManager;
     private ResetManager resetManager;
+    private MessageManager messageManager;
+
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
+
     private PlayerDatamanager playerDatamanager;
     private AddonManager addonManager;
     public AddonManager getAddonManager() {return addonManager;}
@@ -125,6 +132,7 @@ public class OnixAnticheat {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
         },20*5);
         resetManager.start();
+        messageManager = new MessageManager();
         printCool("&bАнтичит загружен за " + (System.currentTimeMillis() - time) + " ms");
     }
     public void reload() {
@@ -144,6 +152,7 @@ public class OnixAnticheat {
         Bukkit.getScheduler().cancelTasks(plugin);
         PacketEvents.getAPI().terminate();
         addonManager.onDisable();
+        messageManager.disable();
     }
 
     private void runShedulers() {

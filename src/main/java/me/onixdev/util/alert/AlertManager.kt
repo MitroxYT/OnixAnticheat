@@ -36,7 +36,18 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
         if (user.isVerboseEnabled) user.isVerboseEnabled = false
         else user.isVerboseEnabled = true
     }
-
+    fun onProxy(user: OnixUser, check: Check, verbose: String) {
+        val alertString = OnixAnticheat.INSTANCE.configManager.alertsformat
+        val prefix = OnixAnticheat.INSTANCE.configManager.prefix
+        val finalAlertMsg = alertString.replace("%prefix%".toRegex(), prefix)
+            .replace("%player%", user.name)
+            .replace("%check_name%", check.name)
+            .replace("%vl%", check.getVl().toInt().toString())
+            .replace("%type%", check.getType().uppercase())
+            .replace("%verbose%", verbose)
+            .replace("%experimental%", if (check.isExperimental) " *" else "")
+        user.sendProxy(finalAlertMsg)
+    }
     @Suppress("DEPRECATION")
     fun handleVerbose(user: OnixUser, check: Check, verbose: String) {
         val alertString = OnixAnticheat.INSTANCE.configManager.alertsformat

@@ -451,7 +451,10 @@ public class OnixUser implements IOnixUser {
     public boolean isDead() {
         return player != null && isDead;
     }
-
+    public void sendProxy(String message) {
+        if (getBukkitPlayer() == null) return;
+        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player,message);
+    }
     public boolean isSpectator() {
         return player != null && player.getGameMode() == GameMode.SPECTATOR;
     }
