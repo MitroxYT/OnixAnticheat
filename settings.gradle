@@ -8,5 +8,4 @@ plugins {
 }
 rootProject.name = 'OnixAnticheat'
 include 'api'
-include 'abobatests'
 

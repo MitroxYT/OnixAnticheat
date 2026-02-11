@@ -1,4 +1,0 @@
-name: OnixAPITEST
-version: '${version}'
-main: me.onixdevb.Main
-api-version: '1.16'
