@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 class AnimationManager : IAnimationManager {
     private var animations = arrayListOf<BaseAnimation>()
     fun init() {
-        if (PacketEvents.getAPI().serverManager.version.isOlderThanOrEquals(ServerVersion.V_1_16_5)) return
+        if (PacketEvents.getAPI().serverManager.version.isOlderThanOrEquals(ServerVersion.V_1_12_2)) return
         animations.add(ThunderAnimation())
     }
     override fun startPunishment(name: String?, player: Player?, data: String?) {

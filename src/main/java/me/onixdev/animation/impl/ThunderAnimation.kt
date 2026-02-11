@@ -123,7 +123,8 @@ class ThunderAnimation : BaseAnimation("Thunder") {
                 createExplosionEffect(player)
                 Bukkit.dispatchCommand(
                     Bukkit.getConsoleSender(),
-                    LegacyComponentSerializer.legacySection().serialize(MessageUtil.miniMessage(data.toString()))
+                    LegacyComponentSerializer.legacySection().serialize(MessageUtil.miniMessage(data.toString().replace("%player%",player.name).replace("%prefix%",
+                        OnixAnticheat.INSTANCE.configManager.prefix)))
                 )
             }
         }.runTaskLater(OnixAnticheat.INSTANCE.plugin, 80L)
