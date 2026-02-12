@@ -14,10 +14,10 @@ class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("A
         if (event is PlayerRotationEvent && !event.isPost && player.lastHitTime < 4) {
             if (player.lastTeleportTime < 5 && player.movementContainer.deltaXZ < 0.09) return
             val rotationData = player.rotationContainer
-            val dx = rotationData.deltaYaw;
-            val dy = rotationData.deltaPitch;
-            val sx = rotationData.smoothnessYaw;
-            val sy = rotationData.smoothnessPitch;
+            val dx = rotationData.deltaYaw
+            val dy = rotationData.deltaPitch
+            val sx = rotationData.smoothnessYaw
+            val sy = rotationData.smoothnessPitch
 
             if (dx > minFovFactor && sx < -5.0F && player.movementContainer.deltaXZ > 0.05) {
                 val info = String.format("dx=%.5f, dy=%.5f, sx=%.5f, sy=%.5f ", dx, dy, sx, sy)

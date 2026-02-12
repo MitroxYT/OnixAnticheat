@@ -18,7 +18,7 @@ class GhostHandC(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
             if (player.bukkitPlayer == null) return
             val use = WrapperPlayClientUseItem(event)
             val itemInHand = player.inventory.getItemInHand(use.hand)
-            val result = PlayerUtil.raytrace(player.bukkitPlayer,player.rotation.toDirection(), 2.0, 0.1)
+            val result = PlayerUtil.raytrace(player.bukkitPlayer,player.rotation.toDirection(), 2.0, 0.5)
             if (result.second != null && !player.bukkitPlayer.isSneaking) {
                 val block = result.second!!
                 if (block.type == Material.CRAFTING_TABLE && itemInHand.type == Material.ENDER_PEARL || block.type == Material.FURNACE && itemInHand.type == Material.ENDER_PEARL) {

@@ -12,10 +12,17 @@ public class LeafCompabilityWorldTicking implements ICompabilityCheck {
         try {
             Class clazz = Class.forName("org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking");
             Field field = clazz.getField("enabled");
+            
             boolean enabled= field.getBoolean(clazz);
             if (enabled) {
                 compatibilityManager.setLeafTicking(true);
-                OnixAnticheat.INSTANCE.printCool("&bУ Вас включен паралельный тикинг включаю поддержку");
+                OnixAnticheat.INSTANCE.printCool("&cВЫ ИСПОЛЬЗУЕТЕ НЕСТАБИЛЬНУЮ ФУНКЦИЮ PARALLEL WORLD TICKING ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ПРОСЬБА ОТКЛЮЧИТЬ ДАННУЮ ФУНКЦИЮ");
+                OnixAnticheat.INSTANCE.printCool("&cНЕКОТОРЫЕ ПРОВЕРКИ НЕ БУДУТ РАБОТАТЬ");
+                OnixAnticheat.INSTANCE.printCool("&cВЫ ИСПОЛЬЗУЕТЕ НЕСТАБИЛЬНУЮ ФУНКЦИЮ PARALLEL WORLD TICKING ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ПРОСЬБА ОТКЛЮЧИТЬ ДАННУЮ ФУНКЦИЮ");
+                OnixAnticheat.INSTANCE.printCool("&cНЕКОТОРЫЕ ПРОВЕРКИ НЕ БУДУТ РАБОТАТЬ");
+                OnixAnticheat.INSTANCE.printCool("&cВЫ ИСПОЛЬЗУЕТЕ НЕСТАБИЛЬНУЮ ФУНКЦИЮ PARALLEL WORLD TICKING ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ПРОСЬБА ОТКЛЮЧИТЬ ДАННУЮ ФУНКЦИЮ");
+                OnixAnticheat.INSTANCE.printCool("&cНЕКОТОРЫЕ ПРОВЕРКИ НЕ БУДУТ РАБОТАТЬ");
+              //  OnixAnticheat.INSTANCE.printCool("&bУ Вас включен паралельный тикинг включаю поддержку");
             }
         } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException ignored) {
 

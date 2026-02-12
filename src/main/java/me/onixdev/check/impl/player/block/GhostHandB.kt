@@ -18,7 +18,7 @@ class GhostHandB(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
                 if (!valid) return
                 val distance = block.location.distance(player.bukkitPlayer.location)
                 val vec = PlayerUtil.getDirection(player.rotationContainer.yaw, player.rotationContainer.pitch)
-                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.1)
+                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.5)
                 if (result.second != null) {
                     if (!block.type.name.lowercase(Locale.ROOT).contains("bed")) return
                     val validRay = result.second!!.type == block.type

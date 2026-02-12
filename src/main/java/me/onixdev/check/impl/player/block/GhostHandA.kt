@@ -19,7 +19,7 @@ class GhostHandA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Ghos
                 if (!valid) return
                 val distance = block.location.distance(player.bukkitPlayer.location)
                 val vec = player.rotation.toDirection()
-                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.1)
+                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.5)
                 if (result.second != null) {
                     val mat = result.second ?: return
                     if (BlockData.isPassable(mat)) return

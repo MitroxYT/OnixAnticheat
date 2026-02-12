@@ -20,7 +20,7 @@ class AuraB(player:OnixUser) : Check(player, CheckBuilder.create().setCheckName(
                     val dist = player.bukkitPlayer.location.distance(target.location)
                     val vec = player.rotation.toDirection()
                     //PlayerUtil.getDirection(player.rotationContainer.yaw.toFloat(),player.rotationContainer.pitch.toFloat())
-                    val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,dist,0.1)
+                    val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,dist,0.5)
                     if (result.second != null) {
                         player.debug(result.second.type.name + " 1: " + result.first)
                         val mat = result.second

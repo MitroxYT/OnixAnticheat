@@ -1,5 +1,6 @@
 package me.onixdev.util.net
 
+import me.onixdev.OnixAnticheat
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -18,6 +19,9 @@ object PlayerUtil {
         return Vector(x, y, z).normalize()
     }
     fun raytrace(player: Player, direction: Vector,maxDistance:Double,stepSize:Double): me.onixdev.util.math.Pair<Int, Block> {
+        if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) {
+            return me.onixdev.util.math.Pair(null,null)
+        }
         val eyeLocation = player.eyeLocation
         val currentPos = eyeLocation.clone()
         var currentStep = 0
