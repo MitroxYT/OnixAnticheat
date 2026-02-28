@@ -146,7 +146,7 @@ public class Check implements ICheck {
     }
 
     public boolean shouldCancel() {
-        return cancel;
+        return enabled && cancel;
     }
 
     public void reload() {
