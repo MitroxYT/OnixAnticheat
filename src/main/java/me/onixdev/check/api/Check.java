@@ -120,7 +120,6 @@ public class Check implements ICheck {
     public boolean failAndSetback(Object debug) {
         if (!shouldFlag()) return false;
         OnixAnticheat.INSTANCE.getAlertExecutor().run(() -> {
-            ++vl;
             executeCommands(debug.toString());
             if (vl > setbackVL && setback) player.getMovementContainer().setback();
         });
@@ -150,7 +149,7 @@ public class Check implements ICheck {
 
     public void reload() {
         // чеки созданные через апи не возможно использовать через конфиг
-        if (createdByAPI) return;
+      /*  if (createdByAPI) return;
         OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
             YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
             //  if (noCheck) return;
@@ -177,7 +176,7 @@ public class Check implements ICheck {
                     Bukkit.getLogger().warning("Invalid command format in checks.yml: " + cmd);
                 }
             }
-        });
+        });*/
     }
     public String getCheckPatch() {
         return "checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT)  + ".";

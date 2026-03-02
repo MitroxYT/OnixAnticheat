@@ -83,7 +83,6 @@ public class PunishManager {
                                 check.setEnabled(true);
                                 OnixAnticheat.INSTANCE.printCool("enable: " + checkFullName + " che: " + checkName);
                             }
-                            break;
                         }
                     }
                 }
@@ -118,8 +117,8 @@ public class PunishManager {
                         OnixAnticheat.INSTANCE.getPlugin().getLogger().warning("Error parsing command: " + command);
                     }
                 }
+                groups.add(new PunishGroup(checksList, parsed, removeViolationsAfter));
             }
-
             } catch (Exception e) {
             OnixAnticheat.INSTANCE.getPlugin().getLogger().severe("Error while loading punishments.yml! This is likely your fault!");
             e.printStackTrace();
@@ -194,19 +193,18 @@ public class PunishManager {
 
     public boolean handleAlert(OnixUser player, String verbose, Check check) {
         boolean sentDebug = false;
-
+        player.getAlertManager().handleVerbose(player,check,verbose);
         // Check commands
         for (PunishGroup group : groups) {
             if (group.checks.contains(check)) {
                 final int vl = getViolations(group, check);
                 final int violationCount = group.violations.size();
                 for (ParsedCommand command : group.commands) {
-                    String cmd = command.command.replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
+                    String cmd = command.command.replace("%player%", player.getName()).replace("%vl%", String.valueOf(check.getVl())).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
 
                     // Verbose that prints all flags
                     //if (command.command.equals("[alert]")) {
                         sentDebug = true;
-                        player.getAlertManager().handleVerbose(player,check,verbose);
                  //   }
 
                     if (violationCount >= command.threshold) {
@@ -222,11 +220,14 @@ public class PunishManager {
                                 if (command.command.equals("[alert]")) {
                                     sentDebug = true;
                                   player.getAlertManager().handleAlert(player,check,verbose);
+                               //   return sentDebug;
                                 }
+                                else {
 
                                 String finalCmd = cmd;
                                 FoliaScheduler.getGlobalRegionScheduler().run(OnixAnticheat.INSTANCE.getPlugin(), (dummy) ->
                                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCmd));
+                                }
                             }
                         }
 
