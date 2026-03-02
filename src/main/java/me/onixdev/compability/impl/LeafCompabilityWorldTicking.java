@@ -10,9 +10,9 @@ public class LeafCompabilityWorldTicking implements ICompabilityCheck {
     @Override
     public void check(CompatibilityManager compatibilityManager) {
         try {
-            Class clazz = Class.forName("org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking");
+            Class<?> clazz = Class.forName("org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking");
             Field field = clazz.getField("enabled");
-            
+
             boolean enabled= field.getBoolean(clazz);
             if (enabled) {
                 compatibilityManager.setLeafTicking(true);

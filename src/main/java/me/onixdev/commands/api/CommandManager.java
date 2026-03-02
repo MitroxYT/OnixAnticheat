@@ -24,6 +24,7 @@ public class CommandManager implements TabExecutor, ICommandManager {
         registerCommmand(new ProfileCommand());
         registerCommmand(new AutoSetupCommand());
         registerCommmand(new AnimationCommand());
+        registerCommmand(new ChecksCommand());
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
