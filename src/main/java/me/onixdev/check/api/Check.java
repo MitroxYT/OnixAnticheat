@@ -130,7 +130,6 @@ public class Check implements ICheck {
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
         OnixAnticheat.INSTANCE.getAlertExecutor().run(() -> {
-            ++vl;
             executeCommands(debug.toString());
         });
         return true;
@@ -191,30 +190,35 @@ public class Check implements ICheck {
     }
 
     private void executeCommands(String verbose) {
-        player.getAlertManager().handleVerbose(player, this, verbose);
-        for (ConfigVlCommandData cmdData : commands) {
-            if (vl >= cmdData.getVl() && (vl - cmdData.getVl()) % cmdData.getAlertInterval() == 0) {
-                String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
-                if (command.startsWith("[alert]")) {
-                    player.getAlertManager().handleAlert(player, this, verbose);
-                } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
-                else if (command.startsWith("[proxy]")) {player.getAlertManager().onProxy(player,this,verbose);}
-                else if (command.startsWith("[invalidItem]")) player.disconnect(KickTypes.InvalidItemUse,"sss");//player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
-                else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
-                    try {
-                        String punished = PunishIdSystem.INSTANCE.getID(player.getName());
-                        PunishIdSystem.INSTANCE.logPunish(player, this, punished, verbose);
-                        String finalised = command.replace("%id%", punished);
-                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalised));
-                    } catch (IllegalArgumentException e) {
-                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
-                }
-            }
-        }
+        player.punishManager.handleViolation(this);
+       // lastViolationTime = System.currentTimeMillis();
+        vl++;
+        player.punishManager.handleAlert(player, verbose, this);
+//        player.getAlertManager().handleVerbose(player, this, verbose);
+//        for (ConfigVlCommandData cmdData : commands) {
+//            if (vl >= cmdData.getVl() && (vl - cmdData.getVl()) % cmdData.getAlertInterval() == 0) {
+//                String command = cmdData.getCommand().replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
+//                if (command.startsWith("[alert]")) {
+//                //    player.getAlertManager().handleAlert(player, this, verbose);
+//                } else if (command.startsWith("[swapslot]")) player.getInventory().swapSlot();
+//                else if (command.startsWith("[proxy]")) {player.getAlertManager().onProxy(player,this,verbose);}
+//                else if (command.startsWith("[invalidItem]")) player.disconnect(KickTypes.InvalidItemUse,"sss");//player.disconnect(player.getUser().getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21) ? "<lang:disconnect.packetError>" : "<lang:disconnect.lost>");
+//                else if (command.toLowerCase(Locale.ROOT).contains("kick") || command.toLowerCase(Locale.ROOT).contains("ban")) {
+//                    try {
+//                        String punished = PunishIdSystem.INSTANCE.getID(player.getName());
+//                        PunishIdSystem.INSTANCE.logPunish(player, this, punished, verbose);
+//                        String finalised = command.replace("%id%", punished);
+//                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalised));
+//                    } catch (IllegalArgumentException e) {
+//                        Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+//                        throw new RuntimeException(e);
+//                    }
+//                } else {
+//                    Bukkit.getScheduler().runTask(OnixAnticheat.INSTANCE.getPlugin(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+//                }
+//            }
+//        }
+//    }
     }
 
     public void onPacketOut(PacketSendEvent event) {

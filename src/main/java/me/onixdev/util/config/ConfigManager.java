@@ -133,6 +133,7 @@ public class ConfigManager {
     public String offAlertsMsg = "%prefix% <gray> alerts <green> off";
     private String hoverMsg = "";
     private String profileMessage;
+    public List<String> punish;
     private boolean fixHoverSystemCompability;
     public double resetVl;
     public boolean enableAlertsOnJoin;
@@ -170,6 +171,8 @@ public class ConfigManager {
         fixHeathBypass = config.getBoolean("visual.metadata-hider.fix-scoreboard",false);
         effectHider = config.getBoolean("visual.metadata-hider.effects", false);
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
+        punish = checksconfig.getStringList("punish");
+        OnixAnticheat.INSTANCE.printCool("values: " + checksconfig.getKeys(false) + " ssssss: " + checksconfig.getConfigurationSection("punish").getValues(false));
     }
 
     public String getProFileMsg() {

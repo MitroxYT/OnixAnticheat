@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChecksCommand extends OnixCommandBase {
@@ -37,8 +38,16 @@ public class ChecksCommand extends OnixCommandBase {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, String[] args) {
-
-        return false;
+        if (sender instanceof Player player) {
+            OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(player.getUniqueId());
+            if (user == null) return true;
+            List<String> a = new ArrayList<>();
+            for (Check check : user.checks) {
+                if (check.isEnabled()) a.add(check.getName() + " " + check.getType());
+            }
+            user.sendMessage("a" + a);
+        }
+        return true;
     }
 
     @Override
