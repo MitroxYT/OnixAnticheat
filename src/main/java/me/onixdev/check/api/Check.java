@@ -149,11 +149,10 @@ public class Check implements ICheck {
 
     public void reload() {
         // чеки созданные через апи не возможно использовать через конфиг
-      /*  if (createdByAPI) return;
+        if (createdByAPI) return;
         OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
             YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
             //  if (noCheck) return;
-            enabled = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".enabled");
             cancel = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".cancel");
             setback = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setback");
             setbackVL = checkscfg.getInt("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setbackvl");
@@ -162,21 +161,7 @@ public class Check implements ICheck {
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
             if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;
             else maxbuffer = tempbuff;
-            commands.clear();
-            List<String> commandList = checkscfg.getStringList("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".commands");
-            for (String cmd : commandList) {
-                try {
-                    String[] parts = cmd.split(" ", 2);
-                    String[] vlData = parts[0].split(":");
-                    int vlThreshold = Integer.parseInt(vlData[0]);
-                    int alertInterval = Integer.parseInt(vlData[1]);
-                    String command = parts.length > 1 ? OnixAnticheat.INSTANCE.getColorizer().colorize(parts[1]) : "";
-                    commands.add(new ConfigVlCommandData(vlThreshold, alertInterval, command));
-                } catch (Exception e) {
-                    Bukkit.getLogger().warning("Invalid command format in checks.yml: " + cmd);
-                }
-            }
-        });*/
+        });
     }
     public String getCheckPatch() {
         return "checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT)  + ".";
@@ -187,6 +172,9 @@ public class Check implements ICheck {
     public YamlConfiguration getCheckConfig() {
         return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
     }
+//    public YamlConfiguration getCheckConfig() {
+//        return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
+//    }
 
     private void executeCommands(String verbose) {
         player.punishManager.handleViolation(this);

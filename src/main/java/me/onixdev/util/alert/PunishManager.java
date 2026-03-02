@@ -54,8 +54,6 @@ public class PunishManager {
 
                 int removeViolationsAfter = groupSection.getInt("remove-violations-after", 300);
 
-                OnixAnticheat.INSTANCE.printCool("Group: " + groupName + " checks: " + checks + " commands: " + commands);
-
                 List<ParsedCommand> parsed = new ArrayList<>();
                 List<Check> checksList = new ArrayList<>();
 
