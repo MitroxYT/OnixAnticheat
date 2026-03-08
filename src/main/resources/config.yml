@@ -21,5 +21,8 @@ visual:
     xp: true
     # Должны ли мы скывать обход через FuntimeMode TargetHud
     fix-scoreboard: false
+AimF:
+  maxBuffer: 7
+  minFov: 85
 mitigations:
   damage-reduce: 0.1

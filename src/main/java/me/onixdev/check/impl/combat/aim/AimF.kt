@@ -1,5 +1,7 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -7,9 +9,11 @@ import me.onixdev.event.impl.PlayerRotationEvent
 import me.onixdev.user.OnixUser
 import kotlin.math.abs
 
-class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("Aim").setType("F").build()) {
+@CheckInfo(name = "Aim", type = "F", stage = CheckStage.EXPERIMENTAL, maxBuffer = 7.0, decayBuffer = 0.25)
+class AimF(player:OnixUser) : Check(player) {
     private var lastTickFlagget: Boolean = false
     private var minFovFactor:Double = Double.MAX_VALUE
+    private var buffer: Double = 0.0
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && !event.isPost && player.lastHitTime < 4) {
             if (player.lastTeleportTime < 5 && player.movementContainer.deltaXZ < 0.09) return
@@ -22,7 +26,8 @@ class AimF(player:OnixUser) : Check(player,CheckBuilder.create().setCheckName("A
             if (dx > minFovFactor && sx < -5.0F && player.movementContainer.deltaXZ > 0.05) {
                 val info = String.format("dx=%.5f, dy=%.5f, sx=%.5f, sy=%.5f ", dx, dy, sx, sy)
                 if (lastTickFlagget) {
-                    fail(info)
+                    if (++buffer > maxbuffer) fail(info)
+                    else if (buffer > 0) buffer -= decayBuffer
                     lastTickFlagget = false
                 }
                 lastTickFlagget = true

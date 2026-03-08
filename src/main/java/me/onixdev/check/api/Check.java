@@ -2,6 +2,7 @@ package me.onixdev.check.api;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.ConfigVlCommandData;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Check implements ICheck {
+    private String configName;
     private boolean enabled;
     protected boolean cancel;
     protected double vl;
@@ -29,7 +31,7 @@ public class Check implements ICheck {
     protected String type;
     protected CheckStage stage;
     protected double maxbuffer;
-    protected double decay;
+    protected double decay,decayBuffer;
     protected final OnixUser player;
     private List<ConfigVlCommandData> commands = new ArrayList<>();
     public double setbackVL;
@@ -50,6 +52,24 @@ public class Check implements ICheck {
                 commands = builder.getCommandData();
             }
         }
+    }
+    public Check(OnixUser player) {
+        this.player = player;
+        final CheckInfo checkData = this.getClass().getAnnotation(CheckInfo.class);
+        if (checkData != null) {
+            this.checkName = checkData.name();
+            this.type = checkData.type();
+            this.configName = checkData.customCfgName();
+            if (this.configName.equals("DEFAULT")) this.configName = this.checkName+this.type;
+            this.decay = checkData.decay();
+            this.decayBuffer = checkData.decayBuffer();
+            this.setback = checkData.setback();
+            this.setbackVL = checkData.setbackVl();
+            this.stage = checkData.stage();
+            this.description = checkData.description();
+            this.maxbuffer = checkData.maxBuffer();
+        }
+        reload();
     }
 
     @Override
@@ -151,26 +171,27 @@ public class Check implements ICheck {
         // чеки созданные через апи не возможно использовать через конфиг
         if (createdByAPI) return;
         OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
-            YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
+            YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getConfig();
             //  if (noCheck) return;
-            cancel = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".cancel");
-            setback = checkscfg.getBoolean("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setback");
-            setbackVL = checkscfg.getInt("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".setbackvl");
-            decay = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".decay", 0.25);
-            double tempbuff = checkscfg.getDouble("checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT) + ".maxbuffer", -1);
+            cancel = checkscfg.getBoolean(configName  + ".cancel",cancel);
+            setback = checkscfg.getBoolean(configName + ".setback",false);
+            setbackVL = checkscfg.getInt(configName + ".setbackvl",-1);
+            decay = checkscfg.getDouble(configName+ ".decay", 0.25);
+            decay = checkscfg.getDouble(configName+ ".decay", 0.25);
+            double tempbuff = checkscfg.getDouble(configName + ".maxbuffer", -1);
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
             if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;
             else maxbuffer = tempbuff;
         });
     }
     public String getCheckPatch() {
-        return "checks." + checkName.toLowerCase(Locale.ROOT) + "." + type.toLowerCase(Locale.ROOT)  + ".";
+        return configName  + ".";
     }
     public String format(Double value) {
         return String.format("%.5f", value);
     }
     public YamlConfiguration getCheckConfig() {
-        return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
+        return OnixAnticheat.INSTANCE.getConfigManager().getConfig();
     }
 //    public YamlConfiguration getCheckConfig() {
 //        return OnixAnticheat.INSTANCE.getConfigManager().getChecksconfig();
