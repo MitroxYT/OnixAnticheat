@@ -3,6 +3,8 @@ package me.onixdev.check.impl.player.block
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientUseItem
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -10,7 +12,8 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import org.bukkit.Material
 
-class GhostHandC(user: OnixUser) : Check(user, CheckBuilder().setCheckName("GhostHand").setDescription("Stop Player Using NoInteract)").setType("C")) {
+@CheckInfo(name = "GhostHand", type = "C", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+class GhostHandC(user: OnixUser) : Check(user) {
     override fun onPacketIn(event: PacketReceiveEvent?) {
         if (event == null) return
         if (event.packetType == PacketType.Play.Client.USE_ITEM) {

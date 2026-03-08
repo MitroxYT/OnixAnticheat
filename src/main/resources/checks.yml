@@ -1,273 +1,64 @@
 config-version: 1.0
-checks:
-  aimheuristic:
-    a:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 2
-      commands:
-        - "1:1 [alert]"
-        - "2:2 onix mitigate %player% reducedamage 10000"
-        - "60:1 kick %player% %prefix% Unfair Advantage(AHA)"
-    b:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      commands:
-        - "3:3 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "20:1 kick %player% %prefix% Unfair Advantage(AHB)"
-    c:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      commands:
-        - "3:3 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-    d:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      commands:
-        - "3:3 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-    e:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      commands:
-        - "3:3 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-  aim:
-    a:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 2
-      commands:
-        - "2:2 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:1 kick %player% %prefix% Unfair Advantage(AA)"
-    b:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 2
-      commands:
-        - "2:2 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:1 kick %player% %prefix% Unfair Advantage(AB)"
-    c:
-      enabled: true
-      setbackVL: 1
-      setback: true
-      maxbuffer: 5
-      commands:
-        - "2:2 [alert]"
-        - "1:1 onix mitigate %player% reducedamage 5000"
-        - "500:100 kick %player% TimerA"
-    d:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 5
-      decay: 0.25
-      commands:
-        - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#1) -s"
-    e:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 12
-      decay: 0.25
-      commands:
-        - "2:2 [alert]"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#2) -s"
-    t:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      maxbuffer: 5
-      decay: 0.25
-      commands:
-        - "2:2 [alert]"
-        - "2:2 onix mitigate %player% reducedamage 10000"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#3) -s"
-    f:
-      enabled: true
-      setbackVL: 1
-      minFov: 85
-      setback: false
-      maxbuffer: 5
-      decay: 0.25
-      commands:
-        - "2:2 [alert]"
-        - "2:2 onix mitigate %player% reducedamage 10000"
-        - "5:3 kick %player% %prefix% <gray>Fighting suspicious(#4) -s"
+punish:
+  BadPacket:
+    remove-violations-after: 300
+    checks:
+      - "BadPacket"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(BadPackets)"
+      - "50:50 [webhook]"
   aura:
-    a:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:10 kick %player% %prefix% Unfair Advantage(AA)"
-    b:
-      enabled: false
-      setbackVL: 1
-      setback: false
-      cancel: true
-      commands:
-        - "2:2 [alert]"
-    c:
-      enabled: true
-      setbackVL: 1
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:10 kick %player% %prefix% Unfair Advantage(HC)"
-  badpacket:
-    a:
-      enabled: true
-      setbackVL: 6
-      setback: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-        - "1:1 kick %player% %prefix% invalid using item (A)"
-    b:
-      enabled: true
-      setbackVL: 6
-      threshold: 75
-      maxbuffer: 7
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-        - "3:3 onix mitigate %player% reducedamage 10000"
-        - "10:1 kick %player% %prefix% Unfair Advantage(BB)"
-    c:
-      enabled: true
-      setbackVL: 6
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-        #- "10:1 kick %player% %prefix% invalid using item (A)"
-    d:
-      enabled: true
-      setbackVL: 10
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-        - "1:1 [invalidItem]"
-    e:
-      enabled: true
-      setbackVL: 10
-      setback: false
-      maxbuffer: 5
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-       # - "1:1 [invalidItem]"
-  ghosthand:
-    a:
-      enabled: true
-      setbackVL: 18
-      setback: false
-      cancel: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-    b:
-      enabled: true
-      setbackVL: 18
-      setback: false
-      cancel: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
-    c:
-      enabled: true
-      setbackVL: 18
-      setback: false
-      cancel: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:2 [alert]"
+    remove-violations-after: 300
+    checks:
+      - "aura"
+      - "!aurab"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(Aim)"
+      - "50:50 [webhook]"
+  aim:
+    remove-violations-after: 300
+    checks:
+      - "aim"
+      - "!aimAssist"
+      - "!aimCorrect"
+      - "!aimHeuristic"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(Aim)"
+      - "50:50 [webhook]"
+  BadPacketStable:
+    remove-violations-after: 300
+    checks:
+      - "BadPacketD"
+      - "BadPacketA"
+    commands:
+      - "1:1 [alert]"
+      - "1:1 kick %player% %prefix% Unfair Advantage(BadPackets)"
+      - "50:50 [webhook]"
   inventory:
-    a:
-      enabled: true
-      setbackVL: 2
-      setback: false
-      cancel: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "2:1 [alert]"
-        - "10:3 kick %player% %prefix% Unfair Advantage(IA)"
-    b:
-      enabled: true
-      setbackVL: 6
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-        - "5:3 kick %player% %prefix% Unfair Advantage(IB)"
-    c:
-      enabled: false
-      setbackVL: 3
-      setback: false
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-        - "10:10 kick %player% %prefix% invalid using item (A)"
-    d:
-      enabled: true
-      setbackVL: 3
-      setback: true
-      #2:1 тоесть алерт появиться 1 раз после 2 срабатывания и дальше после каждого 1
-      commands:
-        - "1:1 [alert]"
-        - "10:10 kick %player% %prefix% invalid using item (A)"
-  autototem:
-    a:
-      enabled: true
-      setbackVL: 6
-      setback: true
-      commands:
-        - "2:2 [alert]"
-        - "7:7 kick %player% TimerA"
-  airstuck:
-    a:
-      enabled: true
-      setbackVL: 2
-      setback: false
-      commands:
-        - "3:3 [alert]"
-  noslow:
-    a:
-      enabled: false
-      setbackVL: 6
-      setback: false
-      commands:
-        - "2:2 [alert]"
-    b:
-      enabled: false
-      setbackVL: 6
-      setback: false
-      commands:
-        - "2:2 [alert]"
-  scaffold:
-    a:
-      enabled: false
-      setbackVL: 6
-      setback: true
-      commands:
-        - "2:2 [alert]"
+    remove-violations-after: 300
+    checks:
+      - "inventory"
+      - "!inventoryC"
+    commands:
+      - "1:1 [alert]"
+      - "50:50 [webhook]"
+      - "5:2 kick %player% %prefix% <gray>Unfair Advantage(Inventory)"
+  heuristic:
+    remove-violations-after: 300
+    checks:
+      - "aimHeuristic"
+    commands:
+      - "2:2 [alert]"
+      - "2:2 onix mitigate %player% reducedamage 10000"
+      - "20:1 kick %player% %prefix% <gray>Unfair Advantage(AHB)"
+  ghosthand:
+    remove-violations-after: 300
+    checks:
+      - "ghosthand"
+    commands:
+      - "2:2 [alert]"
+      - "2:2 onix mitigate %player% reducedamage 10000"
+      - "20:1 kick %player% %prefix% <gray>Unfair Advantage(Wall Suspicios)"

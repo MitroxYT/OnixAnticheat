@@ -1,15 +1,16 @@
 package me.onixdev.check.impl.player.inventory;
 
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.user.OnixUser;
-
+@CheckInfo(name = "Inventory", type = "C", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class InventoryC extends Check {
     public InventoryC(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("Inventory").setType("C").setCheckStage(CheckStage.BETA).build());
+        super(player);
     }
 
     @Override

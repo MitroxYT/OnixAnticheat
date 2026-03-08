@@ -3,6 +3,7 @@ package me.onixdev.check.impl.player.inventory;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
@@ -10,13 +11,14 @@ import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.*;
 import me.onixdev.user.OnixUser;
 
+@CheckInfo(name = "Inventory", type = "B", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class InventoryB extends Check {
     private boolean receivedClick = false;
     private long lastClickTime = 0;
     private double buffer;
     private boolean clicked,picked = false;
     public InventoryB(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("Inventory").setType("B").setDescription("send close packet in one tick click packet").setCheckStage(CheckStage.EXPERIMENTAL).build());
+        super(player);
     }
     @Override
     public void onPacketIn(PacketReceiveEvent event) {

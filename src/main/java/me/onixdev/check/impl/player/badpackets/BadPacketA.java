@@ -2,6 +2,7 @@ package me.onixdev.check.impl.player.badpackets;
 
 import com.github.retrooper.packetevents.protocol.player.DiggingAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging;
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
@@ -9,9 +10,10 @@ import me.onixdev.user.OnixUser;
 
 import java.util.Locale;
 
+@CheckInfo(name = "BadPacket", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class BadPacketA extends Check {
     public BadPacketA(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("BadPacket").setType("A").setCheckStage(CheckStage.RELEASE).build());
+        super(player);
     }
     public boolean isValid(WrapperPlayClientPlayerDigging dig) {
         if (dig.getAction() == DiggingAction.START_DIGGING || dig.getAction() == DiggingAction.FINISHED_DIGGING || dig.getAction() == DiggingAction.CANCELLED_DIGGING)

@@ -34,6 +34,7 @@ import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.manager.CheckManager;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
+import me.onixdev.util.alert.PunishManager;
 import me.onixdev.util.color.MessageUtil;
 import me.onixdev.util.grimentity.boxes.GetBoundingBox;
 import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
@@ -82,6 +83,7 @@ public class OnixUser implements IOnixUser {
     private boolean checkAlertsTogglingWhileBukkitPlayerNotNull;
     private boolean debug;
     private long lastStopSprint;
+    public PunishManager punishManager;
 
     public AlertManager getAlertManager() {
         return alertManager;
@@ -161,6 +163,7 @@ public class OnixUser implements IOnixUser {
         if ((Bukkit.getPlayer(this.uuid) != null)) {
             player = Bukkit.getPlayer(this.uuid);
         }
+        punishManager = new PunishManager(this);
         for (Check check : checks) {
             check.reload();
         }

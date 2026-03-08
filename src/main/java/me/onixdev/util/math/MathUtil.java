@@ -362,4 +362,15 @@ public class MathUtil {
         return degrees * (float) Math.PI / 180f;
     }
 
+    public static int[] translatePosition(final int slot) {
+        final int row = slot / 9 + 1;
+        final int rowPosition = slot - (row - 1) * 9;
+        return new int[] { row, rowPosition };
+    }
+
+    public static double distanceBetween(final int slot1, final int slot2) {
+        final int[] slot1XZ = translatePosition(slot1);
+        final int[] slot2XZ = translatePosition(slot2);
+        return Math.sqrt((slot1XZ[0] - slot2XZ[0]) * (slot1XZ[0] - slot2XZ[0]) + (slot1XZ[1] - slot2XZ[1]) * (slot1XZ[1] - slot2XZ[1]));
+    }
 }

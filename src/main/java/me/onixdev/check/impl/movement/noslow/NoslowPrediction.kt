@@ -1,5 +1,7 @@
 package me.onixdev.check.impl.movement.noslow
 
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import dev.onixac.api.events.api.BaseEvent
@@ -7,7 +9,8 @@ import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 import kotlin.math.abs
 
-class NoslowPrediction(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Noslow").setType("A").build()) {
+@CheckInfo(name = "Noslow", type = "A", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
+class NoslowPrediction(user: OnixUser) : Check(user) {
     private var lastTickNoslow = false
     private var buffer = 0.0
     override fun onEvent(event: BaseEvent?) {

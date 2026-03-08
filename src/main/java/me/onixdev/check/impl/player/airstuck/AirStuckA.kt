@@ -2,12 +2,15 @@ package me.onixdev.check.impl.player.airstuck
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType.Play
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PacketUtil
 
-class AirStuckA(player: OnixUser) : Check(player, CheckBuilder.create().setCheckName("AirStuck").setType("A").build()) {
+@CheckInfo(name = "AirStuck", type = "A", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
+class AirStuckA(player: OnixUser) : Check(player) {
     private var positions = 0
     private var clock = 0L
     private var lastTransTime: Long = 0

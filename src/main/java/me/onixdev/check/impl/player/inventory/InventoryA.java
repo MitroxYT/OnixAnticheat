@@ -1,20 +1,23 @@
 package me.onixdev.check.impl.player.inventory;
 
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.PlayerClickEvent;
 import me.onixdev.user.OnixUser;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+@CheckInfo(name = "Inventory", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class InventoryA extends Check {
     private int lastSlot = -1;
     private ItemStack lastItem;
     private long lastClick;
     public InventoryA(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("Inventory").setType("A").setCheckStage(CheckStage.EXPERIMENTAL).setDescription("imposibleDeltaValue").build());
+        super(player);
     }
 
     @Override
@@ -30,9 +33,13 @@ public class InventoryA extends Check {
                     return;
                 }
                 ItemStack parsedItem = player.getBukkitPlayer().getInventory().getItem(slot);
+                var click = clickEvent.getClick();
+                if (click == ClickType.CREATIVE) return;
+                var action = clickEvent.getAction();
+                var inv = clickEvent.getSlot_type();
                 if (time <= 1) {
                     String type = stack == null ? parsedItem != null ? parsedItem.getType().name() : "none" : stack.getType().name();
-                    fail("item: " + type + ", slot: " + slot + " time: " + time);
+                    fail("item: " + type + ", slot: " + slot + " time: " + time + " cT: " + click + " aT: " + action+ " sT: " + inv);
                     if (shouldCancel()) event.cancel();
                 }
 
