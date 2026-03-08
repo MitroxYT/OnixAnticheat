@@ -1,4 +1,67 @@
 config-version: 1.0
+punish:
+  BadPacket:
+    remove-violations-after: 300
+    checks:
+      - "BadPacket"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(BadPackets)"
+      - "50:50 [webhook]"
+  aura:
+    remove-violations-after: 300
+    checks:
+      - "aura"
+      - "!aurab"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(Aim)"
+      - "50:50 [webhook]"
+  aim:
+    remove-violations-after: 300
+    checks:
+      - "aim"
+      - "!aimAssist"
+      - "!aimCorrect"
+      - "!aimHeuristic"
+    commands:
+      - "2:2 [alert]"
+      - "10:2 kick %player% %prefix% <gray>Unfair Advantage(Aim)"
+      - "50:50 [webhook]"
+  BadPacketStable:
+    remove-violations-after: 300
+    checks:
+      - "BadPacketD"
+      - "BadPacketA"
+    commands:
+      - "1:1 [alert]"
+      - "1:1 kick %player% %prefix% Unfair Advantage(BadPackets)"
+      - "50:50 [webhook]"
+  inventory:
+    remove-violations-after: 300
+    checks:
+      - "inventory"
+      - "!inventoryC"
+    commands:
+      - "1:1 [alert]"
+      - "50:50 [webhook]"
+      - "5:2 kick %player% %prefix% <gray>Unfair Advantage(Inventory)"
+  heuristic:
+    remove-violations-after: 300
+    checks:
+      - "aimHeuristic"
+    commands:
+      - "2:2 [alert]"
+      - "2:2 onix mitigate %player% reducedamage 10000"
+      - "20:1 kick %player% %prefix% <gray>Unfair Advantage(AHB)"
+  ghosthand:
+    remove-violations-after: 300
+    checks:
+      - "ghosthand"
+    commands:
+      - "2:2 [alert]"
+      - "2:2 onix mitigate %player% reducedamage 10000"
+      - "20:1 kick %player% %prefix% <gray>Unfair Advantage(Wall Suspicios)"
 checks:
   aimheuristic:
     a:
