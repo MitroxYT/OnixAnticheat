@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -8,11 +9,8 @@ import me.onixdev.event.impl.PlayerRotationEvent
 import me.onixdev.user.OnixUser
 import kotlin.math.abs
 
-class AimA(player: OnixUser?) :
-    Check(player,
-        CheckBuilder.create().setCheckName("Aim").setType("A").setCheckStage(CheckStage.RELEASE)
-            .setDescription("player invalid")
-    ) {
+@CheckInfo(name = "Aim", type = "A", stage = CheckStage.RELEASE, maxBuffer = 2.0, decayBuffer = 1.0)
+class AimA(player: OnixUser?) : Check(player) {
     private var buffer = 0.0
     private var yawChange = 0f
     override fun onEvent(event: BaseEvent) {

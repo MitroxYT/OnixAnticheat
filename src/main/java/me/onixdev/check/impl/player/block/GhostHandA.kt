@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.player.block
 
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -9,8 +10,8 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import me.onixdev.util.world.utils.versions.BlockData
 
-class GhostHandA(user: OnixUser) : Check(user, CheckBuilder().setCheckName("GhostHand").setDescription("It doesn't allow opening the chest through blocks.").setType("A").setCheckStage(
-    CheckStage.EXPERIMENTAL).build()) {
+@CheckInfo(name = "GhostHand", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+class GhostHandA(user: OnixUser) : Check(user) {
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerBlockInteractEvent) {
             val block = event.getBlock()

@@ -4,11 +4,14 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
 
-class AuraC(user: OnixUser) : Check(user, CheckBuilder().setCheckName("Aura").setType("C").setDescription("AttackPattern").build()) {
+@CheckInfo(name = "Aura", type = "C", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
+class AuraC(user: OnixUser) : Check(user) {
     private var movements = 0
     private var lastMovements = 0
     private var total = 0

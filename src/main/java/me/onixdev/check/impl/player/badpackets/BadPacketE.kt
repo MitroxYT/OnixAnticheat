@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.player.badpackets
 
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -8,8 +9,8 @@ import me.onixdev.event.impl.PlayerHeldItemChangeEvent
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 
-class BadPacketE(user: OnixUser) :
-    Check(user, CheckBuilder.create().setCheckName("BadPacket").setCheckStage(CheckStage.BETA).setBuffer(4.0).setType("E").build()) {
+@CheckInfo(name = "BadPacket", type = "E", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+class BadPacketE(user: OnixUser) : Check(user) {
     private var timeFromLastChange: Int = 41
     private var aboba: Int = 0
     override fun onEvent(event: BaseEvent?) {

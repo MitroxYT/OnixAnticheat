@@ -177,7 +177,7 @@ public class Check implements ICheck {
             setback = checkscfg.getBoolean(configName + ".setback",false);
             setbackVL = checkscfg.getInt(configName + ".setbackvl",-1);
             decay = checkscfg.getDouble(configName+ ".decay", 0.25);
-            decayBuffer = checkscfg.getDouble(configName+ ".decayBuffer", 0.25);
+            decayBuffer = checkscfg.getDouble(configName+ ".decayBuffer", decayBuffer);
             maxbuffer = checkscfg.getDouble(configName + ".maxBuffer", maxbuffer);
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
 //            if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;

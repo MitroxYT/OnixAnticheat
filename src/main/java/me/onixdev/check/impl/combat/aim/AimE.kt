@@ -1,5 +1,7 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -16,8 +18,8 @@ import kotlin.compareTo
 import kotlin.inc
 import kotlin.math.roundToInt
 import kotlin.times
-
-class AimE(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim").setType("E").setBuffer(3.0).build()) {
+@CheckInfo(name = "Aim", type = "E", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
+class AimE(user: OnixUser) : Check(user) {
     private var buffer:Double = 0.0
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && event.isPost && player.lastHitTime < 20) {

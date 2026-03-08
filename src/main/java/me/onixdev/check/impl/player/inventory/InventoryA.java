@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.player.inventory;
 
+import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
@@ -9,12 +10,13 @@ import me.onixdev.user.OnixUser;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+@CheckInfo(name = "Inventory", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class InventoryA extends Check {
     private int lastSlot = -1;
     private ItemStack lastItem;
     private long lastClick;
     public InventoryA(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("Inventory").setType("A").setCheckStage(CheckStage.EXPERIMENTAL).setDescription("imposibleDeltaValue").build());
+        super(player);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -8,8 +10,8 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.math.MathUtil
 import kotlin.math.abs
 
-
-class AimD(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("Aim").setDecay(0.25).setType("D").setBuffer(5.0).build()) {
+@CheckInfo(name = "Aim", type = "D", stage = CheckStage.EXPERIMENTAL, decayBuffer = 1.0)
+class AimD(user: OnixUser) : Check(user) {
     private var buffer:Double = 0.0
     private val deltaYaws: MutableList<Double?> = ArrayList<Double?>()
     private val deltaPitches: MutableList<Double?> = ArrayList<Double?>()

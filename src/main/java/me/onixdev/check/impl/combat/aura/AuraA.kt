@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.protocol.player.GameMode
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity.InteractAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -15,7 +16,8 @@ import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 
-class AuraA(player: OnixUser?) : Check(player, CheckBuilder.create().setCheckName("Aura").setType("A").setDescription("PostCheck").setCheckStage(CheckStage.RELEASE).build()) {
+@CheckInfo(name = "AuraA", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+class AuraA(player: OnixUser?) : Check(player) {
     private var send = false
     private var last: Long = 0
     override fun onPacketIn(event: PacketReceiveEvent?) {

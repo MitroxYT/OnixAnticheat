@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.player.block
 
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -9,7 +10,8 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import java.util.Locale
 
-class GhostHandB(user: OnixUser) : Check(user, CheckBuilder().setCheckName("GhostHand").setCheckStage(CheckStage.EXPERIMENTAL).setType("B").build()) {
+@CheckInfo(name = "GhostHand", type = "B", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+class GhostHandB(user: OnixUser) : Check(user) {
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerBlockBreakEvent) {
             val block = event.getBlock()

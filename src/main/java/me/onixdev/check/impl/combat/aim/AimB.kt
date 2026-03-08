@@ -1,5 +1,6 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
@@ -8,11 +9,8 @@ import me.onixdev.event.impl.PlayerRotationEvent
 import me.onixdev.user.OnixUser
 import kotlin.math.abs
 
-class AimB(player: OnixUser?) :
-    Check(
-        player,
-        CheckBuilder.create().setCheckName("Aim").setType("B").setBuffer(4.0).setCheckStage(CheckStage.RELEASE).build()
-    ) {
+@CheckInfo(name = "Aim", type = "B", stage = CheckStage.EXPERIMENTAL, maxBuffer = 4.0, decayBuffer = 1.0)
+class AimB(player: OnixUser?) : Check(player) {
     private var buffer = 0.0
     private var yC = 0f
 
@@ -29,7 +27,7 @@ class AimB(player: OnixUser?) :
                         fail("y=$yC, yc=$yC")
                     }
                 } else if (buffer > 0) {
-                    buffer -= getDecay()
+                    buffer -= decayBuffer
                 }
                 yC = yR
             }

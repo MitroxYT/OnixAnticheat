@@ -1,16 +1,19 @@
 package me.onixdev.check.impl.combat.heuristics;
 
+import dev.onixac.api.check.CheckInfo;
+import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.event.impl.PlayerRotationEvent;
 import me.onixdev.user.OnixUser;
 
+@CheckInfo(name = "AimHeuristic", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 public class AimHeuristicA extends Check {
     //private AimHeuristicAS aimHeuristicAS;
     private double lastDeltaYaw;
     public AimHeuristicA(OnixUser user) {
-        super(user, CheckBuilder.create().setCheckName("AimHeuristic").setType("A").build());
+        super(user);
 //        aimHeuristicAS = new AimHeuristicAS();
     }
 

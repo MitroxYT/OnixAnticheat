@@ -4,12 +4,15 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
+import dev.onixac.api.check.CheckInfo;
+import dev.onixac.api.check.CheckStage;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.math.RotList;
 import me.onixdev.util.net.PacketUtil;
 
+@CheckInfo(name = "AimHeuristic", type = "B", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
 public class AimHeuristicB extends Check {
     private final RotList yawDeltaBuffer = new RotList(20);
     private final RotList pitchDeltaBuffer = new RotList(20);
@@ -20,7 +23,7 @@ public class AimHeuristicB extends Check {
     private float previousPitch;
     private float currentPitch;
     public AimHeuristicB(OnixUser player) {
-        super(player, CheckBuilder.create().setCheckName("AimHeuristic").setType("B"));
+        super(player);
     }
 
     @Override

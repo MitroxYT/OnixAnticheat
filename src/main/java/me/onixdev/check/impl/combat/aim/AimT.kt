@@ -1,5 +1,7 @@
 package me.onixdev.check.impl.combat.aim
 
+import dev.onixac.api.check.CheckInfo
+import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
@@ -8,8 +10,8 @@ import me.onixdev.user.OnixUser
 import me.onixdev.util.math.DataList
 import me.onixdev.util.math.GraphUtil
 import me.onixdev.util.math.MathUtil
-
-class AimT(player: OnixUser) : Check(player, CheckBuilder.create().setCheckName("Aim").setType("T").build()) {
+@CheckInfo(name = "Aim", type = "T", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
+class AimT(player: OnixUser) : Check(player) {
     val yawSamples: DataList<Double> = DataList(30)
     val pitchSamples: DataList<Double> = DataList(30)
     val shortYawSamples: DataList<Double> = DataList(15)
