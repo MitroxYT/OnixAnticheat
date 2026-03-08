@@ -17,6 +17,7 @@ import me.onixdev.check.impl.player.block.GhostHandC;
 import me.onixdev.check.impl.player.inventory.InventoryA;
 import me.onixdev.check.impl.player.inventory.InventoryB;
 import me.onixdev.check.impl.player.inventory.InventoryC;
+import me.onixdev.check.impl.player.inventory.InventoryD;
 import me.onixdev.check.impl.player.misc.ClientBrandParser;
 import me.onixdev.check.impl.player.misc.PlayerDataHider;
 import me.onixdev.check.impl.player.misc.data.PacketEntityReplication;
@@ -70,7 +71,7 @@ public class CheckManager
     static {
         CONSTRUCTORS = new ArrayList<>();
         CHECKS = new Class[] {PlayerPacketData.class, PacketEntityReplication.class, PlayerDataHider.class,AimA.class, ClientBrandParser.class, PlayerPayLoadHandler.class, AimB.class, AimC.class, AimD.class, AimHeuristicA.class, AimHeuristicB.class, AimE.class, AuraA.class, AuraB.class, AuraC.class, AimT.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
-                InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class
+                InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class, InventoryD.class
         };
 
     }
