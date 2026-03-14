@@ -17,7 +17,7 @@ public interface ICommandManager {
      */
     void registerCommmand(OnixCommandBase command);
     /**
-     * @param command
+     * @param name
      * @since 1.0
      */
     void unregisterCommmand(String name);
