@@ -208,7 +208,15 @@ public class MathUtil {
         }
         return total / (data.size() - 3);
     }
+    public static <T extends Number> T getModeLike(Collection<T> c) {
+        Map<T, Integer> freq = new HashMap<>();
+        c.forEach(val -> {
+            int number = freq.getOrDefault(val, 0) + 1;
+            freq.put(val, number);
+        });
 
+        return Collections.max(freq.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
     public static int getMode(Collection<? extends Number> array) {
         int mode = (Integer) array.toArray()[0];
         int maxCount = 0;

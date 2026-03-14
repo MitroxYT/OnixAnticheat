@@ -3,6 +3,7 @@ package me.onixdev.util.extend
 import com.github.retrooper.packetevents.protocol.player.User
 import me.onixdev.OnixAnticheat
 import me.onixdev.user.OnixUser
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object KotlinExtends {
@@ -13,5 +14,8 @@ object KotlinExtends {
     fun User.getData() : OnixUser? {
         val user = OnixAnticheat.INSTANCE.playerDatamanager.get(uuid) ?: return null
         return user
+    }
+    fun Bukkit.getPlayerCompleteNames() : MutableList<String> {
+     return Bukkit.getOnlinePlayers().map { it.name }.toMutableList()
     }
 }

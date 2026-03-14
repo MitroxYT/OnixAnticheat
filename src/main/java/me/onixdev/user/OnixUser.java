@@ -40,6 +40,7 @@ import me.onixdev.util.grimentity.boxes.GetBoundingBox;
 import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
 import me.onixdev.util.grimentity.entity.CompensatedEntities;
 import me.onixdev.util.items.PlayerInventory;
+import me.onixdev.util.math.DataList;
 import me.onixdev.util.net.*;
 import me.onixdev.util.net.ping.PingUtil;
 import me.onixdev.util.rotation.Rotation;
@@ -54,10 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -84,6 +82,9 @@ public class OnixUser implements IOnixUser {
     private boolean debug;
     private long lastStopSprint;
     public PunishManager punishManager;
+    public float yawGcd = 0, pitchGcd = 0, lastYawGcd = 0, lastPitchGcd = 0;
+    public LinkedList<Float> yawGcdList = new DataList<>(45);
+    public LinkedList<Float> pitchGcdList = new DataList<>(45);
 
     public AlertManager getAlertManager() {
         return alertManager;

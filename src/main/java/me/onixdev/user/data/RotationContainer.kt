@@ -131,6 +131,27 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
     }
 
     private fun processSensitivity() {
+        val yawGcd: Float =
+            if (user.lastYawGcd == 0.0F) deltaYaw else MathUtil.getGcd(deltaYaw.toDouble(), lastDeltaYaw.toDouble()).toFloat()
+        val pitchGcd: Float =
+            if (user.lastPitchGcd == 0.0F) deltaPitch else MathUtil.getGcd(deltaPitch.toDouble(), lastDeltaPitch.toDouble()).toFloat()
+
+        if (yawGcd >= 0.0096 && yawGcd <= 0.65) {
+            user.yawGcdList.add(yawGcd)
+        }
+        if (pitchGcd >= 0.0096 && pitchGcd <= 0.65) {
+            user.pitchGcdList.add(pitchGcd)
+        }
+
+        if (user.yawGcdList.size > 25) {
+            user.yawGcd = MathUtil.getModeLike(user.yawGcdList)
+        }
+        if (user.pitchGcdList.size > 25) {
+            user.pitchGcd = MathUtil.getModeLike(user.pitchGcdList)
+        }
+
+        user.lastYawGcd = yawGcd
+        user.lastPitchGcd = pitchGcd
         val gcd = MathUtil.getGcd(this.deltaPitch.toDouble(), this.lastDeltaPitch.toDouble()).toFloat()
         val sensitivityModifier = cbrt(0.8333 * gcd)
         val sensitivityStepTwo = 1.666 * sensitivityModifier - 0.3333
