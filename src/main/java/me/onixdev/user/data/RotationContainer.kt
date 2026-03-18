@@ -20,6 +20,10 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
     private var deltaPitch = 0f
     private var lastDeltaYaw = 0f
     private var lastDeltaPitch = 0f
+    private var deltaYawMcp = 0f
+    private var deltaPitchMcp = 0f
+    private var lastDeltaYawMcp = 0f
+    private var lastDeltaPitchMcp = 0f
     private var yawAccel = 0f
     var deltaYawABS = 0f
     var deltaPitchABS = 0f
@@ -58,9 +62,12 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
     private val pitchSamples: MutableList<Double?> = ArrayList<Double?>()
     private var cinematicRotation = false
     private var isTotallyNotCinematic = 0
-
+    private var gcdFacYaw = 0.0F
+    private var gcdFacPitch = 0.0F
     fun handle(yaw: Double, pitch: Double) {
         user.rotation = Rotation(yaw, pitch)
+        this.lastDeltaPitchMcp = deltaPitchMcp
+        this.lastDeltaYawMcp = deltaYawMcp
         this.lastYaw = this.yaw
         this.lastPitch = this.pitch
         this.yaw = yaw.toFloat()
@@ -77,6 +84,8 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
         this.lastDeltaPitch = this.deltaPitch
         this.deltaYaw = abs(yaw - this.lastYaw).toFloat()
         this.deltaPitch = abs(pitch - this.lastPitch).toFloat()
+        this.deltaPitchMcp = abs(pitch - this.lastPitch).toFloat()
+        this.deltaYawMcp = abs(MathUtil.angleDiff(yaw.toFloat(),lastYaw))
         val preRotation = PlayerRotationEvent(false, yaw, pitch, deltaYaw.toDouble(), deltaPitch.toDouble())
         user.handleEvent(preRotation)
         this.lastPitchAccel = this.pitchAccel
@@ -132,14 +141,14 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
 
     private fun processSensitivity() {
         val yawGcd: Float =
-            if (user.lastYawGcd == 0.0F) deltaYaw else MathUtil.getGcd(deltaYaw.toDouble(), lastDeltaYaw.toDouble()).toFloat()
+            if (user.lastYawGcd == 0.0F) deltaYawMcp else MathUtil.getGcd(deltaYawMcp.toDouble(), lastDeltaYawMcp.toDouble()).toFloat()
         val pitchGcd: Float =
-            if (user.lastPitchGcd == 0.0F) deltaPitch else MathUtil.getGcd(deltaPitch.toDouble(), lastDeltaPitch.toDouble()).toFloat()
+            if (user.lastPitchGcd == 0.0F) deltaPitchMcp else MathUtil.getGcd(deltaPitchMcp.toDouble(), lastDeltaPitchMcp.toDouble()).toFloat()
 
-        if (yawGcd >= 0.0096 && yawGcd <= 0.65) {
+        if (yawGcd in 0.0096..0.65) {
             user.yawGcdList.add(yawGcd)
         }
-        if (pitchGcd >= 0.0096 && pitchGcd <= 0.65) {
+        if (pitchGcd in 0.0096..0.65) {
             user.pitchGcdList.add(pitchGcd)
         }
 
@@ -165,6 +174,10 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
             }
             this.sensitivitySamples.clear()
         }
+        if (user.yawGcd == 0.0F || user.pitchGcd == 0.0F) return
+        gcdFacYaw = deltaYaw % user.yawGcd
+        gcdFacPitch = deltaPitch % user.pitchGcd
+
     }
     fun hasTooLowSensitivity(): Boolean {
         return finalSensitivity > -5 && finalSensitivity < 40
@@ -365,5 +378,13 @@ class RotationContainer(private val user: OnixUser) : IPlayerRotationData {
 
     override fun setCinematic(cinematic: Boolean) {
         this.cinematic = cinematic
+    }
+
+    override fun getGcdFactorYaw(): Float {
+        return gcdFacYaw
+    }
+
+    override fun getGcdFactorPitch(): Float {
+        return gcdFacPitch
     }
 }
