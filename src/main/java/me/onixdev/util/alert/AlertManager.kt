@@ -3,6 +3,7 @@ package me.onixdev.util.alert
 import dev.onixac.api.manager.IAlertManager
 import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
+import me.onixdev.messenger.util.packets.impl.OnixAlertPacket
 import me.onixdev.user.OnixUser
 import me.onixdev.util.color.MessageUtil
 import net.kyori.adventure.text.Component
@@ -46,7 +47,7 @@ class AlertManager(private val user: OnixUser) : IAlertManager {
             .replace("%type%", check.getType().uppercase())
             .replace("%verbose%", verbose)
             .replace("%experimental%", if (check.isExperimental) " *" else "")
-        user.sendProxy(finalAlertMsg)
+        user.sendProxy(OnixAlertPacket(finalAlertMsg))
     }
     @Suppress("DEPRECATION")
     fun handleVerbose(user: OnixUser, check: Check, verbose: String) {

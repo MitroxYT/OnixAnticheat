@@ -1,9 +1,13 @@
 package dev.onixac.api.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class OnixCommandBase {
 
@@ -31,6 +35,8 @@ public abstract class OnixCommandBase {
             return sender.hasPermission(getPermission());
         }
     }
+    public List<String> getPlayersFirst(String names) {return Bukkit.getOnlinePlayers().stream().map(Player::getName).filter(name -> name.toLowerCase().startsWith(names.toLowerCase())).collect(Collectors.toList());}
+    public List<String> getPlayers() {return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toCollection(ArrayList::new));}
 
     public abstract int getMinArgs();
 

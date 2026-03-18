@@ -32,6 +32,7 @@ import me.onixdev.check.impl.player.misc.data.PlayerPacketData;
 import me.onixdev.check.impl.player.misc.data.PlayerPayLoadHandler;
 import me.onixdev.event.impl.PlayerActionPacket;
 import me.onixdev.manager.CheckManager;
+import me.onixdev.messenger.util.packets.base.OnixPacket;
 import me.onixdev.user.data.*;
 import me.onixdev.util.alert.AlertManager;
 import me.onixdev.util.alert.PunishManager;
@@ -458,6 +459,10 @@ public class OnixUser implements IOnixUser {
     public void sendProxy(String message) {
         if (getBukkitPlayer() == null) return;
         OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player,message);
+    }
+    public void sendProxy(OnixPacket packet) {
+        if (getBukkitPlayer() == null) return;
+        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player,packet.encode());
     }
     public boolean isSpectator() {
         return player != null && player.getGameMode() == GameMode.SPECTATOR;

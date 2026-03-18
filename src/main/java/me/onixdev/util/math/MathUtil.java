@@ -140,7 +140,12 @@ public class MathUtil {
     public static long getGcd(long current, long previous) {
         return previous <= 16384L ? current : getGcd(previous, current % previous);
     }
-
+    public static float angleDiff(float a1, float a2) {
+        float diff = (a1 - a2) % 360f;
+        if (diff > 180f) { diff -= 360f; }
+        if (diff < -180f) { diff += 360f; }
+        return diff;
+    }
     public static double getGcd(double a, double b) {
         if (a < b) {
             return getGcd(b, a);

@@ -66,4 +66,8 @@ public interface IPlayerRotationData {
      float getConsistency();
 
      void setCinematic(boolean cinematic);
+
+     float getGcdFactorYaw();
+
+     float getGcdFactorPitch();
 }
