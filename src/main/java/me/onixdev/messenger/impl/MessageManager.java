@@ -3,9 +3,14 @@ package me.onixdev.messenger.impl;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.messenger.util.packets.base.PacketFactory;
+import me.onixdev.messenger.util.packets.impl.OnixAlertPacket;
+import me.onixdev.user.OnixUser;
+import me.onixdev.util.color.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.json.JSONObject;
 import org.jspecify.annotations.NonNull;
 
 public class MessageManager implements PluginMessageListener {
@@ -17,7 +22,16 @@ public class MessageManager implements PluginMessageListener {
     @Override
     public void onPluginMessageReceived(@NonNull String channel, @NonNull Player player, @NonNull byte[] message) {
         if (channel.equals(CHANNEL)) {
-
+            var messager = new String(message);
+            var json = new JSONObject(messager);
+            var packet = PacketFactory.INSTANCE.getPacket(json);
+            if (packet instanceof OnixAlertPacket alertPacket) {
+                for (OnixUser user:OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData()) {
+                    if (user.isAlertsEnabled()) {
+                        MessageUtil.sendMessage(user.getBukkitPlayer(),MessageUtil.miniMessage(alertPacket.getAlert()));
+                    }
+                }
+            }
         }
     }
     public void sendBungeeMessage(Player sender, String message) {

@@ -139,8 +139,9 @@ public class PunishManager {
                                 if (command.command.equals("[alert]")) {
                                     sentDebug = true;
                                   player.getAlertManager().handleAlert(player,check,verbose);
-                                }
-                                else {
+                                } else if (command.command.equals("[proxy]")) {
+                                    player.getAlertManager().onProxy(player,check,verbose);
+                                } else {
 
                                 String finalCmd = cmd;
                                 FoliaScheduler.getGlobalRegionScheduler().run(OnixAnticheat.INSTANCE.getPlugin(), (dummy) ->
