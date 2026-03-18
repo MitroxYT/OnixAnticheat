@@ -5,6 +5,7 @@ import com.github.retrooper.packetevents.util.Vector3f;
 import lombok.Getter;
 import me.onixdev.util.math.MathUtil;
 import me.onixdev.util.math.VanillaMath;
+import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 
@@ -84,6 +85,18 @@ public class Vec3 {
     public Vec3 normalize() {
         double d0 = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
         return d0 < 1.0E-4 ? ZERO : new Vec3(this.x / d0, this.y / d0, this.z / d0);
+    }
+    public Vec3 normal() {
+        double length = len();
+
+        x /= length;
+        y /= length;
+        z /= length;
+
+        return this;
+    }
+    public double len() {
+        return Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
     }
 
     public double dot(Vec3 pVec) {
@@ -183,20 +196,20 @@ public class Vec3 {
         return this.x * this.x + this.z * this.z;
     }
 
-//    @Override
-//    public boolean equals(Object pOther) {
-//        if (this == pOther) {
-//            return true;
-//        } else if (pOther instanceof Vec3 vec3) {
-//            if (Double.compare(vec3.x, this.x) != 0) {
-//                return false;
-//            } else {
-//                return Double.compare(vec3.y, this.y) != 0 ? false : Double.compare(vec3.z, this.z) == 0;
-//            }
-//        } else {
-//            return false;
-//        }
-//    }
+    @Override
+    public boolean equals(Object pOther) {
+        if (this == pOther) {
+            return true;
+        } else if (pOther instanceof Vec3 vec3) {
+            if (Double.compare(vec3.x, this.x) != 0) {
+                return false;
+            } else {
+                return Double.compare(vec3.y, this.y) != 0 ? false : Double.compare(vec3.z, this.z) == 0;
+            }
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public int hashCode() {
