@@ -29,6 +29,7 @@ class AutoSetupCommand : OnixCommandBase("setup") {
         sender: CommandSender,
         args: Array<out String?>?
     ): Boolean {
+        if (true) return true
         if (!args.isNullOrEmpty()) {
             if (args[0].equals("start")) {
                 setupStage = SetupStage.THEMA

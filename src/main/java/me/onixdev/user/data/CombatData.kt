@@ -4,6 +4,7 @@ import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
+import me.onixdev.util.extend.KotlinExtends.getData
 import me.onixdev.util.net.PlayerUtil
 import org.bukkit.entity.Player
 
@@ -13,6 +14,7 @@ class CombatData(private val user: OnixUser) {
     var lastAttacked: Int = 158145
     private var lastAttack: Long = 0
     var target: Player? = null
+    var onixTarget: OnixUser? = null
     fun onEvent(event: BaseEvent) {
         if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && user.bukkitPlayer != null) {
             target = PlayerUtil.getPlayer(event.id)
@@ -21,6 +23,7 @@ class CombatData(private val user: OnixUser) {
                 if (valid) {
                     lastAttacked = target!!.entityId
                     lastAttack = System.currentTimeMillis()
+                    onixTarget = (target as Player).getData()
                 }
             }
         }

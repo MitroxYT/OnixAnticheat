@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.doubles.AbstractDoubleList;
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import me.onixdev.util.math.MathUtil;
+import me.onixdev.util.vec.Vec3;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -68,6 +69,13 @@ public class SimpleCollisionBox implements CollisionBox {
 
     public SimpleCollisionBox(Location loc, double width, double height) {
         this(loc.toVector(), width, height);
+    }
+
+    public SimpleCollisionBox(Vec3 vec) {
+        this(vec.getX(), vec.getY(), vec.getZ(), vec.getX(), vec.getY(), vec.getZ());
+
+        expand(0.6 / 2, 0, 0.6 / 2);
+        maxY += 1.8F;
     }
 
     public SimpleCollisionBox(Vector vec, double width, double height) {
