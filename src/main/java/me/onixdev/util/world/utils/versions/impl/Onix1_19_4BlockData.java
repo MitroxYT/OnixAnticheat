@@ -13,7 +13,11 @@ import java.util.Locale;
 public class Onix1_19_4BlockData implements VersionCFR {
 
     private iBlockData blockData;
-    public Onix1_19_4BlockData() {loadBlockData();}
+
+    public Onix1_19_4BlockData() {
+        loadBlockData();
+    }
+
     private void loadBlockData() {
         this.blockData = new iBlockData() {
             @Override
@@ -85,7 +89,7 @@ public class Onix1_19_4BlockData implements VersionCFR {
 
             @Override
             public boolean isClimbable(final Block b) {
-                return b.getType().equals((Object) Material.LADDER) || b.getType().equals((Object)Material.VINE);
+                return b.getType().equals(Material.LADDER) || b.getType().equals(Material.VINE);
             }
 
             public boolean isInVoidHitbox(final Block b, final Location locationTo) {
@@ -276,12 +280,12 @@ public class Onix1_19_4BlockData implements VersionCFR {
             }
 
             public double getSnowLayerOffset(final Block b) {
-                return b.getType().equals((Object)Material.SNOW) ? ((BukkitNms.getDataFromBlock(b) - 1) * 0.125) : 0.0;
+                return b.getType().equals(Material.SNOW) ? ((BukkitNms.getDataFromBlock(b) - 1) * 0.125) : 0.0;
             }
 
             @Override
             public double getYOffset(final Block b) {
-                if (b.getType().equals((Object)Material.SNOW)) {
+                if (b.getType().equals(Material.SNOW)) {
                     return this.getSnowLayerOffset(b);
                 }
                 final String name = b.getType().name();

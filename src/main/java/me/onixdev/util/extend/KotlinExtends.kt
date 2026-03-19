@@ -7,15 +7,17 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object KotlinExtends {
-    fun Player.getData() : OnixUser? {
+    fun Player.getData(): OnixUser? {
         val user = OnixAnticheat.INSTANCE.playerDatamanager.get(uniqueId) ?: return null
         return user
     }
-    fun User.getData() : OnixUser? {
+
+    fun User.getData(): OnixUser? {
         val user = OnixAnticheat.INSTANCE.playerDatamanager.get(uuid) ?: return null
         return user
     }
-    fun Bukkit.getPlayerCompleteNames() : MutableList<String> {
-     return Bukkit.getOnlinePlayers().map { it.name }.toMutableList()
+
+    fun Bukkit.getPlayerCompleteNames(): MutableList<String> {
+        return Bukkit.getOnlinePlayers().map { it.name }.toMutableList()
     }
 }

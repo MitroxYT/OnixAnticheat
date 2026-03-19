@@ -1,7 +1,6 @@
 package me.onixdev.util.vec;
 
 
-
 import com.github.retrooper.packetevents.util.Vector3d;
 import me.onixdev.util.grimentity.boxes.SimpleCollisionBox;
 import me.onixdev.util.math.MathUtil;

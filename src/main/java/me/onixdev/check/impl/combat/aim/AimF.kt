@@ -4,15 +4,13 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerRotationEvent
 import me.onixdev.user.OnixUser
-import kotlin.math.abs
 
 @CheckInfo(name = "Aim", type = "F", stage = CheckStage.EXPERIMENTAL, maxBuffer = 7.0, decayBuffer = 0.25)
-class AimF(player:OnixUser) : Check(player) {
+class AimF(player: OnixUser) : Check(player) {
     private var lastTickFlagget: Boolean = false
-    private var minFovFactor:Double = Double.MAX_VALUE
+    private var minFovFactor: Double = Double.MAX_VALUE
     private var buffer: Double = 0.0
     override fun onEvent(event: BaseEvent?) {
         if (event is PlayerRotationEvent && !event.isPost && player.lastHitTime < 4) {
@@ -47,7 +45,7 @@ class AimF(player:OnixUser) : Check(player) {
     }
 
     override fun reload() {
-        minFovFactor = checkConfig.getDouble(checkPatch+"minFov",85.0)
+        minFovFactor = checkConfig.getDouble(checkPatch + "minFov", 85.0)
         super.reload()
     }
 }

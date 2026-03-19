@@ -12,7 +12,7 @@ class ClickData(private val user: OnixUser) : IPlayerClickData {
     private val clicks: MutableList<Int?> = ArrayList<Int?>()
     private var clicking = false
     fun handlePacket(event: PacketReceiveEvent) {
-        if (PacketUtil.isTickPacketLegacy(event.getPacketType())) {
+        if (PacketUtil.isTickPacketLegacy(event.packetType)) {
             totalTickPacketsSent++
         }
 
@@ -36,6 +36,7 @@ class ClickData(private val user: OnixUser) : IPlayerClickData {
             }
         }
     }
+
     override fun getCPS(): Int {
         return clicks.size
     }

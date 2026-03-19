@@ -7,11 +7,13 @@ import org.bukkit.util.Vector
 class Rotation {
     var yaw: Double = 0.0
     var pitch: Double = 0.0
-    constructor(yaw: Double, pitch: Double){
+
+    constructor(yaw: Double, pitch: Double) {
         this.yaw = yaw
         this.pitch = pitch
     }
+
     fun toDirection(): Vector {
-        return PlayerUtil.getDirection(yaw.toFloat(),pitch.toFloat())
+        return PlayerUtil.getDirection(yaw.toFloat(), pitch.toFloat())
     }
 }

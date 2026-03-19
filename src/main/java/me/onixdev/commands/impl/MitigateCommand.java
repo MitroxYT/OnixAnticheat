@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MitigateCommand extends OnixCommandBase {
     private final List<String> mitigates = Arrays.asList(

@@ -5,7 +5,6 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerActionPacket
 import me.onixdev.user.OnixUser
 
@@ -33,10 +32,7 @@ class BadPacketB(player: OnixUser?) : Check(player) {
     }
 
     fun validdate(): Boolean {
-        if (player.isUsingBukkitItem) {
-            return false
-        }
-        return true
+        return !player.isUsingBukkitItem
     }
 
     override fun reload() {

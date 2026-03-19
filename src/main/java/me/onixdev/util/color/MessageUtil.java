@@ -20,6 +20,7 @@ public class MessageUtil {
     private static final Pattern Cp = Pattern.compile("(?i)" + '§' + "[0-9A-FK-ORX]");
     private static final Pattern HEX_PATTERN = Pattern.compile("([&§]#[A-Fa-f0-9]{6})|([&§]x([&§][A-Fa-f0-9]){6})");
     private static final BukkitAudiences adventure = BukkitAudiences.create(OnixAnticheat.INSTANCE.getPlugin());
+
     public static String translate(String input) {
         if (input == null || input.isEmpty()) {
             return input;
@@ -29,6 +30,7 @@ public class MessageUtil {
         return LegacyComponentSerializer.builder().character('§').hexColors().useUnusualXRepeatedCharacterHexFormat()
                 .build().serialize(component).replace("&", "§");
     }
+
     public static String listToString(List<String> list) {
         if (list == null || list.isEmpty()) {
             return "";
@@ -36,6 +38,7 @@ public class MessageUtil {
         String line = String.join("\n", list);
         return line;
     }
+
     public static @NotNull Component miniMessage(@NotNull String string) {
         Matcher matcher = HEX_PATTERN.matcher(string);
         StringBuffer sb = new StringBuffer(string.length());
@@ -72,6 +75,7 @@ public class MessageUtil {
 
         return MiniMessage.miniMessage().deserialize(string).compact();
     }
+
     public static @NotNull Component miniMessageNotOptimized(@NotNull String string) {
         Matcher matcher = HEX_PATTERN.matcher(string);
         StringBuffer sb = new StringBuffer(string.length());
@@ -108,9 +112,9 @@ public class MessageUtil {
 
         return MiniMessage.miniMessage().deserialize(string);
     }
+
     public static void sendMessage(@NotNull CommandSender commandSender, @NotNull Component component) {
-        if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
+        if (commandSender instanceof Player player) {
             FoliaScheduler.getEntityScheduler().run(
                     player,
                     OnixAnticheat.INSTANCE.getPlugin(),
@@ -129,6 +133,7 @@ public class MessageUtil {
     public static @Nullable String stripColor(@Nullable String input) {
         return input == null ? null : Cp.matcher(input).replaceAll("");
     }
+
     public static @NotNull String translateAlternateColorCodes(char altColorChar, @NotNull String textToTranslate) {
         char[] b = textToTranslate.toCharArray();
 

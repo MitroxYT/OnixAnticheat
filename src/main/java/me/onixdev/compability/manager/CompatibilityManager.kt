@@ -9,7 +9,8 @@ class CompatibilityManager {
     var isLeafTicking: Boolean = false
     var isHasPlugman: Boolean = false
 
-    private val checks: MutableList<ICompabilityCheck> = mutableListOf(LeafCompabilityWorldTicking(), ViaBackwardsTransactionPing(), PlugmanCompability())
+    private val checks: MutableList<ICompabilityCheck> =
+        mutableListOf(LeafCompabilityWorldTicking(), ViaBackwardsTransactionPing(), PlugmanCompability())
 
     init {
         for (check in checks) {

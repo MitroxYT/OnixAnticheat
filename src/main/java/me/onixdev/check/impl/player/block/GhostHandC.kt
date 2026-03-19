@@ -7,7 +7,6 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import me.onixdev.OnixAnticheat
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import org.bukkit.Material
@@ -21,7 +20,7 @@ class GhostHandC(user: OnixUser) : Check(user) {
             if (player.bukkitPlayer == null) return
             val use = WrapperPlayClientUseItem(event)
             val itemInHand = player.inventory.getItemInHand(use.hand)
-            val result = PlayerUtil.raytrace(player.bukkitPlayer,player.rotation.toDirection(), 2.0, 0.5)
+            val result = PlayerUtil.raytrace(player.bukkitPlayer, player.rotation.toDirection(), 2.0, 0.5)
             if (result.second != null && !player.bukkitPlayer.isSneaking) {
                 val block = result.second!!
                 if (block.type == Material.CRAFTING_TABLE && itemInHand.type == Material.ENDER_PEARL || block.type == Material.FURNACE && itemInHand.type == Material.ENDER_PEARL) {

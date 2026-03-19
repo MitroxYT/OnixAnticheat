@@ -45,7 +45,7 @@ public final class BoundingBoxSize {
             return player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9) ? 0.4f : 0.6f;
         } else if (type == EntityTypes.CREAKING || type == EntityTypes.STRIDER || type == EntityTypes.COW || type == EntityTypes.SHEEP || type == EntityTypes.MOOSHROOM || type == EntityTypes.PIG || type == EntityTypes.LLAMA || type == EntityTypes.DOLPHIN || type == EntityTypes.WITHER || type == EntityTypes.TRADER_LLAMA || type == EntityTypes.WARDEN || type == EntityTypes.GOAT) {
             return 0.9f;
-        }   else if (type == EntityTypes.END_CRYSTAL) {
+        } else if (type == EntityTypes.END_CRYSTAL) {
             return 2f;
         } else if (type == EntityTypes.ENDER_DRAGON) {
             return 16f;
@@ -59,7 +59,7 @@ public final class BoundingBoxSize {
             return 0.85f;
         } else if (type == EntityTypes.IRON_GOLEM) {
             return 1.4f;
-        }  else if (EntityTypes.isTypeInstanceOf(type, EntityTypes.MINECART_ABSTRACT)) {
+        } else if (EntityTypes.isTypeInstanceOf(type, EntityTypes.MINECART_ABSTRACT)) {
             return 0.98f;
         } else if (type == EntityTypes.PLAYER || type == EntityTypes.MANNEQUIN) {
             return 0.6f;
@@ -69,7 +69,7 @@ public final class BoundingBoxSize {
             return 1.95f;
         } else if (type == EntityTypes.SHULKER) {
             return 1f;
-        }  else if (type == EntityTypes.SMALL_FIREBALL) {
+        } else if (type == EntityTypes.SMALL_FIREBALL) {
             return 0.3125f;
         } else if (type == EntityTypes.SPIDER) {
             return 1.4f;
@@ -200,7 +200,7 @@ public final class BoundingBoxSize {
             return 1.7f;
         } else if (type == EntityTypes.DONKEY) {
             return 1.5f;
-        }  else if (type == EntityTypes.ENDERMAN || type == EntityTypes.WARDEN) {
+        } else if (type == EntityTypes.ENDERMAN || type == EntityTypes.WARDEN) {
             return 2.9f;
         } else if (type == EntityTypes.ENDERMITE || type == EntityTypes.COD) {
             return 0.3f;
@@ -228,7 +228,7 @@ public final class BoundingBoxSize {
             return 1.87f;
         } else if (type == EntityTypes.TROPICAL_FISH) {
             return 0.4f;
-        }  else if (EntityTypes.isTypeInstanceOf(type, EntityTypes.MINECART_ABSTRACT)) {
+        } else if (EntityTypes.isTypeInstanceOf(type, EntityTypes.MINECART_ABSTRACT)) {
             return 0.7f;
         } else if (type == EntityTypes.MULE) {
             return 1.6f;
@@ -260,7 +260,7 @@ public final class BoundingBoxSize {
             return player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9) ? 1.99f : 1.95f;
         } else if (type == EntityTypes.SKELETON_HORSE) {
             return 1.6f;
-        }  else if (type == EntityTypes.SMALL_FIREBALL) {
+        } else if (type == EntityTypes.SMALL_FIREBALL) {
             return 0.3125f;
         } else if (type == EntityTypes.SNOW_GOLEM) {
             return 1.9f;

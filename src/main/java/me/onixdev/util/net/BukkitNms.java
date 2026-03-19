@@ -3,9 +3,6 @@ package me.onixdev.util.net;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
-import com.github.retrooper.packetevents.protocol.item.type.ItemType;
-import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
-import lombok.experimental.UtilityClass;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
@@ -17,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -59,6 +55,7 @@ public class BukkitNms {
             player.updateInventory();
         }
     }
+
     static {
         Predicate<Player> isUsingBukkitItem0 = null;
         try {

@@ -42,7 +42,7 @@ public final class SingUtil {
         FoliaScheduler.getRegionScheduler().run(OnixAnticheat.INSTANCE.getPlugin(), loc, task -> {
             final WrappedBlockState original = SpigotConversionUtil.fromBukkitBlockData(loc.getBlock().getState().getBlockData());
 
-            FoliaScheduler.getAsyncScheduler().runNow(OnixAnticheat.INSTANCE.getPlugin(),task2 -> {
+            FoliaScheduler.getAsyncScheduler().runNow(OnixAnticheat.INSTANCE.getPlugin(), task2 -> {
                 final Vector3i pos = SpigotConversionUtil.fromBukkitLocation(loc).getPosition().toVector3i();
 
                 final WrapperPlayServerBundle bundle = new WrapperPlayServerBundle();

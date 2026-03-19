@@ -6,12 +6,12 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 class AnimationCommand : OnixCommandBase("punish") {
-    override fun getDescription(): String? {
+    override fun getDescription(): String {
         return "execute command and punish player"
     }
 
     override fun getMinArgs(): Int {
-      return 2
+        return 2
     }
 
     override fun getMaxArgs(): Int {
@@ -27,12 +27,12 @@ class AnimationCommand : OnixCommandBase("punish") {
         args: Array<out String?>?
     ): Boolean {
         if (args != null) {
-            val name= args[0]
+            val name = args[0]
             val player = args[1]
             val bplayer = Bukkit.getServer().getPlayer(player.toString())
             val command = getCommand(args)
             if (command.isNotBlank()) {
-                OnixAnticheat.INSTANCE.animationManager.startPunishment(name,bplayer,command)
+                OnixAnticheat.INSTANCE.animationManager.startPunishment(name, bplayer, command)
             }
             sender.sendMessage("Анимация запущена")
         }
@@ -51,7 +51,7 @@ class AnimationCommand : OnixCommandBase("punish") {
     override fun onTabComplete(
         sender: CommandSender?,
         args: Array<out String?>?
-    ): List<String?>? {
+    ): List<String?> {
         if (args != null) {
             if (args.size == 1) {
                 return listOf("Thunder")

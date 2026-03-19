@@ -2,9 +2,8 @@ package me.onixdev.check.impl.movement.noslow
 
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
-import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import dev.onixac.api.events.api.BaseEvent
+import me.onixdev.check.api.Check
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 import kotlin.math.abs

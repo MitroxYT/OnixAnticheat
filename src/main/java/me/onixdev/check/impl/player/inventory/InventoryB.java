@@ -5,10 +5,12 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientCloseWindow;
 import dev.onixac.api.check.CheckInfo;
 import dev.onixac.api.check.CheckStage;
-import me.onixdev.check.api.Check;
-import me.onixdev.check.api.CheckBuilder;
 import dev.onixac.api.events.api.BaseEvent;
-import me.onixdev.event.impl.*;
+import me.onixdev.check.api.Check;
+import me.onixdev.event.impl.PlayerClickEvent;
+import me.onixdev.event.impl.PlayerCloseInventoryEvent;
+import me.onixdev.event.impl.PlayerPickEvent;
+import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 
 @CheckInfo(name = "Inventory", type = "B", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
@@ -16,10 +18,12 @@ public class InventoryB extends Check {
     private boolean receivedClick = false;
     private long lastClickTime = 0;
     private double buffer;
-    private boolean clicked,picked = false;
+    private boolean clicked, picked = false;
+
     public InventoryB(OnixUser player) {
         super(player);
     }
+
     @Override
     public void onPacketIn(PacketReceiveEvent event) {
         if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
@@ -46,14 +50,14 @@ public class InventoryB extends Check {
             }
         }
     }
+
     @Override
-        public void onEvent(BaseEvent event) {
-            if (event instanceof PlayerClickEvent) {
-                PlayerClickEvent clickEvent = (PlayerClickEvent) event;
-                if (((PlayerClickEvent) event).isPlayer()) {
-                    clicked = true;
-                }
+    public void onEvent(BaseEvent event) {
+        if (event instanceof PlayerClickEvent clickEvent) {
+            if (((PlayerClickEvent) event).isPlayer()) {
+                clicked = true;
             }
+        }
         if (event instanceof PlayerPickEvent) {
             picked = true;
         }
@@ -67,7 +71,8 @@ public class InventoryB extends Check {
             }
         }
         if (event instanceof TickEvent) {
-            if (((TickEvent) event).getTickType() == TickEvent.Target.FLYING || ((TickEvent) event).getTickType() == TickEvent.Target.TRANSACTION) clicked = picked = false;
+            if (((TickEvent) event).getTickType() == TickEvent.Target.FLYING || ((TickEvent) event).getTickType() == TickEvent.Target.TRANSACTION)
+                clicked = picked = false;
         }
     }
 }

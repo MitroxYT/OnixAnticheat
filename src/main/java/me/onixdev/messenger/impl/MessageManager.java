@@ -15,10 +15,12 @@ import org.jspecify.annotations.NonNull;
 
 public class MessageManager implements PluginMessageListener {
     private final String CHANNEL = "onixac:msg";
+
     public MessageManager() {
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(OnixAnticheat.INSTANCE.getPlugin(),CHANNEL);
-        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(OnixAnticheat.INSTANCE.getPlugin(),CHANNEL,this);
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(OnixAnticheat.INSTANCE.getPlugin(), CHANNEL);
+        Bukkit.getServer().getMessenger().registerIncomingPluginChannel(OnixAnticheat.INSTANCE.getPlugin(), CHANNEL, this);
     }
+
     @Override
     public void onPluginMessageReceived(@NonNull String channel, @NonNull Player player, @NonNull byte[] message) {
         if (channel.equals(CHANNEL)) {
@@ -26,18 +28,19 @@ public class MessageManager implements PluginMessageListener {
             var json = new JSONObject(messager);
             var packet = PacketFactory.INSTANCE.getPacket(json);
             if (packet instanceof OnixAlertPacket alertPacket) {
-                for (OnixUser user:OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData()) {
+                for (OnixUser user : OnixAnticheat.INSTANCE.getPlayerDatamanager().getAllData()) {
                     if (user.isAlertsEnabled()) {
-                        MessageUtil.sendMessage(user.getBukkitPlayer(),MessageUtil.miniMessage(alertPacket.getAlert()));
+                        MessageUtil.sendMessage(user.getBukkitPlayer(), MessageUtil.miniMessage(alertPacket.getAlert()));
                     }
                 }
             }
         }
     }
+
     public void sendBungeeMessage(Player sender, String message) {
         ByteArrayDataOutput byteArrayOutputStream = ByteStreams.newDataOutput();
         byteArrayOutputStream.writeUTF(message);
-        sender.sendPluginMessage(OnixAnticheat.INSTANCE.getPlugin(),CHANNEL, byteArrayOutputStream.toByteArray());
+        sender.sendPluginMessage(OnixAnticheat.INSTANCE.getPlugin(), CHANNEL, byteArrayOutputStream.toByteArray());
     }
 
     public void disable() {

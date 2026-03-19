@@ -19,5 +19,5 @@ class InventoryD(user: OnixUser) : Check(user) {
     var lastClickedSlot: Int = 0
 
     @JvmField
-    var lastClickedItemStack: ItemStack = org.bukkit.inventory.ItemStack(Material.AIR)
+    var lastClickedItemStack: ItemStack = ItemStack(Material.AIR)
 }

@@ -22,6 +22,7 @@ public class PlayerMoveListener implements Listener {
             }
         });
     }
+
     @EventHandler
     public void onPlayerTeleport(final PlayerTeleportEvent event) {
         final Player player = event.getPlayer();

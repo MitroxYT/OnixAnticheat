@@ -25,11 +25,13 @@ class PlayerPacketData(user: OnixUser) : Check(user, CheckBuilder().setCheckName
                 val dig = WrapperPlayClientPlayerDigging(event)
                 if (dig.action == DiggingAction.SWAP_ITEM_WITH_OFFHAND) swapping = true
             }
+
             PacketType.Play.Client.USE_ITEM -> using = true
 
             PacketType.Play.Client.ENTITY_ACTION -> {
                 val ac = WrapperPlayClientEntityAction(event)
-                if (ac.action == WrapperPlayClientEntityAction.Action.START_SPRINTING || ac.action == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) sprinting = true
+                if (ac.action == WrapperPlayClientEntityAction.Action.START_SPRINTING || ac.action == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) sprinting =
+                    true
             }
 
             PacketType.Play.Client.INTERACT_ENTITY -> {

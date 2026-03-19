@@ -17,7 +17,8 @@ import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.math.Pair;
 
-import java.util.*;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;

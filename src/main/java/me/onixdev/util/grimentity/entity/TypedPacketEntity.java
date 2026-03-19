@@ -36,7 +36,9 @@ public abstract class TypedPacketEntity {
       Persistent Projectiles can only be hit if they're not on the ground and redirectable
     */
     // TLDR If we want to get 90% of the way there everything can be hit except for fishing rod bobbers, arrows, and marker armor stands
-    public boolean canHit() { return true; }
+    public boolean canHit() {
+        return true;
+    }
 
     public boolean isPushable() {
         // Players can only push living entities

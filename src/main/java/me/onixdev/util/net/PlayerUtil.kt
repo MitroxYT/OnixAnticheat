@@ -18,9 +18,15 @@ object PlayerUtil {
         val z = cos(yawRad) * cos(pitchRad)
         return Vector(x, y, z).normalize()
     }
-    fun raytrace(player: Player, direction: Vector,maxDistance:Double,stepSize:Double): me.onixdev.util.math.Pair<Int, Block> {
+
+    fun raytrace(
+        player: Player,
+        direction: Vector,
+        maxDistance: Double,
+        stepSize: Double
+    ): me.onixdev.util.math.Pair<Int, Block> {
         if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) {
-            return me.onixdev.util.math.Pair(null,null)
+            return me.onixdev.util.math.Pair(null, null)
         }
         val eyeLocation = player.eyeLocation
         val currentPos = eyeLocation.clone()
@@ -31,13 +37,14 @@ object PlayerUtil {
             val block = currentPos.block
 
             if (!isAir(block)) {
-              return me.onixdev.util.math.Pair(currentStep,block)
+                return me.onixdev.util.math.Pair(currentStep, block)
             }
             distance += stepSize
             currentStep++
         }
-        return me.onixdev.util.math.Pair(null,null)
+        return me.onixdev.util.math.Pair(null, null)
     }
+
     fun getPlayer(id: Int): Player? {
         for (entity in Bukkit.getOnlinePlayers()) {
             if (entity.entityId == id) {
@@ -46,11 +53,13 @@ object PlayerUtil {
         }
         return null
     }
+
     fun isFullBlock(block: Block): Boolean {
         val box = block.boundingBox
-        val size = box.getMax().subtract(box.getMin())
+        val size = box.max.subtract(box.min)
         return size.getX() == 1.0 && size.getY() == 1.0 && size.getZ() == 1.0
     }
+
     fun isAir(block: Block): Boolean {
         return when (block.type) {
             Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.LEGACY_AIR ->

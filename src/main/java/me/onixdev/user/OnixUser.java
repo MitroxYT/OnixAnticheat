@@ -170,21 +170,25 @@ public class OnixUser implements IOnixUser {
             check.reload();
         }
         compensatedEntities = new CompensatedEntities(this);
-        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(OnixAnticheat.INSTANCE.getPlugin(),()-> {
+        OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLaterAsynchronously(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             if (player != null) {
                 if (OnixAnticheat.INSTANCE.getConfigManager().enableAlertsOnJoin && (player != null && player.hasPermission("onix.alerts.join"))) {
                     alertManager.toggleAlerts();
                 }
                 checkPermissions();
             }
-        },20 * 3);
+        }, 20 * 3);
     }
+
     public void checkPermissions() {
         if (player == null) return;
         for (Check check : checks) {
-            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled")) check.setEnabled(false);
-            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".setback")) check.setSetback(false);
-            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".cancel")) check.setCancel(false);
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled"))
+                check.setEnabled(false);
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".setback"))
+                check.setSetback(false);
+            if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".cancel"))
+                check.setCancel(false);
         }
     }
 
@@ -456,14 +460,17 @@ public class OnixUser implements IOnixUser {
     public boolean isDead() {
         return player != null && isDead;
     }
+
     public void sendProxy(String message) {
         if (getBukkitPlayer() == null) return;
-        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player,message);
+        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player, message);
     }
+
     public void sendProxy(OnixPacket packet) {
         if (getBukkitPlayer() == null) return;
-        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player,packet.encode());
+        OnixAnticheat.INSTANCE.getMessageManager().sendBungeeMessage(player, packet.encode());
     }
+
     public boolean isSpectator() {
         return player != null && player.getGameMode() == GameMode.SPECTATOR;
     }

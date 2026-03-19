@@ -14,9 +14,9 @@ class PlayerAttackHandler : Listener {
             val player = event.damager as Player
             val onixUser = player.getData()
             if (onixUser != null) {
-               if (onixUser.shouldMitigate() && onixUser.mitigateType == "reducedamage") {
-                   event.damage *= OnixAnticheat.INSTANCE.configManager.damageMultiPlayer
-               }
+                if (onixUser.shouldMitigate() && onixUser.mitigateType == "reducedamage") {
+                    event.damage *= OnixAnticheat.INSTANCE.configManager.damageMultiPlayer
+                }
             }
         }
     }

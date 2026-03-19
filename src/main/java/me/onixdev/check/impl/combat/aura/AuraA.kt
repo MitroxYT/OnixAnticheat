@@ -1,19 +1,13 @@
 package me.onixdev.check.impl.combat.aura
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
-import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes
 import com.github.retrooper.packetevents.protocol.packettype.PacketType.Play
-import com.github.retrooper.packetevents.protocol.player.GameMode
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity.InteractAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
-import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
-import me.onixdev.event.impl.PlayerUseEntityEvent
-import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
 
 @CheckInfo(name = "AuraA", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)

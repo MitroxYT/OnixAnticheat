@@ -29,12 +29,12 @@ class DebugCommand : OnixCommandBase("debug") {
     override fun onCommand(sender: CommandSender, args: Array<out String>?): Boolean {
         val p = sender as Player
         val user = OnixAnticheat.INSTANCE.playerDatamanager[p.uniqueId]
-        user?.toggleDebug();
+        user?.toggleDebug()
         return true
     }
 
     override fun onTabComplete(sender: CommandSender?, args: Array<out String>?): MutableList<String> {
-      //  TODO("Not yet implemented")
+        //  TODO("Not yet implemented")
         return mutableListOf()
     }
 

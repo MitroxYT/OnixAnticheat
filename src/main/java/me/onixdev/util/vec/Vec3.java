@@ -86,6 +86,7 @@ public class Vec3 {
         double d0 = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
         return d0 < 1.0E-4 ? ZERO : new Vec3(this.x / d0, this.y / d0, this.z / d0);
     }
+
     public Vec3 normal() {
         double length = len();
 
@@ -95,6 +96,7 @@ public class Vec3 {
 
         return this;
     }
+
     public double len() {
         return Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
     }

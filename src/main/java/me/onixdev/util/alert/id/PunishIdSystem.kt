@@ -15,16 +15,16 @@ object PunishIdSystem {
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
     fun logPunish(user: OnixUser?, check: Check, id: String?, verbose: String?) {
         val filesDir =
-            File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder().getAbsolutePath() + File.separator + "punish")
+            File(OnixAnticheat.INSTANCE.plugin.dataFolder.absolutePath + File.separator + "punish")
         if (!filesDir.exists()) {
             filesDir.mkdirs()
         }
-        val file = File(filesDir.getAbsolutePath() + File.separator + id + ".json")
+        val file = File(filesDir.absolutePath + File.separator + id + ".json")
         if (!file.exists()) {
             try {
                 file.createNewFile()
                 val `object` = JsonObject()
-                `object`.addProperty("checkName", check.getName())
+                `object`.addProperty("checkName", check.name)
                 `object`.addProperty("checkType", check.getType())
                 `object`.addProperty("vl", check.getVl())
                 `object`.addProperty("verbose", verbose)
@@ -45,6 +45,6 @@ object PunishIdSystem {
     }
 
     fun getID(name: String?): String {
-        return name + ThreadLocalRandom.current().nextInt(0, Int.Companion.MAX_VALUE).toString()
+        return name + ThreadLocalRandom.current().nextInt(0, Int.MAX_VALUE).toString()
     }
 }

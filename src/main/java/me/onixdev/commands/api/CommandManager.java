@@ -15,6 +15,7 @@ import java.util.*;
 
 public class CommandManager implements TabExecutor, ICommandManager {
     private final List<OnixCommandBase> commands = new ArrayList<>();
+
     public CommandManager() {
         registerCommmand(new VerboseCommands());
         registerCommmand(new ReloadCommand());
@@ -26,6 +27,7 @@ public class CommandManager implements TabExecutor, ICommandManager {
         registerCommmand(new AnimationCommand());
         registerCommmand(new ChecksCommand());
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!label.equalsIgnoreCase("onix")) {
@@ -113,7 +115,7 @@ public class CommandManager implements TabExecutor, ICommandManager {
      */
     @Override
     public Optional<OnixCommandBase> getCommand(String name) {
-        for (OnixCommandBase command: commands) {
+        for (OnixCommandBase command : commands) {
             if (command.getName().equals(name)) return Optional.of(command);
         }
         return Optional.empty();
@@ -144,6 +146,7 @@ public class CommandManager implements TabExecutor, ICommandManager {
                 ++index;
             }
             commands.remove(index);
-        } catch (ConcurrentModificationException ignored) {}
+        } catch (ConcurrentModificationException ignored) {
+        }
     }
 }

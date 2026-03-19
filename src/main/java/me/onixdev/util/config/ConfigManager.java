@@ -53,8 +53,8 @@ public class ConfigManager {
     private void updateAllConfigFiles() {
 
         var configFiles = Map.of(
-                "config.yml",   1.0,
-                "checks.yml",   1.0,
+                "config.yml", 1.0,
+                "checks.yml", 1.0,
                 "messages.yml", 1.0
         );
 
@@ -79,6 +79,7 @@ public class ConfigManager {
 
         reload();
     }
+
     private boolean updateSingleConfig(String fileName, double latestVersion) {
         File file = new File(OnixAnticheat.INSTANCE.getPlugin().getDataFolder(), fileName);
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();
@@ -146,70 +147,70 @@ public class ConfigManager {
     public boolean effectHider;
 
     private void init() {
-        String color = messagesconfig.getString("system","MINIMESSAGE");
+        String color = messagesconfig.getString("system", "MINIMESSAGE");
         if (color.equals("MINIMESSAGE")) {
             OnixAnticheat.INSTANCE.setColorizer(new MiniMessageColor());
-        }
-        else {
+        } else {
             OnixAnticheat.INSTANCE.setColorizer(new LegacyHexColor());
         }
-        fixHoverSystemCompability = getConfig().getBoolean("disable-hover-message",false);
-        damageMultiPlayer = getConfig().getDouble("mitigations.damage-reduce",1.0);
-        verboseToConsoe = getConfig().getBoolean("verbose-to-console",false);
-        resetVl = getConfig().getDouble("reset-time",3.0);
+        fixHoverSystemCompability = getConfig().getBoolean("disable-hover-message", false);
+        damageMultiPlayer = getConfig().getDouble("mitigations.damage-reduce", 1.0);
+        verboseToConsoe = getConfig().getBoolean("verbose-to-console", false);
+        resetVl = getConfig().getDouble("reset-time", 3.0);
         if (damageMultiPlayer > 1.0) damageMultiPlayer = 1.0;
         prefix = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("prefix", "§7[§bOnixAnticheatAC§7] §8» §7"));
         alertsformat = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts_format", "%prefix% &aИгрок&r &5%player%&r &aпровалил &r&4%check_name%&r%experimental% &r&f&l(x&b%vl%&f&l) &5%verbose%&f&l."));
         profileMessage = OnixAnticheat.INSTANCE.getColorizer().colorize(MessageUtil.listToString(messagesconfig.getStringList("profile")));
-        onAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-on","%prefix% <gray> alerts <green> on"));
-        offAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-off","%prefix% <gray> alerts <green> off"));
+        onAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-on", "%prefix% <gray> alerts <green> on"));
+        offAlertsMsg = OnixAnticheat.INSTANCE.getColorizer().colorize(messagesconfig.getString("alerts-off", "%prefix% <gray> alerts <green> off"));
         healthHider = config.getBoolean("visual.metadata-hider.health", false);
         xpHider = config.getBoolean("visual.metadata-hider.xp", false);
         absorptionHider = config.getBoolean("visual.metadata-hider.absorption", false);
         saturationHider = config.getBoolean("visual.metadata-hider.saturation", false);
-        fixHeathBypass = config.getBoolean("visual.metadata-hider.fix-scoreboard",false);
+        fixHeathBypass = config.getBoolean("visual.metadata-hider.fix-scoreboard", false);
         effectHider = config.getBoolean("visual.metadata-hider.effects", false);
-        enableAlertsOnJoin = config.getBoolean("enable-alert-on-join",false);
+        enableAlertsOnJoin = config.getBoolean("enable-alert-on-join", false);
     }
 
     public String getProFileMsg() {
         return profileMessage;
     }
+
     public String getUrl() {
         return "localhost:8080";
     }
 
-    
+
     public String getPrefix() {
         return this.prefix;
     }
 
-    
+
     public String getAlertsformat() {
         return this.alertsformat;
     }
 
-    
+
     public List<String> getHover() {
         return this.hover;
     }
 
-    
+
     public String getOnAlertsMsg() {
         return this.onAlertsMsg;
     }
 
-    
+
     public String getOffAlertsMsg() {
         return this.offAlertsMsg;
     }
 
-    
+
     public String getHoverMsg() {
         return this.hoverMsg;
     }
 
-    
+
     public String getProfileMessage() {
         return this.profileMessage;
     }
@@ -217,19 +218,21 @@ public class ConfigManager {
     public boolean getVerboseToConsole() {
         return verboseToConsoe;
     }
+
     public YamlConfiguration getMessagesconfig() {
         return this.messagesconfig;
     }
+
     public boolean isFixHoverSystemCompability() {
         return fixHoverSystemCompability;
     }
 
-    
+
     public YamlConfiguration getChecksconfig() {
         return this.checksconfig;
     }
 
-    
+
     public YamlConfiguration getConfig() {
         return this.config;
     }

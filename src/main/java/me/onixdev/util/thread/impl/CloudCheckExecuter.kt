@@ -7,8 +7,10 @@ import java.util.concurrent.Executors
 
 class CloudCheckExecuter : IThreadExecutor {
     private var executor: ExecutorService? = null
+
     init {
-        executor = Executors.newFixedThreadPool(1, ThreadFactoryBuilder().setNameFormat("Onix-CloudExecuter %d").build())
+        executor =
+            Executors.newFixedThreadPool(1, ThreadFactoryBuilder().setNameFormat("Onix-CloudExecuter %d").build())
     }
 
     override fun run(runnable: Runnable?) {

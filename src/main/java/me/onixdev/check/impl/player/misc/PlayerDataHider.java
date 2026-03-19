@@ -21,8 +21,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("all")
 public class PlayerDataHider extends Check {
     private final Set<String> healthObjectives = ConcurrentHashMap.newKeySet();
+
     public PlayerDataHider(OnixUser player) {
-        super(player,CheckBuilder.create().setCheckName("aaaaa").setType("a").build());
+        super(player, CheckBuilder.create().setCheckName("aaaaa").setType("a").build());
     }
 
     @SuppressWarnings("unchecked")
@@ -33,44 +34,44 @@ public class PlayerDataHider extends Check {
             int entityId = wrapper.getEntityId();
             if (event.getUser().getEntityId() != entityId) {
                 PacketEntity entity = player.compensatedEntities.getEntity(entityId);
-                if (entity == null ||  entity.type != EntityTypes.PLAYER) return;
-                    List<? extends EntityData> entityMetaData = wrapper.getEntityMetadata();
+                if (entity == null || entity.type != EntityTypes.PLAYER) return;
+                List<? extends EntityData> entityMetaData = wrapper.getEntityMetadata();
 
-                    boolean shouldPush = false;
-                    Random random = new Random();
-                    Iterator iterator = entityMetaData.iterator();
+                boolean shouldPush = false;
+                Random random = new Random();
+                Iterator iterator = entityMetaData.iterator();
 
-                    while (true) {
-                        while (iterator.hasNext()) {
+                while (true) {
+                    while (iterator.hasNext()) {
 
-                            EntityData data = (EntityData) iterator.next();
-                            if (OnixAnticheat.INSTANCE.getConfigManager().healthHider && data.getIndex() == MinecraftValues.HEALTH) {
-                                float health = Float.parseFloat(String.valueOf(data.getValue()));
-                                if (health > 0.0F) {
-                                    int randomHealth =  (1 + random.nextInt(20));
-                                    setDynamicValue(data, randomHealth);
-                                  //  data.setValue(randomHealth);
-                                    shouldPush = true;
-                                }
-                            } else if (OnixAnticheat.INSTANCE.getConfigManager().absorptionHider && data.getIndex() == MinecraftValues.ABSORPTION) {
-//                                setDynamicValue(data, 1000);
-                                int randomHealth =  (1 + random.nextInt(20));
+                        EntityData data = (EntityData) iterator.next();
+                        if (OnixAnticheat.INSTANCE.getConfigManager().healthHider && data.getIndex() == MinecraftValues.HEALTH) {
+                            float health = Float.parseFloat(String.valueOf(data.getValue()));
+                            if (health > 0.0F) {
+                                int randomHealth = (1 + random.nextInt(20));
                                 setDynamicValue(data, randomHealth);
+                                //  data.setValue(randomHealth);
                                 shouldPush = true;
                             }
-
-                            if (OnixAnticheat.INSTANCE.getConfigManager().xpHider && data.getIndex() == MinecraftValues.XP) {
-                                setDynamicValue(data, 1);
-                                shouldPush = true;
-                            }
+                        } else if (OnixAnticheat.INSTANCE.getConfigManager().absorptionHider && data.getIndex() == MinecraftValues.ABSORPTION) {
+//                                setDynamicValue(data, 1000);
+                            int randomHealth = (1 + random.nextInt(20));
+                            setDynamicValue(data, randomHealth);
+                            shouldPush = true;
                         }
 
-                        if (shouldPush) {
-                            push(event, wrapper.getEntityId(), entityMetaData);
+                        if (OnixAnticheat.INSTANCE.getConfigManager().xpHider && data.getIndex() == MinecraftValues.XP) {
+                            setDynamicValue(data, 1);
+                            shouldPush = true;
                         }
-
-                        return;
                     }
+
+                    if (shouldPush) {
+                        push(event, wrapper.getEntityId(), entityMetaData);
+                    }
+
+                    return;
+                }
             }
         }
         if (event.getPacketType().equals(PacketType.Play.Server.SCOREBOARD_OBJECTIVE)) {
@@ -78,9 +79,10 @@ public class PlayerDataHider extends Check {
         }
 
         if (event.getPacketType().equals(PacketType.Play.Server.UPDATE_SCORE)) {
-            if (OnixAnticheat.INSTANCE.getConfigManager().fixHeathBypass)  handleUpdateScore(event);
+            if (OnixAnticheat.INSTANCE.getConfigManager().fixHeathBypass) handleUpdateScore(event);
         }
     }
+
     private void handleScoreboardObjective(PacketSendEvent event) {
         WrapperPlayServerScoreboardObjective packet = new WrapperPlayServerScoreboardObjective(event);
         WrapperPlayServerScoreboardObjective.ObjectiveMode mode = packet.getMode();
@@ -110,6 +112,7 @@ public class PlayerDataHider extends Check {
             event.markForReEncode(true);
         }
     }
+
     @SuppressWarnings("rawtypes")
     void push(PacketSendEvent event, int entityId, List<? extends EntityData> dataList) {
         event.setCancelled(true);

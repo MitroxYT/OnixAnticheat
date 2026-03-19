@@ -8,6 +8,7 @@ public class PlayerPacketClickEvent extends BaseEvent {
     private final int id;
     private final WrapperPlayClientClickWindow.WindowClickType clickType;
     private final ItemStack item;
+
     public PlayerPacketClickEvent(final int id, WrapperPlayClientClickWindow.WindowClickType clickType, ItemStack item) {
         this.id = id;
         this.clickType = clickType;
@@ -17,6 +18,7 @@ public class PlayerPacketClickEvent extends BaseEvent {
     public boolean isClient() {
         return id == 0;
     }
+
     public int getId() {
         return this.id;
     }
@@ -24,7 +26,7 @@ public class PlayerPacketClickEvent extends BaseEvent {
     public WrapperPlayClientClickWindow.WindowClickType getClickType() {
         return this.clickType;
     }
-    
+
     public ItemStack getItem() {
         return this.item;
     }

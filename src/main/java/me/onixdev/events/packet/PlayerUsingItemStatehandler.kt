@@ -39,7 +39,7 @@ class PlayerUsingItemStatehandler : PacketListenerAbstract(PacketListenerPriorit
                 val itemStack = user.inventory.getItemInHand(useItem.hand)
                 val peStack = SpigotConversionUtil.fromBukkitItemStack(itemStack)
                 if (user.inventory.hasCooldown(peStack.type)) return
-                val usable = MaterialsUtil.isUsable(peStack, user.food,user)
+                val usable = MaterialsUtil.isUsable(peStack, user.food, user)
                 user.sendTransaction()
                 val badPacketB = user.getCheck(BadPacketB::class.java)
                 if (badPacketB != null) {

@@ -4,12 +4,9 @@ import io.github.retrooper.packetevents.util.folia.FoliaScheduler;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.check.api.Check;
 import me.onixdev.user.OnixUser;
-import me.onixdev.util.color.MessageUtil;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -20,7 +17,8 @@ public class PunishManager {
     private String alertString;
     private boolean testMode;
     private boolean printToConsole;
-    private String proxyAlertString = "";
+    private final String proxyAlertString = "";
+
     public PunishManager(OnixUser user) {
         this.player = user;
         reload();
@@ -111,7 +109,7 @@ public class PunishManager {
                 }
                 groups.add(new PunishGroup(checksList, parsed, removeViolationsAfter));
             }
-            } catch (Exception e) {
+        } catch (Exception e) {
             OnixAnticheat.INSTANCE.getPlugin().getLogger().severe("Error while loading punishments.yml! This is likely your fault!");
             e.printStackTrace();
         }
@@ -120,7 +118,7 @@ public class PunishManager {
 
     public boolean handleAlert(OnixUser player, String verbose, Check check) {
         boolean sentDebug = false;
-        player.getAlertManager().handleVerbose(player,check,verbose);
+        player.getAlertManager().handleVerbose(player, check, verbose);
         for (PunishGroup group : groups) {
             if (group.checks.contains(check)) {
                 final int vl = getViolations(group, check);
@@ -128,7 +126,7 @@ public class PunishManager {
                 for (ParsedCommand command : group.commands) {
                     String cmd = command.command.replace("%player%", player.getName()).replace("%vl%", String.valueOf(vl)).replace("%prefix%", OnixAnticheat.INSTANCE.getConfigManager().getPrefix());
 
-                        sentDebug = true;
+                    sentDebug = true;
 
                     if (violationCount >= command.threshold) {
                         boolean inInterval = command.interval == 0 ? (command.executeCount == 0) : (violationCount % command.interval == 0);
@@ -138,14 +136,14 @@ public class PunishManager {
                             } else {
                                 if (command.command.equals("[alert]")) {
                                     sentDebug = true;
-                                  player.getAlertManager().handleAlert(player,check,verbose);
+                                    player.getAlertManager().handleAlert(player, check, verbose);
                                 } else if (command.command.equals("[proxy]")) {
-                                    player.getAlertManager().onProxy(player,check,verbose);
+                                    player.getAlertManager().onProxy(player, check, verbose);
                                 } else {
 
-                                String finalCmd = cmd;
-                                FoliaScheduler.getGlobalRegionScheduler().run(OnixAnticheat.INSTANCE.getPlugin(), (dummy) ->
-                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCmd));
+                                    String finalCmd = cmd;
+                                    FoliaScheduler.getGlobalRegionScheduler().run(OnixAnticheat.INSTANCE.getPlugin(), (dummy) ->
+                                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCmd));
                                 }
                             }
                         }
@@ -181,28 +179,28 @@ public class PunishManager {
 
 
 class PunishGroup {
-        public final List<Check> checks;
-        public final List<ParsedCommand> commands;
-        public final Map<Long, Check> violations = new HashMap<>();
-        public final int removeViolationsAfter;
+    public final List<Check> checks;
+    public final List<ParsedCommand> commands;
+    public final Map<Long, Check> violations = new HashMap<>();
+    public final int removeViolationsAfter;
 
-        public PunishGroup(List<Check> checks, List<ParsedCommand> commands, int removeViolationsAfter) {
-            this.checks = checks;
-            this.commands = commands;
-            this.removeViolationsAfter = removeViolationsAfter * 1000;
-        }
+    public PunishGroup(List<Check> checks, List<ParsedCommand> commands, int removeViolationsAfter) {
+        this.checks = checks;
+        this.commands = commands;
+        this.removeViolationsAfter = removeViolationsAfter * 1000;
     }
+}
 
-    class ParsedCommand {
-        public final int threshold;
-        public final int interval;
-        public final String command;
-        public int executeCount;
+class ParsedCommand {
+    public final int threshold;
+    public final int interval;
+    public final String command;
+    public int executeCount;
 
-        public ParsedCommand(int threshold, int interval, String command) {
-            this.threshold = threshold;
-            this.interval = interval;
-            this.command = command;
-        }
+    public ParsedCommand(int threshold, int interval, String command) {
+        this.threshold = threshold;
+        this.interval = interval;
+        this.command = command;
     }
+}
 

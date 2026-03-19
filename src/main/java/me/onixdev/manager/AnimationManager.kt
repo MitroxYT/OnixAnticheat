@@ -13,11 +13,12 @@ class AnimationManager : IAnimationManager {
         if (PacketEvents.getAPI().serverManager.version.isOlderThanOrEquals(ServerVersion.V_1_12_2)) return
         animations.add(ThunderAnimation())
     }
+
     override fun startPunishment(name: String?, player: Player?, data: String?) {
         for (animation in animations) {
             if (name == null || data == null) continue
             if (animation.getName().contentEquals(name)) {
-                animation.execute(player,data)
+                animation.execute(player, data)
             }
         }
     }

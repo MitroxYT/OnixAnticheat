@@ -1,7 +1,6 @@
 package me.onixdev.util.world.utils.versions;
 
-public interface VersionCFR
-{
+public interface VersionCFR {
     iBlockData getBlockData();
 
     default String getName() {

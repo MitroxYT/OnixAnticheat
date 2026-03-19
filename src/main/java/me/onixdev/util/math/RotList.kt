@@ -9,13 +9,14 @@ class RotList {
     private var head = 0
     private var count = 0
     val EMPTY_MARKER: Float = -114.514f
+
     constructor(capacity: Int) {
         if (capacity <= 1) {
-            throw IllegalArgumentException("Buffer size must be greater than 1");
+            throw IllegalArgumentException("Buffer size must be greater than 1")
         }
 
         this.values = FloatArray(capacity)
-        Arrays.fill(this.values, EMPTY_MARKER);
+        Arrays.fill(this.values, EMPTY_MARKER)
     }
 
     fun add(value: Float) {
@@ -31,6 +32,7 @@ class RotList {
             count++
         }
     }
+
     fun getValues(): FloatArray {
         val result = FloatArray(count)
         for (i in 0..<count) {
@@ -38,6 +40,7 @@ class RotList {
         }
         return result
     }
+
     fun clear() {
         Arrays.fill(this.values, EMPTY_MARKER)
         head = 0

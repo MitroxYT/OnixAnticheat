@@ -4,12 +4,9 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import dev.onixac.api.OnixAPI;
 import dev.onixac.api.events.impl.OnixLoadedEvent;
-import dev.onixac.api.events.impl.PlayerOnixEventCall;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
 import me.onixdev.commands.api.CommandManager;
-import me.onixdev.compability.ICompabilityCheck;
-import me.onixdev.compability.impl.LeafCompabilityWorldTicking;
 import me.onixdev.compability.manager.CompatibilityManager;
 import me.onixdev.events.bukkit.*;
 import me.onixdev.events.packet.*;
@@ -27,10 +24,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class OnixAnticheat {
     public static OnixAnticheat INSTANCE = new OnixAnticheat();
@@ -41,7 +36,10 @@ public class OnixAnticheat {
     private IThreadExecutor PacketProccesor, cloudCheckExecuter;
     private BlockVersionManager blockVersionManager;
 
-    public AnimationManager getAnimationManager() {return animationManager;}
+    public AnimationManager getAnimationManager() {
+        return animationManager;
+    }
+
     private AnimationManager animationManager;
     private ResetManager resetManager;
     private MessageManager messageManager;
@@ -52,7 +50,11 @@ public class OnixAnticheat {
 
     private PlayerDatamanager playerDatamanager;
     private AddonManager addonManager;
-    public AddonManager getAddonManager() {return addonManager;}
+
+    public AddonManager getAddonManager() {
+        return addonManager;
+    }
+
     private int ticksFromStart;
     private ConfigManager configManager;
     private ServerVersion serverVersion = ServerVersion.ERROR;
@@ -72,11 +74,13 @@ public class OnixAnticheat {
     }
 
     public static boolean noSupportComponentMessage = false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
+
     @SuppressWarnings("UnstableApiUsage")
     public void onLoad(OnixPlugin plugin) {
         this.plugin = plugin;
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
-            for (Player player : Bukkit.getOnlinePlayers()) player.kickPlayer("Onix Anticheat Loading PacketEvents You kicked and prevented Crirical PEError");
+            for (Player player : Bukkit.getOnlinePlayers())
+                player.kickPlayer("Onix Anticheat Loading PacketEvents You kicked and prevented Crirical PEError");
         }
         PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this.plugin));
         PacketEvents.getAPI().getSettings().kickOnPacketException(true);
@@ -130,15 +134,16 @@ public class OnixAnticheat {
         // Запускаем евент спустя 5 секунд после лоада на случай если не все плагины с апи загрузились
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
-        },20*5);
+        }, 20 * 5);
         resetManager.start();
         messageManager = new MessageManager();
         printCool("&bАнтичит загружен за " + (System.currentTimeMillis() - time) + " ms");
     }
+
     public void reload() {
         OnixAnticheat.INSTANCE.getPlugin().getServer().getScheduler().runTaskLater(OnixAnticheat.INSTANCE.getPlugin(), () -> {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
-        },20*5);
+        }, 20 * 5);
     }
 
     public void onDisable() {
@@ -205,11 +210,18 @@ public class OnixAnticheat {
     public IThreadExecutor getCloudCheckExecuter() {
         return cloudCheckExecuter;
     }
+
     public void printCool(String text) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', text));
     }
-    public void setColorizer(Colorizer colorizer) {this.colorizer = colorizer;}
-    public Colorizer getColorizer() {return colorizer;}
+
+    public void setColorizer(Colorizer colorizer) {
+        this.colorizer = colorizer;
+    }
+
+    public Colorizer getColorizer() {
+        return colorizer;
+    }
 
     public BlockVersionManager getBlockVersionManager() {
         return this.blockVersionManager;

@@ -140,12 +140,18 @@ public class MathUtil {
     public static long getGcd(long current, long previous) {
         return previous <= 16384L ? current : getGcd(previous, current % previous);
     }
+
     public static float angleDiff(float a1, float a2) {
         float diff = (a1 - a2) % 360f;
-        if (diff > 180f) { diff -= 360f; }
-        if (diff < -180f) { diff += 360f; }
+        if (diff > 180f) {
+            diff -= 360f;
+        }
+        if (diff < -180f) {
+            diff += 360f;
+        }
         return diff;
     }
+
     public static double getGcd(double a, double b) {
         if (a < b) {
             return getGcd(b, a);
@@ -213,6 +219,7 @@ public class MathUtil {
         }
         return total / (data.size() - 3);
     }
+
     public static <T extends Number> T getModeLike(Collection<T> c) {
         Map<T, Integer> freq = new HashMap<>();
         c.forEach(val -> {
@@ -222,6 +229,7 @@ public class MathUtil {
 
         return Collections.max(freq.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
+
     public static int getMode(Collection<? extends Number> array) {
         int mode = (Integer) array.toArray()[0];
         int maxCount = 0;
@@ -378,7 +386,7 @@ public class MathUtil {
     public static int[] translatePosition(final int slot) {
         final int row = slot / 9 + 1;
         final int rowPosition = slot - (row - 1) * 9;
-        return new int[] { row, rowPosition };
+        return new int[]{row, rowPosition};
     }
 
     public static double distanceBetween(final int slot1, final int slot2) {

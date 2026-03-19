@@ -12,6 +12,7 @@ import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
 import me.onixdev.check.impl.movement.noslow.NoslowTick;
 import me.onixdev.check.impl.player.airstuck.AirStuckA;
 import me.onixdev.check.impl.player.badpackets.*;
+import me.onixdev.check.impl.player.block.GhostHandA;
 import me.onixdev.check.impl.player.block.GhostHandB;
 import me.onixdev.check.impl.player.block.GhostHandC;
 import me.onixdev.check.impl.player.inventory.InventoryA;
@@ -24,7 +25,6 @@ import me.onixdev.check.impl.player.misc.data.PacketEntityReplication;
 import me.onixdev.check.impl.player.misc.data.PlayerPacketData;
 import me.onixdev.check.impl.player.misc.data.PlayerPayLoadHandler;
 import me.onixdev.check.impl.player.scaffold.ScaffoldA;
-import me.onixdev.check.impl.player.block.GhostHandA;
 import me.onixdev.user.OnixUser;
 
 import java.lang.reflect.Constructor;
@@ -32,12 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class CheckManager
-{
+public class CheckManager {
     OnixUser data;
+
     public CheckManager(OnixUser data) {
         this.data = data;
     }
+
     public static final List<Constructor<?>> CONSTRUCTORS;
     public static final Class<? extends Check>[] CHECKS;
 
@@ -55,6 +56,7 @@ public class CheckManager
         }
         return checkList;
     }
+
     @SuppressWarnings("CallToPrintStackTrace")
     public static void setup() {
         for (final Class<? extends Check> clazz : CheckManager.CHECKS) {
@@ -70,7 +72,7 @@ public class CheckManager
 
     static {
         CONSTRUCTORS = new ArrayList<>();
-        CHECKS = new Class[] {PlayerPacketData.class, PacketEntityReplication.class, PlayerDataHider.class,AimA.class, ClientBrandParser.class, PlayerPayLoadHandler.class, AimB.class, AimC.class, AimD.class, AimHeuristicA.class, AimHeuristicB.class, AimE.class, AuraA.class, AuraB.class, AuraC.class, AimT.class, AimY.class, AimF.class,BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, NoslowPrediction.class, NoslowTick.class,ScaffoldA.class,
+        CHECKS = new Class[]{PlayerPacketData.class, PacketEntityReplication.class, PlayerDataHider.class, AimA.class, ClientBrandParser.class, PlayerPayLoadHandler.class, AimB.class, AimC.class, AimD.class, AimHeuristicA.class, AimHeuristicB.class, AimE.class, AuraA.class, AuraB.class, AuraC.class, AimT.class, AimY.class, AimF.class, BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, NoslowPrediction.class, NoslowTick.class, ScaffoldA.class,
                 InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class, InventoryD.class
         };
 

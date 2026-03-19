@@ -1,15 +1,15 @@
 package me.onixdev.check.impl.player.scaffold;
 
 import dev.onixac.api.check.CheckStage;
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
-import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.PlayerRotationEvent;
 import me.onixdev.user.OnixUser;
 
 public class ScaffoldA extends Check {
     public ScaffoldA(OnixUser player) {
-        super(player,CheckBuilder.create().setCheckName("Scaffold").setType("A").setCheckStage(CheckStage.RELEASE).build());
+        super(player, CheckBuilder.create().setCheckName("Scaffold").setType("A").setCheckStage(CheckStage.RELEASE).build());
     }
 
     @Override
@@ -17,7 +17,8 @@ public class ScaffoldA extends Check {
         if (event instanceof PlayerRotationEvent) {
             if (!((PlayerRotationEvent) event).isPost()) {
                 if (player.lastTeleportTime < 20) return;
-                if (!player.getBrigingContainer().isBridge() && player.getBrigingContainer().getBrigeTicks() >3 && player.getBrigingContainer().getLastPlaceTick() > 3) return;
+                if (!player.getBrigingContainer().isBridge() && player.getBrigingContainer().getBrigeTicks() > 3 && player.getBrigingContainer().getLastPlaceTick() > 3)
+                    return;
                 double dx = ((PlayerRotationEvent) event).getDeltaYaw();
                 if (dx > 150) {
                     fail("delta: " + dx);

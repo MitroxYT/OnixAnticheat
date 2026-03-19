@@ -1,7 +1,7 @@
 package me.onixdev.event.impl;
 
-import lombok.Getter;
 import dev.onixac.api.events.api.BaseEvent;
+import lombok.Getter;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
@@ -17,7 +17,8 @@ public class PlayerClickEvent extends BaseEvent {
     private final ItemStack current;
     private final int hotbarKey;
     public final boolean isPlayer;
-    public PlayerClickEvent(@NotNull InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action,ItemStack current,boolean player) {
+
+    public PlayerClickEvent(@NotNull InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action, ItemStack current, boolean player) {
         this.current = current;
         this.hotbarKey = -1;
         this.slot_type = type;
@@ -43,7 +44,11 @@ public class PlayerClickEvent extends BaseEvent {
         return slot_type;
     }
 
-    public InventoryAction getAction() {return this.action;}
+    public InventoryAction getAction() {
+        return this.action;
+    }
 
-    public ClickType getClickType() {return click;}
+    public ClickType getClickType() {
+        return click;
+    }
 }

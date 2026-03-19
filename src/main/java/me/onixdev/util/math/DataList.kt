@@ -1,4 +1,5 @@
-package me.onixdev.util.math;
+package me.onixdev.util.math
+
 import java.util.*
 
 class DataList<T> : LinkedList<T> {

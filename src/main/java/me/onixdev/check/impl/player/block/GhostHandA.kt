@@ -4,7 +4,6 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerBlockInteractEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
@@ -20,7 +19,7 @@ class GhostHandA(user: OnixUser) : Check(user) {
                 if (!valid) return
                 val distance = block.location.distance(player.bukkitPlayer.location)
                 val vec = player.rotation.toDirection()
-                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.5)
+                val result = PlayerUtil.raytrace(player.bukkitPlayer, vec, distance, 0.5)
                 if (result.second != null) {
                     val mat = result.second ?: return
                     if (BlockData.isPassable(mat)) return

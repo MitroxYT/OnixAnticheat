@@ -9,5 +9,7 @@ object PacketUtil {
         return packetType === PacketType.Play.Client.PONG || packetType === PacketType.Play.Client.WINDOW_CONFIRMATION
     }
 
-    fun isTickPacketLegacy(packetType: PacketTypeCommon?): Boolean {return  WrapperPlayClientPlayerFlying.isFlying(packetType) }
+    fun isTickPacketLegacy(packetType: PacketTypeCommon?): Boolean {
+        return WrapperPlayClientPlayerFlying.isFlying(packetType)
+    }
 }

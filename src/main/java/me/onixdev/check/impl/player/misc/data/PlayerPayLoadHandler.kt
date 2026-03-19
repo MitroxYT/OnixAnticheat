@@ -8,11 +8,11 @@ import dev.onixac.api.events.impl.PlayerPayLoadEvent
 import me.onixdev.check.api.Check
 import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
-import me.onixdev.util.world.utils.SingUtil
 import java.util.*
 
 
-class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().setCheckName("checks").setType("aaa").build()) {
+class PlayerPayLoadHandler(user: OnixUser) :
+    Check(user, CheckBuilder.create().setCheckName("checks").setType("aaa").build()) {
     private val packetSecret: UUID = UUID.randomUUID()
     private val data: MutableList<PayloadExploitData> = mutableListOf()
     override fun onPacketIn(event: PacketReceiveEvent) {
@@ -21,17 +21,19 @@ class PlayerPayLoadHandler(user: OnixUser) : Check(user, CheckBuilder.create().s
 
         try {
             lines = WrapperPlayClientUpdateSign(event).textLines
-            player.handleEvent(PlayerPayLoadEvent(lines,player))
+            player.handleEvent(PlayerPayLoadEvent(lines, player))
         } catch (e: Exception) {
             return
         }
 
 
     }
+
     fun register(payload: PayloadExploitData) {
         data.add(payload)
     }
-    fun getData() : MutableList<PayloadExploitData> {
-        return data;
+
+    fun getData(): MutableList<PayloadExploitData> {
+        return data
     }
 }

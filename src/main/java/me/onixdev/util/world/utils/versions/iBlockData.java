@@ -3,8 +3,7 @@ package me.onixdev.util.world.utils.versions;
 
 import org.bukkit.block.Block;
 
-public interface iBlockData
-{
+public interface iBlockData {
     boolean isStepable(final Block p0);
 
     boolean isClimbable(final Block p0);

@@ -2,9 +2,8 @@ package me.onixdev.check.impl.player.badpackets
 
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
-import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import dev.onixac.api.events.api.BaseEvent
+import me.onixdev.check.api.Check
 import me.onixdev.event.impl.PlayerHeldItemChangeEvent
 import me.onixdev.event.impl.TickEvent
 import me.onixdev.user.OnixUser
@@ -25,9 +24,8 @@ class BadPacketE(user: OnixUser) : Check(user) {
                         fail("t: e=$timeFromLastChange p=$aboba")
                         if (shouldCancel()) event.cancel()
                     }
-                }
-                else if(aboba > 0) {
-                    aboba-0.25
+                } else if (aboba > 0) {
+                    aboba - 0.25
                 }
             }
             //Спасибо моджанг что сделали когда афк пакет сендиться по идиотски

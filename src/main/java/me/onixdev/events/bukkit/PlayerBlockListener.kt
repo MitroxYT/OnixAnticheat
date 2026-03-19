@@ -19,15 +19,17 @@ class PlayerBlockListener : Listener {
         user?.handleEvent(eventBreak)
         if (eventBreak.isCancelled) event.isCancelled = true
     }
+
     @EventHandler
     fun onPlayerInteractBlock(event: PlayerInteractEvent) {
         val user = event.player.getData()
         if (event.clickedBlock == null) return
         if (OnixAnticheat.INSTANCE.compatibilityManager.isLeafTicking) return
-        val eventBreak = PlayerBlockInteractEvent(event.clickedBlock!!,event.action)
+        val eventBreak = PlayerBlockInteractEvent(event.clickedBlock!!, event.action)
         user?.handleEvent(eventBreak)
         if (eventBreak.isCancelled) event.isCancelled = true
     }
+
     @EventHandler
     fun onPlayerBreakBlock(event: BlockPlaceEvent) {
         val user = event.player.getData()

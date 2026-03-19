@@ -4,12 +4,12 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerRotationEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.math.DataList
 import me.onixdev.util.math.GraphUtil
 import me.onixdev.util.math.MathUtil
+
 @CheckInfo(name = "Aim", type = "T", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
 class AimT(player: OnixUser) : Check(player) {
     val yawSamples: DataList<Double> = DataList(30)

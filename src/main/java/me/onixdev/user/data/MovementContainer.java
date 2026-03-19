@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 public class MovementContainer {
-    private OnixUser user;
+    private final OnixUser user;
     public double x;
     public double y;
     public double z;
@@ -195,7 +195,7 @@ public class MovementContainer {
                                             if (Math.abs(motionZ) < 0.005D) motionZ = 0.0;
 
                                             if (jump && sprinting) {
-                                                final float radians = (float) (user.getRotationContainer().getYaw() * 0.017453292F);
+                                                final float radians = user.getRotationContainer().getYaw() * 0.017453292F;
 
                                                 if (fastMath) {
                                                     motionX -= VanillaMath.sin(radians) * 0.2F;
@@ -278,7 +278,7 @@ public class MovementContainer {
             final float strafe = moveStrafe * diagonal;
             final float forward = moveForward * diagonal;
 
-            final float rotationYaw = (float) user.getRotationContainer().getYaw();
+            final float rotationYaw = user.getRotationContainer().getYaw();
 
             final float f1 = sin(fastMath, rotationYaw * (float) Math.PI / 180.0F);
             final float f2 = cos(fastMath, rotationYaw * (float) Math.PI / 180.0F);

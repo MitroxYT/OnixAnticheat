@@ -8,9 +8,11 @@ import java.util.concurrent.Executors;
 
 public class ReloadTaskExecutor implements IThreadExecutor {
     private final ExecutorService executor;
+
     public ReloadTaskExecutor() {
-        executor = Executors.newFixedThreadPool(1,new ThreadFactoryBuilder().setNameFormat("Onix-ReloadExecuter %d").build());
+        executor = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Onix-ReloadExecuter %d").build());
     }
+
     @Override
     public void run(Runnable runnable) {
         executor.execute(runnable);

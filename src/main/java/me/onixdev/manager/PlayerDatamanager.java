@@ -11,29 +11,34 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerDatamanager implements IPlayerDataManager {
-    private ConcurrentHashMap<UUID, OnixUser> data = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, OnixUser> data = new ConcurrentHashMap<>();
+
     public void add(User user) {
-        data.put(user.getUUID(),new OnixUser(user));
+        data.put(user.getUUID(), new OnixUser(user));
     }
+
     public OnixUser get(UUID uuid) {
         try {
             return data.get(uuid);
         } catch (Exception e) {
-         //   throw new RuntimeException(e);
+            //   throw new RuntimeException(e);
         }
         return null;
     }
+
     public OnixUser get(User user) {
         try {
             return data.get(user.getUUID());
         } catch (Exception e) {
-           // throw new RuntimeException(e);
+            // throw new RuntimeException(e);
         }
         return null;
     }
+
     public void remove(UUID uuid) {
         data.remove(uuid);
     }
+
     public Collection<OnixUser> getAllData() {
         return data.values();
     }

@@ -7,10 +7,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AlertTaskExecutor implements IThreadExecutor {
-    private final ExecutorService  executor;
+    private final ExecutorService executor;
+
     public AlertTaskExecutor() {
-        executor = Executors.newFixedThreadPool(1,new ThreadFactoryBuilder().setNameFormat("Onix-AlertExecuter %d").build());
+        executor = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("Onix-AlertExecuter %d").build());
     }
+
     @Override
     public void run(Runnable runnable) {
         executor.execute(runnable);

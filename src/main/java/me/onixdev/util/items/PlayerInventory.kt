@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("UNREACHABLE_CODE", "DEPRECATION")
 class PlayerInventory(val user: OnixUser) : IPlayerInventory {
-    var heldItemSlot : Int = 0
-    var lastHeldItemSlot : Int = 0
-    var serverRequiestSetHeldItem : Boolean = false
+    var heldItemSlot: Int = 0
+    var lastHeldItemSlot: Int = 0
+    var serverRequiestSetHeldItem: Boolean = false
     val cooldowns = ConcurrentHashMap<ItemType, Int>()
-    fun getItemInHand(hand:InteractionHand) : ItemStack {
+    fun getItemInHand(hand: InteractionHand): ItemStack {
         if (user.bukkitPlayer == null) return ItemStack(Material.AIR)
         return if (PacketEvents.getAPI().serverManager.version.isNewerThan(ServerVersion.V_1_9)) when (hand) {
             InteractionHand.MAIN_HAND -> {
@@ -31,36 +31,38 @@ class PlayerInventory(val user: OnixUser) : IPlayerInventory {
         } else user.bukkitPlayer.inventory.itemInHand
         return ItemStack(Material.AIR)
     }
-    override fun getItemInMainHand() : ItemStack {
+
+    override fun getItemInMainHand(): ItemStack {
         return getItemInHand(InteractionHand.MAIN_HAND)
     }
 
     override fun getItemInSlot(index: Int): ItemStack? {
-      return user.bukkitPlayer?.inventory?.getItem(index)
+        return user.bukkitPlayer?.inventory?.getItem(index)
     }
 
-    override fun getItemInOffHand() : ItemStack {
+    override fun getItemInOffHand(): ItemStack {
         return getItemInHand(InteractionHand.OFF_HAND)
     }
-     fun handleCooldownPacket(cooldown: WrapperPlayServerSetCooldown) {
-         if (cooldown.cooldownTicks <= 0) {
-             cooldowns.remove(cooldown.item)
-         }
-         else {
-             cooldowns[cooldown.item] = cooldown.cooldownTicks
-         }
+
+    fun handleCooldownPacket(cooldown: WrapperPlayServerSetCooldown) {
+        if (cooldown.cooldownTicks <= 0) {
+            cooldowns.remove(cooldown.item)
+        } else {
+            cooldowns[cooldown.item] = cooldown.cooldownTicks
+        }
     }
-    fun hasCooldown(item:ItemType) : Boolean {
+
+    fun hasCooldown(item: ItemType): Boolean {
         return cooldowns.containsKey(item)
     }
 
     override fun swapSlot() {
-        var slot = heldItemSlot+1
+        var slot = heldItemSlot + 1
         if (slot > 8) {
             slot = 0
         }
         val slotChange = WrapperPlayServerHeldItemChange(slot)
         user.user.sendPacket(slotChange)
-        serverRequiestSetHeldItem = true;
+        serverRequiestSetHeldItem = true
     }
 }

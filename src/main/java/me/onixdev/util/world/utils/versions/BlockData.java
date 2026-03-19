@@ -62,7 +62,7 @@ public class BlockData {
     }
 
     private static double getSnowLayerOffset(final Block b) {
-        return b.getType().equals((Object) Material.SNOW) ? ((BukkitNms.getDataFromBlock(b) - 1) * 0.125) : 0.0;
+        return b.getType().equals(Material.SNOW) ? ((BukkitNms.getDataFromBlock(b) - 1) * 0.125) : 0.0;
     }
 
     public static double getYOffset(final Block b) {

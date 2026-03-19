@@ -21,6 +21,7 @@ public class MaterialsUtil {
     private final Material chorus = Material.getMaterial("CHORUS_FRUIT");
     private final Material shield = Material.getMaterial("SHIELD");
     private final Material potion = Material.getMaterial("POTION");
+
     public static boolean isUsable(ItemStack item, int foodLevel, OnixUser player) {
         if (item == null || item.getType() == ItemTypes.AIR) return false;
         if (item.getType() == ItemTypes.SPLASH_POTION)
@@ -50,20 +51,21 @@ public class MaterialsUtil {
         if (material.hasAttribute(ItemTypes.ItemAttribute.SWORD)) {
             // Спасибо mojang за то что вернули возможность блока мечом )))))))))))))))
             if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_21_11)) {
-                if (player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21_11) && item.getComponentOr(ComponentTypes.BLOCKS_ATTACKS,null) != null) {
+                if (player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_21_11) && item.getComponentOr(ComponentTypes.BLOCKS_ATTACKS, null) != null) {
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
             return player.getClientVersion().isOlderThanOrEquals(ClientVersion.V_1_8);
         }
-        if (item.getType() == ItemTypes.SHIELD && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9)) return true;
+        if (item.getType() == ItemTypes.SHIELD && player.getClientVersion().isNewerThanOrEquals(ClientVersion.V_1_9))
+            return true;
         return false;
     }
+
     public static synchronized boolean isValidFood(final Material m, final Player p) {
-        return m.equals((Object)Material.MILK_BUCKET) || m.equals((Object)Material.POTION) || m.equals((Object)Material.GOLDEN_APPLE) || (m.isEdible() && p.getFoodLevel() < 20);
+        return m.equals((Object) Material.MILK_BUCKET) || m.equals((Object) Material.POTION) || m.equals((Object) Material.GOLDEN_APPLE) || (m.isEdible() && p.getFoodLevel() < 20);
     }
 
     public static synchronized boolean isLeaves(final Material material) {
@@ -77,8 +79,7 @@ public class MaterialsUtil {
 
     public static synchronized boolean isGlas(final Material material) {
         switch (material) {
-            case GLASS:
-            {
+            case GLASS: {
                 return true;
             }
             default: {
@@ -119,8 +120,7 @@ public class MaterialsUtil {
             case BIRCH_DOOR:
             case IRON_DOOR:
             case JUNGLE_DOOR:
-            case SPRUCE_DOOR:
-            {
+            case SPRUCE_DOOR: {
                 return true;
             }
             default: {

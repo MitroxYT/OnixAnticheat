@@ -12,7 +12,6 @@ public class Vec3i implements Comparable<Vec3i> {
     private int z;
 
 
-
     public Vec3i(int pX, int pY, int pZ) {
         this.x = pX;
         this.y = pY;
@@ -83,9 +82,6 @@ public class Vec3i implements Comparable<Vec3i> {
     }
 
 
-
-
-
     public Vec3i cross(Vec3i pVector) {
         return new Vec3i(
                 this.getY() * pVector.getZ() - this.getZ() * pVector.getY(),
@@ -103,7 +99,7 @@ public class Vec3i implements Comparable<Vec3i> {
     }
 
     public double distSqr(Vec3i pVector) {
-        return this.distToLowCornerSqr((double)pVector.getX(), (double)pVector.getY(), (double)pVector.getZ());
+        return this.distToLowCornerSqr((double) pVector.getX(), (double) pVector.getY(), (double) pVector.getZ());
     }
 
     public double distToCenterSqr(Vec3 pPosition) {
@@ -111,26 +107,25 @@ public class Vec3i implements Comparable<Vec3i> {
     }
 
     public double distToCenterSqr(double pX, double pY, double pZ) {
-        double d0 = (double)this.getX() + 0.5 - pX;
-        double d1 = (double)this.getY() + 0.5 - pY;
-        double d2 = (double)this.getZ() + 0.5 - pZ;
+        double d0 = (double) this.getX() + 0.5 - pX;
+        double d1 = (double) this.getY() + 0.5 - pY;
+        double d2 = (double) this.getZ() + 0.5 - pZ;
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
     public double distToLowCornerSqr(double pX, double pY, double pZ) {
-        double d0 = (double)this.getX() - pX;
-        double d1 = (double)this.getY() - pY;
-        double d2 = (double)this.getZ() - pZ;
+        double d0 = (double) this.getX() - pX;
+        double d1 = (double) this.getY() - pY;
+        double d2 = (double) this.getZ() - pZ;
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
     public int distManhattan(Vec3i pVector) {
-        float f = (float)Math.abs(pVector.getX() - this.getX());
-        float f1 = (float)Math.abs(pVector.getY() - this.getY());
-        float f2 = (float)Math.abs(pVector.getZ() - this.getZ());
-        return (int)(f + f1 + f2);
+        float f = (float) Math.abs(pVector.getX() - this.getX());
+        float f1 = (float) Math.abs(pVector.getY() - this.getY());
+        float f2 = (float) Math.abs(pVector.getZ() - this.getZ());
+        return (int) (f + f1 + f2);
     }
-
 
 
     @Override

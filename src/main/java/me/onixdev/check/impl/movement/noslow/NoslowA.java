@@ -1,14 +1,15 @@
 package me.onixdev.check.impl.movement.noslow;
 
+import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.check.api.Check;
 import me.onixdev.check.api.CheckBuilder;
-import dev.onixac.api.events.api.BaseEvent;
 import me.onixdev.event.impl.TickEvent;
 import me.onixdev.user.OnixUser;
 
 public class NoslowA extends Check {
     private boolean lastTickNoslow;
     private double buffer;
+
     public NoslowA(OnixUser player) {
         super(player, CheckBuilder.create().setCheckName("Noslow").setType("A").build());
     }

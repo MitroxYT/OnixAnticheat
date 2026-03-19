@@ -7,19 +7,12 @@ import dev.onixac.api.check.CheckStage;
 import dev.onixac.api.check.ICheck;
 import dev.onixac.api.check.custom.ConfigVlCommandData;
 import dev.onixac.api.events.api.BaseEvent;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import me.onixdev.OnixAnticheat;
 import me.onixdev.user.OnixUser;
-import me.onixdev.util.alert.id.PunishIdSystem;
-import me.onixdev.util.net.KickTypes;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Check implements ICheck {
     private String configName;
@@ -31,7 +24,7 @@ public class Check implements ICheck {
     protected String type;
     protected CheckStage stage;
     protected double maxbuffer;
-    protected double decay,decayBuffer;
+    protected double decay, decayBuffer;
     protected final OnixUser player;
     private List<ConfigVlCommandData> commands = new ArrayList<>();
     public double setbackVL;
@@ -53,6 +46,7 @@ public class Check implements ICheck {
             }
         }
     }
+
     public Check(OnixUser player) {
         this.player = player;
         final CheckInfo checkData = this.getClass().getAnnotation(CheckInfo.class);
@@ -60,7 +54,7 @@ public class Check implements ICheck {
             this.checkName = checkData.name();
             this.type = checkData.type();
             this.configName = checkData.customCfgName();
-            if (this.configName.equals("DEFAULT")) this.configName = this.checkName+this.type;
+            if (this.configName.equals("DEFAULT")) this.configName = this.checkName + this.type;
             this.decay = checkData.decay();
             this.decayBuffer = checkData.decayBuffer();
             this.setback = checkData.setback();
@@ -145,6 +139,7 @@ public class Check implements ICheck {
         });
         return true;
     }
+
     @Override
     public boolean fail(Object debug) {
         if (!shouldFlag()) return false;
@@ -156,6 +151,7 @@ public class Check implements ICheck {
 
     public void onEvent(BaseEvent event) {
     }
+
     public void onPacketIn(PacketReceiveEvent event) {
     }
 
@@ -173,22 +169,25 @@ public class Check implements ICheck {
         OnixAnticheat.INSTANCE.getReloadExecuter().run(() -> {
             YamlConfiguration checkscfg = OnixAnticheat.INSTANCE.getConfigManager().getConfig();
             //  if (noCheck) return;
-            cancel = checkscfg.getBoolean(configName  + ".cancel",cancel);
-            setback = checkscfg.getBoolean(configName + ".setback",false);
-            setbackVL = checkscfg.getInt(configName + ".setbackvl",-1);
-            decay = checkscfg.getDouble(configName+ ".decay", 0.25);
-            decayBuffer = checkscfg.getDouble(configName+ ".decayBuffer", decayBuffer);
+            cancel = checkscfg.getBoolean(configName + ".cancel", cancel);
+            setback = checkscfg.getBoolean(configName + ".setback", false);
+            setbackVL = checkscfg.getInt(configName + ".setbackvl", -1);
+            decay = checkscfg.getDouble(configName + ".decay", 0.25);
+            decayBuffer = checkscfg.getDouble(configName + ".decayBuffer", decayBuffer);
             maxbuffer = checkscfg.getDouble(configName + ".maxBuffer", maxbuffer);
             if (setbackVL == -1) setbackVL = Double.MAX_VALUE;
 //            if (tempbuff == -1) maxbuffer = Double.MAX_VALUE;
         });
     }
+
     public String getCheckPatch() {
-        return configName  + ".";
+        return configName + ".";
     }
+
     public String format(Double value) {
         return String.format("%.5f", value);
     }
+
     public YamlConfiguration getCheckConfig() {
         return OnixAnticheat.INSTANCE.getConfigManager().getConfig();
     }
@@ -198,7 +197,7 @@ public class Check implements ICheck {
 
     private void executeCommands(String verbose) {
         player.punishManager.handleViolation(this);
-       // lastViolationTime = System.currentTimeMillis();
+        // lastViolationTime = System.currentTimeMillis();
         vl++;
         player.punishManager.handleAlert(player, verbose, this);
 //        player.getAlertManager().handleVerbose(player, this, verbose);

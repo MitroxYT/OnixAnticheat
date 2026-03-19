@@ -10,9 +10,9 @@ import org.bukkit.entity.Player
 
 class CombatData(private val user: OnixUser) {
     var dist: Double = 0.0
-    var lastAttacked: Int = 158145;
-    private var lastAttack:Long = 0
-    var target: Player? = null;
+    var lastAttacked: Int = 158145
+    private var lastAttack: Long = 0
+    var target: Player? = null
     fun onEvent(event: BaseEvent) {
         if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && user.bukkitPlayer != null) {
             target = PlayerUtil.getPlayer(event.id)
@@ -33,6 +33,7 @@ class CombatData(private val user: OnixUser) {
             }
         }
     }
+
     fun hasAttackedSince(time: Long): Boolean {
         return System.currentTimeMillis() - lastAttack < time
     }

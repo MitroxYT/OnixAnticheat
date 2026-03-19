@@ -21,7 +21,7 @@ public class PositionHelper {
     private static Block deadRequestBlock;
 
     public static int unpassableCollideCode(final Location loc) {
-        final Block[] blocks = { loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST) };
+        final Block[] blocks = {loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST)};
         return (int) Arrays.stream(blocks).filter(block -> !BlockData.isPassable(block)).count();
     }
 
@@ -30,13 +30,13 @@ public class PositionHelper {
     }
 
     public static boolean hasStepableNoTopNearby(final Location loc) {
-        final Block[] blocks = { loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST), loc.getBlock().getRelative(BlockFace.NORTH_WEST), loc.getBlock().getRelative(BlockFace.NORTH_EAST), loc.getBlock().getRelative(BlockFace.SOUTH_WEST), loc.getBlock().getRelative(BlockFace.SOUTH_EAST), loc.getBlock().getRelative(BlockFace.DOWN), loc.getBlock() };
+        final Block[] blocks = {loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST), loc.getBlock().getRelative(BlockFace.NORTH_WEST), loc.getBlock().getRelative(BlockFace.NORTH_EAST), loc.getBlock().getRelative(BlockFace.SOUTH_WEST), loc.getBlock().getRelative(BlockFace.SOUTH_EAST), loc.getBlock().getRelative(BlockFace.DOWN), loc.getBlock()};
         return Arrays.stream(blocks).anyMatch(block -> BlockData.isStepable(block, loc) || MaterialsUtil.isDoor(block.getRelative(BlockFace.UP).getType()));
     }
 
     public static boolean hasStepableNoGroundNearby(final Location loc) {
-        final Block[] blocks = { loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST), loc.getBlock().getRelative(BlockFace.NORTH_WEST), loc.getBlock().getRelative(BlockFace.NORTH_EAST), loc.getBlock().getRelative(BlockFace.SOUTH_WEST), loc.getBlock().getRelative(BlockFace.SOUTH_EAST), loc.getBlock().getRelative(BlockFace.DOWN), loc.getBlock() };
-        return Arrays.stream(blocks).anyMatch(block -> BlockData.isStepable(block, loc) && BlockData.isStepable(block.getRelative(BlockFace.DOWN), loc) && block.getRelative(BlockFace.DOWN).getType().equals((Object)block.getType()));
+        final Block[] blocks = {loc.getBlock().getRelative(BlockFace.NORTH), loc.getBlock().getRelative(BlockFace.SOUTH), loc.getBlock().getRelative(BlockFace.WEST), loc.getBlock().getRelative(BlockFace.EAST), loc.getBlock().getRelative(BlockFace.NORTH_WEST), loc.getBlock().getRelative(BlockFace.NORTH_EAST), loc.getBlock().getRelative(BlockFace.SOUTH_WEST), loc.getBlock().getRelative(BlockFace.SOUTH_EAST), loc.getBlock().getRelative(BlockFace.DOWN), loc.getBlock()};
+        return Arrays.stream(blocks).anyMatch(block -> BlockData.isStepable(block, loc) && BlockData.isStepable(block.getRelative(BlockFace.DOWN), loc) && block.getRelative(BlockFace.DOWN).getType().equals((Object) block.getType()));
     }
 
     public static boolean collidesLiquid(final Entity e) {
@@ -307,6 +307,7 @@ public class PositionHelper {
         final double maxZ = l.getZ() + dxz + xzSize;
         return collidesAny(world, minX, minY, minZ, maxX, maxY, maxZ);
     }
+
     public static boolean collides(final World world, final double offsetb, final Location l, final String... material) {
         boolean isClimbableCheck = false;
 
@@ -322,6 +323,7 @@ public class PositionHelper {
         final double maxZ = l.getZ() + dxz + offset;
         return collides(world, minX, minY, minZ, maxX, maxY, maxZ, material);
     }
+
     public static boolean collides(final World world, final CollisionBuilder builder, final Location l, final String... material) {
         boolean isClimbableCheck = false;
         if (l == null) return false;
@@ -337,6 +339,7 @@ public class PositionHelper {
         final double maxZ = l.getZ() + dxz + builder.getMaxz();
         return collides(world, minX, minY, minZ, maxX, maxY, maxZ, material);
     }
+
     public static boolean collides(final World world, final Entity e, final Location l, final String... material) {
         boolean isClimbableCheck = false;
         for (String mat : material) {
@@ -559,7 +562,7 @@ public class PositionHelper {
         if (size < 0.0 || size > 1.0) {
             throw new IndexOutOfBoundsException("Size is greater than 1 or smaller than 0");
         }
-        final Block[] blocks = { from.getBlock(), from.add(size, 0.0, 0.0).getBlock(), from.add(-size, 0.0, 0.0).getBlock(), from.add(0.0, 0.0, size).getBlock(), from.add(0.0, 0.0, -size).getBlock() };
+        final Block[] blocks = {from.getBlock(), from.add(size, 0.0, 0.0).getBlock(), from.add(-size, 0.0, 0.0).getBlock(), from.add(0.0, 0.0, size).getBlock(), from.add(0.0, 0.0, -size).getBlock()};
         return Arrays.stream(blocks).anyMatch(BlockData::isSlabLikeBlock);
     }
 
@@ -717,7 +720,7 @@ public class PositionHelper {
             for (int z = iMinZ; z <= iMaxZ; ++z) {
                 for (int y = iMinY; y <= iMaxY; ++y) {
                     final Block block = getBlock0(world, x, y, z);
-                    if (block != null && material.equals((Object)block.getType())) {
+                    if (block != null && material.equals((Object) block.getType())) {
                         return true;
                     }
                 }
@@ -744,6 +747,7 @@ public class PositionHelper {
         }
         return false;
     }
+
     private static boolean collides(final World world, final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ, final String... materials) {
         final int iMinX = locToBlock(minX);
         final int iMaxX = locToBlock(maxX);
@@ -767,6 +771,7 @@ public class PositionHelper {
         }
         return false;
     }
+
     private static boolean collides(final World world, final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ, final Material... materials) {
         final int iMinX = locToBlock(minX);
         final int iMaxX = locToBlock(maxX);
@@ -781,7 +786,7 @@ public class PositionHelper {
                     if (block == null) continue;
                     final Material mat = block.getType();
                     for (final Material material : materials) {
-                        if (material.equals((Object)mat)) {
+                        if (material.equals((Object) mat)) {
                             return true;
                         }
                     }
@@ -901,7 +906,7 @@ public class PositionHelper {
                     final Block block = getBlock0(world, x, y, z);
                     if (block == null) continue;
                     for (final Material material : normal) {
-                        if (block.getType().equals((Object)material) && !d) {
+                        if (block.getType().equals((Object) material) && !d) {
                             d = true;
                             c = true;
                         }
@@ -924,11 +929,11 @@ public class PositionHelper {
     }
 
     public static boolean hasStepableNearby(final Player p, final Location location) {
-        return collidesStepable(p.getWorld(), (Entity)p, location) || collidesStepable(p.getWorld(), (Entity)p, location.clone().subtract(0.0, 0.5, 0.0));
+        return collidesStepable(p.getWorld(), (Entity) p, location) || collidesStepable(p.getWorld(), (Entity) p, location.clone().subtract(0.0, 0.5, 0.0));
     }
 
     public static boolean hasStepableNearbyITB(final Player p, final Location location) {
-        return collidesStepableIgnoringTopBlock(p.getWorld(), (Entity)p, location) || collidesStepableIgnoringTopBlock(p.getWorld(), (Entity)p, getRelative(location.getBlock(), BlockFace.DOWN).getLocation());
+        return collidesStepableIgnoringTopBlock(p.getWorld(), (Entity) p, location) || collidesStepableIgnoringTopBlock(p.getWorld(), (Entity) p, getRelative(location.getBlock(), BlockFace.DOWN).getLocation());
     }
 
     public static boolean hasFullStepableNearbyITB(final Location location) {
@@ -983,8 +988,8 @@ public class PositionHelper {
     }
 
     private static int locToBlock(final double positionAxe) {
-        final int floor = (int)positionAxe;
-        return (floor == positionAxe) ? floor : (floor - (int)(Double.doubleToRawLongBits(positionAxe) >>> 63));
+        final int floor = (int) positionAxe;
+        return (floor == positionAxe) ? floor : (floor - (int) (Double.doubleToRawLongBits(positionAxe) >>> 63));
     }
 
     public static boolean isInLoadedChunk(final World world, final int x, final int z) {
@@ -993,7 +998,7 @@ public class PositionHelper {
 
     public static void randomizeRotations(final Location l) {
         l.setYaw((float) ThreadLocalRandom.current().nextInt(-179, 179));
-        l.setPitch((float)ThreadLocalRandom.current().nextInt(-89, 89));
+        l.setPitch((float) ThreadLocalRandom.current().nextInt(-89, 89));
     }
 
     public static double getDistanceSafe(final Location from, final Location to) {

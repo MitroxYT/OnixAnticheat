@@ -214,6 +214,7 @@ public class MinecraftValues {
         MinecraftValues.SENSITIVITY_MCP_VALUES.put(199, 1.0);
         MinecraftValues.SENSITIVITY_MCP_VALUES.put(200, 1.0);
     }
+
     public static final int HEALTH;
     public static final int ABSORPTION;
     public static final int XP;

@@ -4,7 +4,6 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
@@ -12,9 +11,9 @@ import me.onixdev.util.world.utils.versions.BlockData
 import java.util.*
 
 @CheckInfo(name = "Aura", type = "B", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
-class AuraB(player:OnixUser) : Check(player){
+class AuraB(player: OnixUser) : Check(player) {
     override fun onEvent(event: BaseEvent?) {
-        if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && player.bukkitPlayer != null){
+        if (event is PlayerUseEntityEvent && event.useType == PlayerUseEntityEvent.UseType.ATTACK && player.bukkitPlayer != null) {
             val target = PlayerUtil.getPlayer(event.id)
             if (target != null) {
                 val valid = player.bukkitPlayer.world == target.world
@@ -22,12 +21,14 @@ class AuraB(player:OnixUser) : Check(player){
                     val dist = player.bukkitPlayer.location.distance(target.location)
                     val vec = player.rotation.toDirection()
                     //PlayerUtil.getDirection(player.rotationContainer.yaw.toFloat(),player.rotationContainer.pitch.toFloat())
-                    val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,dist,0.5)
+                    val result = PlayerUtil.raytrace(player.bukkitPlayer, vec, dist, 0.5)
                     if (result.second != null) {
                         player.debug(result.second.type.name + " 1: " + result.first)
                         val mat = result.second
                         if (mat != null) {
-                            if (mat.type.name.lowercase(Locale.ROOT).contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("fence")) return
+                            if (mat.type.name.lowercase(Locale.ROOT)
+                                    .contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("fence")
+                            ) return
                         }
                         if (BlockData.isPassable(mat)) return
                         fail(result.second.type.name)

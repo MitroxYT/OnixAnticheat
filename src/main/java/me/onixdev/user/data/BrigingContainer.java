@@ -1,18 +1,14 @@
 package me.onixdev.user.data;
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
-import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 import lombok.Getter;
-import me.onixdev.OnixAnticheat;
 import me.onixdev.user.OnixUser;
-import org.bukkit.Location;
-import org.bukkit.Material;
 
 @Getter
 public class BrigingContainer {
     private final OnixUser user;
-    private int brigeTicks, lastPlaceTick = 45;
+    private int brigeTicks;
+    private final int lastPlaceTick = 45;
     private boolean brige;
 
     public BrigingContainer(OnixUser user) {

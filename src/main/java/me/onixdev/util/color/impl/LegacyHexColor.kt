@@ -67,6 +67,7 @@ class LegacyHexColor : Colorizer {
             }
         }
     }
+
     private fun isColorCharacter(ch: Char): Boolean {
         when (ch) {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', 'r', 'R', 'k', 'K', 'l', 'L', 'm', 'M', 'n', 'N', 'o', 'O', 'x', 'X' -> {

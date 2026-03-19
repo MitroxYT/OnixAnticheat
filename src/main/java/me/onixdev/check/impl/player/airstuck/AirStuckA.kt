@@ -5,7 +5,6 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType.Play
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PacketUtil
 

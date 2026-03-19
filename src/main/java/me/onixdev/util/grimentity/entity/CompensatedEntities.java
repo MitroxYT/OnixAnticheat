@@ -12,8 +12,6 @@ import com.github.retrooper.packetevents.protocol.player.Equipment;
 import com.github.retrooper.packetevents.protocol.player.UserProfile;
 import com.github.retrooper.packetevents.protocol.potion.PotionType;
 import com.github.retrooper.packetevents.protocol.potion.PotionTypes;
-import com.github.retrooper.packetevents.protocol.world.BlockFace;
-import com.github.retrooper.packetevents.protocol.world.Direction;
 import com.github.retrooper.packetevents.resources.ResourceLocation;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateAttributes;
@@ -162,7 +160,7 @@ public class CompensatedEntities {
 
         PacketEntity packetEntity;
 
-            packetEntity = new PacketEntity(player, uuid, entityType, position.getX(), position.getY(), position.getZ());
+        packetEntity = new PacketEntity(player, uuid, entityType, position.getX(), position.getY(), position.getZ());
 
         entityMap.put(entityID, packetEntity);
         return packetEntity;
@@ -216,7 +214,7 @@ public class CompensatedEntities {
             if (fireworkWatchableObject.getValue() instanceof Integer) {
                 int attachedEntityID = (Integer) fireworkWatchableObject.getValue();
                 if (attachedEntityID == player.getId()) {
-                  //  player.compensatedFireworks.addNewFirework(entityID);
+                    //  player.compensatedFireworks.addNewFirework(entityID);
                 }
             } else {
                 Optional<Integer> attachedEntityID = (Optional<Integer>) fireworkWatchableObject.getValue();

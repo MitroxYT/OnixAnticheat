@@ -7,7 +7,6 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.user.OnixUser
 
 @CheckInfo(name = "Aura", type = "C", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
@@ -20,22 +19,22 @@ class AuraC(user: OnixUser) : Check(user) {
         if (event?.packetType == PacketType.Play.Client.INTERACT_ENTITY) {
             val use = WrapperPlayClientInteractEntity(event)
             if (use.action == WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
-               val valid = player.clickData.cps > 7.2 && this.movements < 4 && this.lastMovements < 4;
+                val valid = player.clickData.cps > 7.2 && this.movements < 4 && this.lastMovements < 4
                 if (valid) {
-                    val flag = this.movements == this.lastMovements;
+                    val flag = this.movements == this.lastMovements
                     if (flag) {
-                        ++this.invalid;
+                        ++this.invalid
                     }
                     if (++this.total == 30) {
                         if (this.invalid > 28) {
-                            this.fail("invalid=" + this.invalid);
+                            this.fail("invalid=" + this.invalid)
                         }
-                        this.invalid = 0;
-                        this.total = 0;
+                        this.invalid = 0
+                        this.total = 0
                     }
                 }
-                this.lastMovements = this.movements;
-                this.movements = 0;
+                this.lastMovements = this.movements
+                this.movements = 0
             }
         }
         if (WrapperPlayClientPlayerFlying.isFlying(event?.packetType)) {

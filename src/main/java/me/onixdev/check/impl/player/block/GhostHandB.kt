@@ -4,11 +4,10 @@ import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
 import dev.onixac.api.events.api.BaseEvent
 import me.onixdev.check.api.Check
-import me.onixdev.check.api.CheckBuilder
 import me.onixdev.event.impl.PlayerBlockBreakEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
-import java.util.Locale
+import java.util.*
 
 @CheckInfo(name = "GhostHand", type = "B", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 class GhostHandB(user: OnixUser) : Check(user) {
@@ -20,7 +19,7 @@ class GhostHandB(user: OnixUser) : Check(user) {
                 if (!valid) return
                 val distance = block.location.distance(player.bukkitPlayer.location)
                 val vec = PlayerUtil.getDirection(player.rotationContainer.yaw, player.rotationContainer.pitch)
-                val result = PlayerUtil.raytrace(player.bukkitPlayer,vec,distance,0.5)
+                val result = PlayerUtil.raytrace(player.bukkitPlayer, vec, distance, 0.5)
                 if (result.second != null) {
                     if (!block.type.name.lowercase(Locale.ROOT).contains("bed")) return
                     val validRay = result.second!!.type == block.type

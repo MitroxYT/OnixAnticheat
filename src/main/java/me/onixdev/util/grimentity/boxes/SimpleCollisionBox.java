@@ -198,7 +198,7 @@ public class SimpleCollisionBox implements CollisionBox {
     @Override
     public CollisionBox union(SimpleCollisionBox other) {
         return null;
-      //  return new ComplexCollisionBox(2, this, other);
+        //  return new ComplexCollisionBox(2, this, other);
     }
 
     @Override

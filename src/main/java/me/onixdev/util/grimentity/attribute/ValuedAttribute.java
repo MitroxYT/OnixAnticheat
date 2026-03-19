@@ -55,7 +55,8 @@ public final class ValuedAttribute {
 
     /**
      * Creates a rewriter that prevents the value from ever being modified unless the player meets the required version.
-     * @param player the player
+     *
+     * @param player          the player
      * @param requiredVersion the required version for the attribute
      * @return this instance for chaining
      */
