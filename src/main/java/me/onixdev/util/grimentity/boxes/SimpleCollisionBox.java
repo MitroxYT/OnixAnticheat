@@ -483,7 +483,9 @@ public class SimpleCollisionBox implements CollisionBox {
         return new Vector(minX, minY, minZ);
     }
 
-
+    public Vec3 getCenterVec() {
+        return new Vec3(MathUtil.lerp(0.5, this.minX, this.maxX), MathUtil.lerp(0.5, this.minY, this.maxY), MathUtil.lerp(0.5, this.minZ, this.maxZ));
+    }
     public Vector3d getCenter() {
         return new Vector3d(MathUtil.lerp(0.5, this.minX, this.maxX), MathUtil.lerp(0.5, this.minY, this.maxY), MathUtil.lerp(0.5, this.minZ, this.maxZ));
     }

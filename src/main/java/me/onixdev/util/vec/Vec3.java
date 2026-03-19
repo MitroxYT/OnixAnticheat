@@ -7,6 +7,7 @@ import me.onixdev.util.math.MathUtil;
 import me.onixdev.util.math.VanillaMath;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 
 @SuppressWarnings("all")
@@ -67,6 +68,10 @@ public class Vec3 {
         float z = (float) (Math.cos(radYaw) * Math.cos(radPitch));
 
         return new Vec3(x, y, z);
+    }
+
+    public static Vec3 fromVector(@NotNull Vector Direction) {
+        return new Vec3(Direction.getX(),Direction.getY(), Direction.getZ());
     }
 
     public Vec3 clone() {
