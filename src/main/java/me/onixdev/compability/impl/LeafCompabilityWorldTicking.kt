@@ -5,14 +5,14 @@ import me.onixdev.compability.ICompabilityCheck
 import me.onixdev.compability.manager.CompatibilityManager
 
 class LeafCompabilityWorldTicking : ICompabilityCheck {
-    override fun check(compatibilityManager: CompatibilityManager) {
+    override fun check(manager: CompatibilityManager?) {
         try {
             val clazz = Class.forName("org.dreeam.leaf.config.modules.async.SparklyPaperParallelWorldTicking")
             val field = clazz.getField("enabled")
 
             val enabled = field.getBoolean(clazz)
             if (enabled) {
-                compatibilityManager.isLeafTicking = true
+                manager?.isLeafTicking = true
                 OnixAnticheat.INSTANCE.printCool("&cВЫ ИСПОЛЬЗУЕТЕ НЕСТАБИЛЬНУЮ ФУНКЦИЮ PARALLEL WORLD TICKING ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ПРОСЬБА ОТКЛЮЧИТЬ ДАННУЮ ФУНКЦИЮ")
                 OnixAnticheat.INSTANCE.printCool("&cНЕКОТОРЫЕ ПРОВЕРКИ НЕ БУДУТ РАБОТАТЬ")
                 OnixAnticheat.INSTANCE.printCool("&cВЫ ИСПОЛЬЗУЕТЕ НЕСТАБИЛЬНУЮ ФУНКЦИЮ PARALLEL WORLD TICKING ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ПРОСЬБА ОТКЛЮЧИТЬ ДАННУЮ ФУНКЦИЮ")
