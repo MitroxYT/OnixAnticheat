@@ -27,7 +27,7 @@ class AuraB(player:OnixUser) : Check(player){
                         player.debug(result.second.type.name + " 1: " + result.first)
                         val mat = result.second
                         if (mat != null) {
-                            if (mat.type.name.lowercase(Locale.ROOT).contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("Fence")) return
+                            if (mat.type.name.lowercase(Locale.ROOT).contains("slab") || mat.type.name.lowercase(Locale.ROOT).contains("fence")) return
                         }
                         if (BlockData.isPassable(mat)) return
                         fail(result.second.type.name)
