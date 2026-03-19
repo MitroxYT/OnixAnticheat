@@ -25,7 +25,7 @@ class InventoryA(player: OnixUser?) : Check(player) {
                     return
                 }
                 val parsedItem = player.bukkitPlayer.inventory.getItem(slot)
-                val click = event.click
+                val click = event.clickType
                 if (click == ClickType.CREATIVE) return
                 val action = event.action
                 val inv = event.slot_type

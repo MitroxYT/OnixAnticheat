@@ -42,4 +42,8 @@ public class PlayerClickEvent extends BaseEvent {
     public InventoryType.SlotType getSlot_type() {
         return slot_type;
     }
+
+    public InventoryAction getAction() {return this.action;}
+
+    public ClickType getClickType() {return click;}
 }
