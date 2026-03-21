@@ -1,9 +1,8 @@
 package me.onixdev.check.impl.combat.aura
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
-import com.github.retrooper.packetevents.protocol.packettype.PacketType.Play
+import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity.InteractAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
 import dev.onixac.api.check.CheckInfo
 import dev.onixac.api.check.CheckStage
@@ -29,9 +28,9 @@ class AuraA(player: OnixUser?) : Check(player) {
             this.last = System.currentTimeMillis()
         }
 
-        if (event!!.packetType === Play.Client.INTERACT_ENTITY) {
+        if (event!!.packetType === PacketType.Play.Client.INTERACT_ENTITY) {
             val action = WrapperPlayClientInteractEntity(event)
-            if (action.action != InteractAction.ATTACK) {
+            if (action.action != WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
                 return
             }
 

@@ -8,7 +8,7 @@ import me.onixdev.event.impl.PlayerUseEntityEvent
 import me.onixdev.user.OnixUser
 import me.onixdev.util.net.PlayerUtil
 import me.onixdev.util.world.utils.versions.BlockData
-import java.util.*
+import java.util.Locale
 
 @CheckInfo(name = "Aura", type = "B", stage = CheckStage.EXPERIMENTAL, maxBuffer = 5.0, decayBuffer = 1.0)
 class AuraB(player: OnixUser) : Check(player) {

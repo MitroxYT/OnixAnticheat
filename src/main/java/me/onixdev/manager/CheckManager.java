@@ -6,7 +6,6 @@ import me.onixdev.check.impl.combat.aim.*;
 import me.onixdev.check.impl.combat.aura.AuraA;
 import me.onixdev.check.impl.combat.aura.AuraB;
 import me.onixdev.check.impl.combat.aura.AuraC;
-import me.onixdev.check.impl.combat.correct.AimCorrectA;
 import me.onixdev.check.impl.combat.heuristics.AimHeuristicA;
 import me.onixdev.check.impl.combat.heuristics.AimHeuristicB;
 import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
