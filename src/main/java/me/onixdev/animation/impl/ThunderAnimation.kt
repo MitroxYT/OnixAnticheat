@@ -17,6 +17,7 @@ import kotlin.math.sin
 
 class ThunderAnimation : BaseAnimation("Thunder") {
     val PARTICLE: Particle = getDustParticle()
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_EXPLICIT_TYPE_ARGUMENTS_FOR_JAVA", "DEPRECATION")
     override fun execute(player: Player?, data: String?) {
         player!!.addPotionEffect(PotionEffect(PotionEffectType.LEVITATION, 100, 1))
         val location1 = player.location
@@ -136,6 +137,7 @@ class ThunderAnimation : BaseAnimation("Thunder") {
         }.runTaskLater(OnixAnticheat.INSTANCE.plugin, 80L)
     }
 
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_EXPLICIT_TYPE_ARGUMENTS_FOR_JAVA")
     private fun createExplosionEffect(player: Player) {
         val location = player.location
 
