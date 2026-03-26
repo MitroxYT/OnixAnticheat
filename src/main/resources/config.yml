@@ -1,6 +1,7 @@
 config-version: 1.0
+#Nano топовый редактор и это не обсуждается 
 enable-alert-on-join: true
-kick-on-invalid-item-packet: true
+kick-on-invalid-item-packet: false
 verbose-to-console: false
 # В минутах
 reset-time: 3
