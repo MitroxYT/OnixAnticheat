@@ -9,7 +9,7 @@ import dev.onixac.api.check.CheckStage
 import me.onixdev.check.api.Check
 import me.onixdev.user.OnixUser
 
-@CheckInfo(name = "AuraA", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
+@CheckInfo(name = "Aura", type = "A", stage = CheckStage.RELEASE, maxBuffer = 5.0, decayBuffer = 1.0)
 class AuraA(player: OnixUser?) : Check(player) {
     private var send = false
     private var last: Long = 0
