@@ -40,5 +40,12 @@ class AuraA(player: OnixUser?) : Check(player) {
                 this.send = true
             }
         }
+        if (event!!.packetType === PacketType.Play.Client.ATTACK) {
+
+            val delay2: Long = System.currentTimeMillis() - this.last
+            if (delay2 < 10L) {
+                this.send = true
+            }
+        }
     }
 }

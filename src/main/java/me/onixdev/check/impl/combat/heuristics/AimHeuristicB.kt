@@ -2,6 +2,7 @@ package me.onixdev.check.impl.combat.heuristics
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAttack
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying
 import dev.onixac.api.check.CheckInfo
@@ -47,6 +48,14 @@ class AimHeuristicB(player: OnixUser?) : Check(player) {
                 ) {
                     this.rotationCheckTimer = 15
                 }
+            }
+        }
+        if (event.packetType == PacketType.Play.Client.ATTACK) {
+            val wrapperPlayClientAttack = WrapperPlayClientAttack(event)
+            if (player.combatData.target != null && player.combatData.target!!
+                    .entityId === wrapperPlayClientAttack.entityId
+            ) {
+                this.rotationCheckTimer = 15
             }
         }
     }
