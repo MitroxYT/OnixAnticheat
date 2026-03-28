@@ -3,6 +3,7 @@ package me.onixdev.check.impl.player.misc.data
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.protocol.player.DiggingAction
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAttack
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging
@@ -37,6 +38,10 @@ class PlayerPacketData(user: OnixUser) : Check(user, CheckBuilder().setCheckName
             PacketType.Play.Client.INTERACT_ENTITY -> {
                 val ac = WrapperPlayClientInteractEntity(event)
                 if (ac.action == WrapperPlayClientInteractEntity.InteractAction.ATTACK) attacking = true
+            }
+            PacketType.Play.Client.ATTACK -> {
+                val ac = WrapperPlayClientAttack(event)
+                 attacking = true
             }
         }
         if (PacketUtil.isTickPacketLegacy(packetType)) {

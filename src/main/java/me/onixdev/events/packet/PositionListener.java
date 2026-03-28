@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.world.Location;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientAttack;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
@@ -65,6 +66,17 @@ public class PositionListener extends PacketListenerAbstract {
                         event.setCancelled(true);
                 }
             }
+        }
+        if (event.getPacketType() == PacketType.Play.Client.ATTACK) {
+            WrapperPlayClientAttack use = new WrapperPlayClientAttack(event);
+                OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(event.getUser());
+                if (user != null && user.hasConfirmPlayState()) {
+                    user.lastHitTime = 0;
+                    PlayerUseEntityEvent event1 = new PlayerUseEntityEvent(PlayerUseEntityEvent.UseType.ATTACK , use.getEntityId());
+                    user.handleEvent(event1);
+                    if (user.shouldMitigate() && user.getMitigateType().equals("canceldamage") || event1.isCancelled())
+                        event.setCancelled(true);
+                }
         }
     }
 }
