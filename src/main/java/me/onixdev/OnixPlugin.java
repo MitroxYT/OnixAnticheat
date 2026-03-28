@@ -11,13 +11,10 @@ public final class OnixPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         OnixAnticheat.INSTANCE.onEnable();
-        // Plugin startup logic
-
     }
 
     @Override
     public void onDisable() {
         OnixAnticheat.INSTANCE.onDisable();
-        // Plugin shutdown logic
     }
 }
