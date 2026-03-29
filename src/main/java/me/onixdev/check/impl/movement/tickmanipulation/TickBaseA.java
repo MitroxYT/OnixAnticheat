@@ -41,8 +41,8 @@ public class TickBaseA extends Check {
     public void doCheck(final PacketReceiveEvent event) {
         if (timerBalanceRealTime > System.nanoTime()) {
             int lostMS = (int) Math.abs((System.nanoTime() - timerBalanceRealTime) / 1e6);
-            String info = "moved too frequently (" + lostMS + " ms)";
-            if (fail(info)) {
+            String info = "skipped ticking (" + lostMS + " ms)";
+            if (failAndSetback(info)) {
                 if (shouldCancel()) {
                     event.setCancelled(true);
                 }
@@ -66,5 +66,6 @@ public class TickBaseA extends Check {
         super.reload();
         clockDrift = (long) (getCheckConfig().getDouble(getCheckPatch() + "drift", 120.0) * 1e6);
         limitAbuseOverPing = (long) (getCheckConfig().getDouble(getCheckPatch() + "ping-abuse-limit-threshold", 1000) * 1e6);
+        System.out.println("dr: " + getCheckConfig().getDouble(getCheckPatch() + "drift", 120.0) + " la: " + getCheckConfig().getDouble(getCheckPatch() + "ping-abuse-limit-threshold", 1000));
     }
 }

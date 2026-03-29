@@ -1,4 +1,4 @@
-config-version: 1.0
+config-version: 0.1
 #Nano топовый редактор и это не обсуждается 
 enable-alert-on-join: true
 kick-on-invalid-item-packet: false

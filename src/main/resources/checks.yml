@@ -1,4 +1,4 @@
-config-version: 1.0
+config-version: 0.1
 punish:
   BadPacket:
     remove-violations-after: 300

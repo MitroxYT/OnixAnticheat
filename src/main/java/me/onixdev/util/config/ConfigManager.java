@@ -53,9 +53,9 @@ public class ConfigManager {
     private void updateAllConfigFiles() {
 
         var configFiles = Map.of(
-                "config.yml", 1.0,
-                "checks.yml", 1.0,
-                "messages.yml", 1.0
+                "config.yml", 0.1,
+                "checks.yml", 0.1,
+                "messages.yml", 0.1
         );
 
         JavaPlugin plugin = OnixAnticheat.INSTANCE.getPlugin();

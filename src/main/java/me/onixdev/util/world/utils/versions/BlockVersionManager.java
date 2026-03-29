@@ -11,6 +11,9 @@ public class BlockVersionManager {
 
     public BlockVersionManager() {
         this.loadCRFSToCache();
+        if (cfr == null) {
+            throw new IllegalStateException("CurrentlyVersionUnsupported");
+        }
         OnixAnticheat.INSTANCE.printCool("&bОбнаружена версия сервера: " + getHumanVersion(String.valueOf(OnixAnticheat.INSTANCE.getServerVersion())) + " Загружена блок дата для: " + getHumanVersion(cfr.getName()));
     }
 
@@ -25,7 +28,8 @@ public class BlockVersionManager {
     private void loadCRFSToCache() {
 
         ServerVersion version = PacketEvents.getAPI().getServerManager().getVersion();
-        if (version.isOlderThanOrEquals(ServerVersion.V_1_11_2)) {
+        if (version.isOlderThanOrEquals(ServerVersion.V_1_9_2)) {
+            this.cfr = new Onix_1_16_5BlockData();
         }
         if (version.isNewerThan(ServerVersion.V_1_9_2) && version.isOlderThan(ServerVersion.V_1_16_5)) {
         }
