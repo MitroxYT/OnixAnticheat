@@ -55,7 +55,7 @@ public class ChecksCommand extends OnixCommandBase {
         if (sender instanceof Player player) {
             OnixUser user = OnixAnticheat.INSTANCE.getPlayerDatamanager().get(player.getUniqueId());
             if (user == null) return List.of();
-            return user.getChecks().parallelStream().filter(Check::isEnabled).map(Check::getName).toList();
+            return user.getChecks().parallelStream().filter(Check::isEnabled).map(Check::getFullName).toList();
         }
         return List.of();
     }

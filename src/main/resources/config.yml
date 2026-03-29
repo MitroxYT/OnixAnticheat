@@ -28,5 +28,8 @@ AimF:
 BadPacketB:
   maxBuffer: 7
   threshold: 73
+TickBase:
+  drift: 120
+  ping-abuse-limit-threshold: 1000
 mitigations:
   damage-reduce: 0.1
