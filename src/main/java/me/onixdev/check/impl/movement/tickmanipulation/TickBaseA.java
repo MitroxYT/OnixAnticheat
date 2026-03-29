@@ -66,6 +66,5 @@ public class TickBaseA extends Check {
         super.reload();
         clockDrift = (long) (getCheckConfig().getDouble(getCheckPatch() + "drift", 120.0) * 1e6);
         limitAbuseOverPing = (long) (getCheckConfig().getDouble(getCheckPatch() + "ping-abuse-limit-threshold", 1000) * 1e6);
-        System.out.println("dr: " + getCheckConfig().getDouble(getCheckPatch() + "drift", 120.0) + " la: " + getCheckConfig().getDouble(getCheckPatch() + "ping-abuse-limit-threshold", 1000));
     }
 }
