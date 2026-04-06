@@ -77,7 +77,6 @@ public class MovementContainer {
             this.setLastLastClientGround(this.lastClientOnGround);
             this.lastClientOnGround = this.clientOnGround;
             this.clientOnGround = wrapper.isOnGround();
-
             if (wrapper.hasPositionChanged()) {
                 this.lastlastx = this.lastx;
                 this.lastlasty = this.lasty;
@@ -100,6 +99,7 @@ public class MovementContainer {
                 this.deltaXZ = MathUtil.hypot(this.deltaX, this.deltaZ);
                 user.handleEvent(new PlayerPositionUpdateEvent(new PlayerPositionMotion(new Vec3(lastx,lasty,lastz),new Vec3(x,y,z),clientOnGround)));
             }
+            user.lastFireWorkTime++;
 
         }
     }

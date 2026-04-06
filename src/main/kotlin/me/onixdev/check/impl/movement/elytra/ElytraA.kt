@@ -24,7 +24,6 @@ class ElytraA(player: OnixUser) : Check(player) {
                             fail("$debug $buffer")
                         }
                     }
-                    player.debug("test elytraMotion")
                 }
                 else if (buffer > 0) buffer -= 0.25
             }

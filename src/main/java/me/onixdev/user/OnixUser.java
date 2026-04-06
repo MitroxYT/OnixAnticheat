@@ -68,6 +68,7 @@ public class OnixUser implements IOnixUser {
     public CompensatedEntities compensatedEntities;
     public SimpleCollisionBox boundingBox;
     public boolean sendingBundlePacket;
+    public int lastFireWorkTime = 100;
     @Getter
     private int serverTickSinceJoin;
     public int food;

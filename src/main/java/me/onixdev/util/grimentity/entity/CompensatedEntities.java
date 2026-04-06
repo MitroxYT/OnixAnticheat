@@ -156,15 +156,16 @@ public class CompensatedEntities {
     public PacketEntity addEntity(int entityID, UUID uuid, EntityType entityType, Vector3d position, float xRot, int data) {
         // Dropped items are all server sided and players can't interact with them (except create them!), save the performance
         if (entityType == EntityTypes.ITEM) return null;
-        if (entityType != EntityTypes.PLAYER) return null;
+        if (entityType == EntityTypes.PLAYER || entityType == EntityTypes.FIREWORK_ROCKET) {
 
-        PacketEntity packetEntity;
+            PacketEntity packetEntity;
 
-        packetEntity = new PacketEntity(player, uuid, entityType, position.getX(), position.getY(), position.getZ());
-
-        entityMap.put(entityID, packetEntity);
-        return packetEntity;
-
+            packetEntity = new PacketEntity(player, uuid, entityType, position.getX(), position.getY(), position.getZ());
+            player.sendMessage("enttype= " + entityType.getName().getKey());
+            entityMap.put(entityID, packetEntity);
+            return packetEntity;
+        }
+        return null;
     }
 
     public PacketEntity getEntity(int entityID) {
@@ -214,12 +215,14 @@ public class CompensatedEntities {
             if (fireworkWatchableObject.getValue() instanceof Integer) {
                 int attachedEntityID = (Integer) fireworkWatchableObject.getValue();
                 if (attachedEntityID == player.getId()) {
+                    player.lastFireWorkTime = 0;
                     //  player.compensatedFireworks.addNewFirework(entityID);
                 }
             } else {
                 Optional<Integer> attachedEntityID = (Optional<Integer>) fireworkWatchableObject.getValue();
 
                 if (attachedEntityID.isPresent() && attachedEntityID.get().equals(player.getId())) {
+                    player.lastFireWorkTime = 0;
                     //player.compensatedFireworks.addNewFirework(entityID);
                 }
             }
