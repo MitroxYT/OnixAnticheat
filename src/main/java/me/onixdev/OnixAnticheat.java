@@ -18,6 +18,7 @@ import me.onixdev.util.color.impl.MiniMessageColor;
 import me.onixdev.util.config.ConfigManager;
 import me.onixdev.util.thread.api.IThreadExecutor;
 import me.onixdev.util.thread.impl.*;
+import me.onixdev.util.versions.NmsManager;
 import me.onixdev.util.world.utils.versions.BlockVersionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -60,6 +61,7 @@ public class OnixAnticheat {
     private ServerVersion serverVersion = ServerVersion.ERROR;
     private Colorizer colorizer = new MiniMessageColor();
     private CompatibilityManager compatibilityManager;
+    private NmsManager nmsManager;
 
     public ServerVersion getServerVersion() {
         return serverVersion;
@@ -72,6 +74,8 @@ public class OnixAnticheat {
     public ConfigManager getConfigManager() {
         return configManager;
     }
+
+    public NmsManager getNmsManager() {return nmsManager;}
 
     public static boolean noSupportComponentMessage = false; //PacketEvents.getAPI().getServerManager().getVersion().isOlderThan(ServerVersion.V_1_16_5);
 
@@ -136,6 +140,7 @@ public class OnixAnticheat {
             Bukkit.getPluginManager().callEvent(new OnixLoadedEvent());
         }, 20 * 5);
         resetManager.start();
+        nmsManager = new NmsManager();
         messageManager = new MessageManager();
         printCool("&bАнтичит загружен за " + (System.currentTimeMillis() - time) + " ms");
     }

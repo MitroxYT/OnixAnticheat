@@ -194,6 +194,10 @@ public class Check implements ICheck {
         return String.format("%.5f", value);
     }
 
+    public boolean bukkitNull() {
+        return player == null || player.getBukkitPlayer() == null;
+    }
+
     public YamlConfiguration getCheckConfig() {
         return OnixAnticheat.INSTANCE.getConfigManager().getConfig();
     }
