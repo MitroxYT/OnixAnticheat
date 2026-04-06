@@ -8,6 +8,14 @@ punish:
       - "2:2 [alert]"
       - "10:2 kick %player% %prefix% <gray>Unfair Advantage(BadPackets)"
       - "50:50 [webhook]"
+  elytra:
+    remove-violations-after: 60
+    checks:
+      - "Elytra"
+    commands:
+      - "2:2 [alert]"
+      - "30:2 kick %player% %prefix% <gray>Unfair Advantage(Moving Suspiclios)"
+      - "50:50 [webhook]"
   aura:
     remove-violations-after: 300
     checks:
