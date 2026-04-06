@@ -145,6 +145,7 @@ public class ConfigManager {
     public boolean absorptionHider;
     public boolean saturationHider;
     public boolean effectHider;
+    public boolean disableBypass;
 
     private void init() {
         String color = messagesconfig.getString("system", "MINIMESSAGE");
@@ -170,6 +171,7 @@ public class ConfigManager {
         fixHeathBypass = config.getBoolean("visual.metadata-hider.fix-scoreboard", false);
         effectHider = config.getBoolean("visual.metadata-hider.effects", false);
         enableAlertsOnJoin = config.getBoolean("enable-alert-on-join", false);
+        disableBypass = config.getBoolean("disable-bypass-permission",false);
     }
 
     public String getProFileMsg() {

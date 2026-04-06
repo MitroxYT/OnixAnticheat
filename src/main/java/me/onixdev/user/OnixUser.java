@@ -182,6 +182,7 @@ public class OnixUser implements IOnixUser {
 
     public void checkPermissions() {
         if (player == null) return;
+        if (OnixAnticheat.INSTANCE.getConfigManager().disableBypass) return;
         for (Check check : checks) {
             if (player.hasPermission("onix.bypass." + check.getName() + "." + check.getType() + ".enabled"))
                 check.setEnabled(false);
