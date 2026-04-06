@@ -25,6 +25,7 @@ public class TickBaseA extends Check {
 
     @Override
     public void onPacketIn(PacketReceiveEvent event) {
+        if (player.lastTeleportTime < 5)  return;
         if (hasGottenMovementAfterTransaction && PacketUtil.INSTANCE.isTransactionOnixBased(event)) {
             knownPlayerClockTime = lastMovementPlayerClock;
             lastMovementPlayerClock = player.getConnectionContainer().getPlayerClockAtLeast();

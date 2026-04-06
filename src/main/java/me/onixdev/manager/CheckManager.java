@@ -8,7 +8,7 @@ import me.onixdev.check.impl.combat.aura.AuraB;
 import me.onixdev.check.impl.combat.aura.AuraC;
 import me.onixdev.check.impl.combat.heuristics.AimHeuristicA;
 import me.onixdev.check.impl.combat.heuristics.AimHeuristicB;
-import me.onixdev.check.impl.movement.noslow.NoslowPrediction;
+import me.onixdev.check.impl.movement.elytra.ElytraA;
 import me.onixdev.check.impl.movement.noslow.NoslowTick;
 import me.onixdev.check.impl.movement.tickmanipulation.TickBaseA;
 import me.onixdev.check.impl.player.airstuck.AirStuckA;
@@ -73,7 +73,7 @@ public class CheckManager {
 
     static {
         CONSTRUCTORS = new ArrayList<>();
-        CHECKS = new Class[]{PlayerPacketData.class, PacketEntityReplication.class, PlayerDataHider.class, AimA.class, ClientBrandParser.class, PlayerPayLoadHandler.class, AimB.class, AimC.class, AimD.class, AimHeuristicA.class, AimHeuristicB.class, AimE.class, AuraA.class, AuraB.class, AuraC.class, AimT.class, AimY.class, AimF.class, BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, TickBaseA.class, NoslowPrediction.class, NoslowTick.class, ScaffoldA.class,
+        CHECKS = new Class[]{PlayerPacketData.class, PacketEntityReplication.class, PlayerDataHider.class, AimA.class, ClientBrandParser.class, PlayerPayLoadHandler.class, AimB.class, AimC.class, AimD.class, AimHeuristicA.class, AimHeuristicB.class, AimE.class, ElytraA.class, AuraA.class, AuraB.class, AuraC.class, AimT.class, AimY.class, AimF.class, BadPacketA.class, AirStuckA.class, BadPacketB.class, BadPacketC.class, BadPacketD.class, BadPacketE.class, BadPacketT.class, TickBaseA.class, NoslowTick.class, ScaffoldA.class,
                 InventoryA.class, GhostHandB.class, GhostHandA.class, GhostHandC.class, InventoryB.class, InventoryC.class, InventoryD.class
         };
 

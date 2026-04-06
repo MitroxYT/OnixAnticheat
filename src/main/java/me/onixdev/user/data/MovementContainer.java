@@ -6,11 +6,14 @@ import dev.onixac.api.events.impl.PlayerInputChangeEvent;
 import lombok.Getter;
 import lombok.Setter;
 import me.onixdev.OnixAnticheat;
+import me.onixdev.event.impl.PlayerPositionUpdateEvent;
 import me.onixdev.user.OnixUser;
 import me.onixdev.util.grimentity.boxes.GetBoundingBox;
 import me.onixdev.util.math.MathUtil;
 import me.onixdev.util.math.VanillaMath;
 import me.onixdev.util.net.ClientInput;
+import me.onixdev.util.position.PlayerPositionMotion;
+import me.onixdev.util.vec.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -95,6 +98,7 @@ public class MovementContainer {
                 user.boundingBox = GetBoundingBox.getBoundingBoxFromPosAndSizeRaw(x, y, z, 0.6f, 1.8f);
                 this.lastDeltaXZ = this.deltaXZ;
                 this.deltaXZ = MathUtil.hypot(this.deltaX, this.deltaZ);
+                user.handleEvent(new PlayerPositionUpdateEvent(new PlayerPositionMotion(new Vec3(lastx,lasty,lastz),new Vec3(x,y,z),clientOnGround)));
             }
 
         }
