@@ -13,7 +13,7 @@ class KickCommand : OnixCommandBase("kick") {
        return ""
     }
 
-    override fun getUsage(): String? {
+    override fun getUsage(): String {
         return "/onix kick name <red> kick message"
     }
 
@@ -33,10 +33,14 @@ class KickCommand : OnixCommandBase("kick") {
         sender: CommandSender,
         args: Array<out String?>?
     ): Boolean {
-        if (args?.size!! > 2) {
+        if (args?.size!! > 1) {
             val name = args[0]
             val player = Bukkit.getServer().getPlayer(name.toString())?.getData() ?: return false
             val command = getCommand(args)
+            if (command.lowercase().contains("§")) {
+                MessageUtil.sendMessage(sender, MessageUtil.miniMessage("<red> использование § недопустимо"))
+                return false
+            }
             player.disconnect(command)
         }
         return true

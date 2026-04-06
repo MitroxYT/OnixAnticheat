@@ -87,7 +87,8 @@ public class PunishManager {
                         }
 
                         String numbersPart = command.substring(0, firstSpace);
-                        String commandString = OnixAnticheat.INSTANCE.getColorizer().colorize(command.substring(firstSpace + 1));
+                        boolean shouldUseCommandTranslating = !command.substring(firstSpace + 1).toLowerCase(Locale.ROOT).contains("onix kick");
+                        String commandString = shouldUseCommandTranslating ? OnixAnticheat.INSTANCE.getColorizer().colorize(command.substring(firstSpace + 1)) : command.substring(firstSpace + 1);
 
                         String[] numbers = numbersPart.split(":");
 
