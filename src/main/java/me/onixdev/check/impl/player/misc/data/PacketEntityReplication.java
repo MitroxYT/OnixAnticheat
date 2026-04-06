@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 public class PacketEntityReplication extends Check {
 
     private final AtomicBoolean hasSentPreWavePacket = new AtomicBoolean(true);
