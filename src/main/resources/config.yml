@@ -3,6 +3,7 @@ config-version: 0.1
 enable-alert-on-join: true
 kick-on-invalid-item-packet: false
 verbose-to-console: false
+disable-bypass-permission: false
 # В минутах
 reset-time: 3
 # Исправляет проблемы с hex

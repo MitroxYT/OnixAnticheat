@@ -19,8 +19,8 @@ class ElytraA(player: OnixUser) : Check(player) {
                 val debug = "motion: $motionY"
                 player.debug(debug)
                 if (motionY > 0.0 && motionY < 0.08) {
-                    if (player.lastHitTime < 3) {
-                        if (buffer > maxBuffer) {
+                    if (player.lastHitTime < 4) {
+                        if (++buffer > maxBuffer) {
                             fail("$debug $buffer")
                         }
                     }
